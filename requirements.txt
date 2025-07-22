@@ -1,0 +1,67 @@
+# Framework principal
+Django>=4.2.7
+djangorestframework>=3.14.0
+
+# Configuración y CORS
+django-cors-headers>=3.13.0
+python-decouple>=3.8
+
+# Base de datos (MySQL)
+PyMySQL>=1.0.0
+cryptography>=41.0.0
+
+# ✅ Clean Architecture (IMPLEMENTADO)
+dependency-injector>=4.40.0
+
+# ✅ Servicios avanzados (IMPLEMENTADOS)
+celery>=5.4.0
+redis>=4.5.0
+
+# Data analysis y procesamiento
+pandas>=2.0.0
+numpy>=1.24.0
+
+# ✅ API documentation (IMPLEMENTADO)
+drf-spectacular>=0.28.0
+
+# Requests HTTP (para APIs externas)
+requests>=2.31.0
+
+# Generación de reportes
+xlsxwriter>=3.1.0
+openpyxl>=3.1.0
+
+# Testing
+pytest>=7.4.0
+pytest-django>=4.5.0
+factory-boy>=3.2.0
+faker>=19.12.0
+
+# Linting & formatting
+black>=23.9.0
+flake8>=6.0.0
+mypy>=1.5.0
+isort>=5.12.0
+
+# Extensiones Django
+django-extensions>=3.2.0
+
+# Desarrollo
+ipython>=8.0.0
+
+# ✅ Herramientas de seguridad (IMPLEMENTADAS)
+bandit>=1.7.0
+safety>=2.3.0
+
+# ✅ Monitoreo y logging (IMPLEMENTADO)
+structlog>=23.1.0
+
+# TODO: Dependencias para Fase 3 (Use Cases y Presentation)
+# Descomentar cuando se implemente la nueva arquitectura:
+
+# # Visualización (opcional)
+# matplotlib>=3.7.0
+# seaborn>=0.12.0
+# 
+# # Jupyter para desarrollo avanzado
+# jupyter>=1.0.0

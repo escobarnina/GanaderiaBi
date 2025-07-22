@@ -1,0 +1,130 @@
+# Byte‑compiled / caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.env.*
+venv/
+env/
+ENV/
+
+# Django
+*.log
+db.sqlite3
+/staticfiles/
+media/
+
+# Migrations cache
+*/migrations/*.pyc
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+**/Dockerfile
+
+# Logs
+logs/
+*.log
+
+# Coverage reports
+htmlcov/
+.coverage
+
+# MyPy cache
+.mypy_cache/
+.dmypy.json
+
+# pytest
+.pytest_cache/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# Project specific
+# Ganadería BI specific
+*.sqlite3
+*.db
+
+# Test files
+test_*.py
+*_test.py
+FASE*.md
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Documentation builds
+docs/_build/
+
+# Jupyter notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# Environment variables
+.env.local
+.env.development
+.env.test
+.env.production
+
+# IDE specific
+.vscode/settings.json
+.vscode/launch.json
+.idea/workspace.xml
+
+# OS generated files
+.DS_Store?
+ehthumbs.db
+Icon?
+
+# Backup files
+*~
+*.swp
+*.swo
+
+# Database backups
+*.sql
+*.dump
+
+# Cache directories
+.cache/
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Node modules (if using frontend)
+node_modules/
+npm-debug.log*
+
+# Coverage and testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Documentation
+docs/_build/
+site/
+
+# Local development
+local_settings.py 
