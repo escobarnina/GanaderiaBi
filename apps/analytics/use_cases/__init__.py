@@ -11,48 +11,52 @@ from .marca.listar_marcas_use_case import ListarMarcasUseCase
 from .marca.cambiar_estado_marca_use_case import CambiarEstadoMarcaUseCase
 from .marca.obtener_estadisticas_marcas_use_case import ObtenerEstadisticasMarcasUseCase
 
-# Use Cases de Logo (mantener los existentes por ahora)
-from .logo_use_cases import (
-    GenerarLogoUseCase,
-    ObtenerLogoUseCase,
-    ListarLogosUseCase,
-    ObtenerEstadisticasLogosUseCase,
-)
+# Use Cases de Dashboard
+from .dashboard.obtener_dashboard_data_use_case import ObtenerDashboardDataUseCase
+from .dashboard.generar_reporte_dashboard_use_case import GenerarReporteDashboardUseCase
 
-# Use Cases de KPI (mantener los existentes por ahora)
-from .kpi_use_cases import (
-    CalcularKPIsUseCase,
-    ObtenerKPIsUseCase,
-    GenerarReporteKPIsUseCase,
-)
+# Use Cases de Logo
+from .logo.generar_logo_use_case import GenerarLogoUseCase
+from .logo.obtener_logo_use_case import ObtenerLogoUseCase
+from .logo.listar_logos_use_case import ListarLogosUseCase
+from .logo.obtener_estadisticas_logos_use_case import ObtenerEstadisticasLogosUseCase
 
-# Use Cases de Dashboard (mantener los existentes por ahora)
-from .dashboard_use_cases import (
-    ObtenerDashboardDataUseCase,
-    GenerarReporteDashboardUseCase,
-)
+# Use Cases de KPI
+from .kpi.calcular_kpis_use_case import CalcularKPIsUseCase
+from .kpi.obtener_kpis_use_case import ObtenerKPIsUseCase
+from .kpi.generar_reporte_kpis_use_case import GenerarReporteKPIsUseCase
 
-# Use Cases de Historial (mantener los existentes por ahora)
-from .historial_use_cases import (
-    CrearHistorialUseCase,
-    ObtenerHistorialUseCase,
-    ListarHistorialMarcaUseCase,
+# Use Cases de Historial
+from .historial.crear_historial_use_case import CrearHistorialUseCase
+from .historial.obtener_historial_use_case import ObtenerHistorialUseCase
+from .historial.listar_historial_marca_use_case import ListarHistorialMarcaUseCase
+from .historial.obtener_actividad_reciente_use_case import (
     ObtenerActividadRecienteUseCase,
-    ObtenerAuditoriaUsuarioUseCase,
-    ObtenerPatronesCambioUseCase,
+)
+from .historial.obtener_auditoria_usuario_use_case import ObtenerAuditoriaUsuarioUseCase
+from .historial.obtener_patrones_cambio_use_case import ObtenerPatronesCambioUseCase
+from .historial.obtener_eficiencia_evaluadores_use_case import (
     ObtenerEficienciaEvaluadoresUseCase,
 )
 
-# Use Cases de Reporte (mantener los existentes por ahora)
-from .reporte_use_cases import (
-    GenerarReporteMensualUseCase,
-    GenerarReporteAnualUseCase,
+# Use Cases de Reporte
+from .reporte.generar_reporte_mensual_use_case import GenerarReporteMensualUseCase
+from .reporte.generar_reporte_anual_use_case import GenerarReporteAnualUseCase
+from .reporte.generar_reporte_comparativo_departamentos_use_case import (
     GenerarReporteComparativoDepartamentosUseCase,
+)
+from .reporte.generar_reporte_personalizado_use_case import (
     GenerarReportePersonalizadoUseCase,
-    ExportarReporteExcelUseCase,
-    GenerarReporteProductorUseCase,
+)
+from .reporte.exportar_reporte_excel_use_case import ExportarReporteExcelUseCase
+from .reporte.generar_reporte_productor_use_case import GenerarReporteProductorUseCase
+from .reporte.generar_reporte_impacto_economico_use_case import (
     GenerarReporteImpactoEconomicoUseCase,
+)
+from .reporte.generar_reporte_innovacion_tecnologica_use_case import (
     GenerarReporteInnovacionTecnologicaUseCase,
+)
+from .reporte.generar_reporte_sostenibilidad_use_case import (
     GenerarReporteSostenibilidadUseCase,
 )
 
@@ -65,6 +69,9 @@ __all__ = [
     "ListarMarcasUseCase",
     "CambiarEstadoMarcaUseCase",
     "ObtenerEstadisticasMarcasUseCase",
+    # Dashboard Use Cases
+    "ObtenerDashboardDataUseCase",
+    "GenerarReporteDashboardUseCase",
     # Logo Use Cases
     "GenerarLogoUseCase",
     "ObtenerLogoUseCase",
@@ -74,9 +81,6 @@ __all__ = [
     "CalcularKPIsUseCase",
     "ObtenerKPIsUseCase",
     "GenerarReporteKPIsUseCase",
-    # Dashboard Use Cases
-    "ObtenerDashboardDataUseCase",
-    "GenerarReporteDashboardUseCase",
     # Historial Use Cases
     "CrearHistorialUseCase",
     "ObtenerHistorialUseCase",
