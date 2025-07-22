@@ -3,9 +3,9 @@ Implementación de repositorio de dashboard usando Django ORM
 Responsabilidad única: Gestionar datos del dashboard
 """
 
-from typing import Dict, Any, List
+from typing import List
 from datetime import timedelta
-from django.db import models
+from django.db.models import Avg, Sum
 from django.utils import timezone
 
 from apps.analytics.domain.entities.dashboard_data import DashboardData
@@ -21,9 +21,7 @@ class DjangoDashboardRepository(DashboardRepository):
     Responsabilidad única: Gestionar datos del dashboard"""
 
     def get_kpis_principales(self) -> DashboardData:
-        """Obtiene KPIs principales del dashboard"""
-        from django.db.models import Count, Avg, Sum
-
+        """Implementa DashboardRepository.get_kpis_principales"""
         hoy = timezone.now().date()
         inicio_mes = hoy.replace(day=1)
 
@@ -75,9 +73,7 @@ class DjangoDashboardRepository(DashboardRepository):
         )
 
     def get_tendencias_mensuales(self, meses: int = 12) -> List[DashboardData]:
-        """Obtiene tendencias mensuales"""
-        from django.db.models import Count, Sum, Avg
-
+        """Implementa DashboardRepository.get_tendencias_mensuales"""
         tendencias = []
         hoy = timezone.now().date()
 
@@ -119,9 +115,7 @@ class DjangoDashboardRepository(DashboardRepository):
         return tendencias
 
     def get_metricas_tiempo_real(self) -> DashboardData:
-        """Obtiene métricas en tiempo real"""
-        from django.db.models import Count, Avg
-
+        """Implementa DashboardRepository.get_metricas_tiempo_real"""
         marcas_pendientes = MarcaGanadoBovinoModel.objects.filter(
             estado=EstadoMarca.PENDIENTE.value
         ).count()
@@ -156,7 +150,7 @@ class DjangoDashboardRepository(DashboardRepository):
         )
 
     def get_resumen_ejecutivo(self) -> DashboardData:
-        """Obtiene resumen ejecutivo"""
+        """Implementa DashboardRepository.get_resumen_ejecutivo"""
         kpis = self.get_kpis_principales()
         metricas = self.get_metricas_tiempo_real()
 

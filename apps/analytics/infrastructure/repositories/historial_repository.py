@@ -5,7 +5,8 @@ Responsabilidad única: Gestionar historial de estados de marcas
 
 from typing import List, Optional, Dict, Any
 from datetime import datetime, timedelta
-from django.db import models
+from django.db.models import Count
+from django.db.models.functions import TruncDate
 from django.utils import timezone
 
 from apps.analytics.domain.entities.historial_estado_marca import HistorialEstadoMarca
@@ -22,7 +23,7 @@ class DjangoHistorialRepository(HistorialEstadoMarcaRepository):
     Responsabilidad única: Gestionar historial de estados de marcas"""
 
     def _to_entity(self, model: HistorialEstadoMarcaModel) -> HistorialEstadoMarca:
-        """Convierte modelo Django a entidad de dominio"""
+        """Conversión de modelo Django a entidad de dominio"""
         return HistorialEstadoMarca(
             id=model.id,
             marca_id=model.marca_id,
@@ -34,7 +35,7 @@ class DjangoHistorialRepository(HistorialEstadoMarcaRepository):
         )
 
     def _to_model(self, entity: HistorialEstadoMarca) -> HistorialEstadoMarcaModel:
-        """Convierte entidad de dominio a modelo Django"""
+        """Conversión de entidad de dominio a modelo Django"""
         model_data = {
             "marca_id": entity.marca_id,
             "estado_anterior": entity.estado_anterior,
@@ -53,13 +54,13 @@ class DjangoHistorialRepository(HistorialEstadoMarcaRepository):
             return HistorialEstadoMarcaModel(**model_data)
 
     def crear(self, historial: HistorialEstadoMarca) -> HistorialEstadoMarca:
-        """Crea un nuevo registro de historial"""
+        """Implementa HistorialEstadoMarcaRepository.save (crear)"""
         model = self._to_model(historial)
         model.save()
         return self._to_entity(model)
 
     def obtener_por_id(self, historial_id: int) -> Optional[HistorialEstadoMarca]:
-        """Obtiene un historial por su ID"""
+        """Implementa HistorialEstadoMarcaRepository.get_by_id"""
         try:
             model = HistorialEstadoMarcaModel.objects.get(id=historial_id)
             return self._to_entity(model)
@@ -67,20 +68,20 @@ class DjangoHistorialRepository(HistorialEstadoMarcaRepository):
             return None
 
     def obtener_por_marca(self, marca_id: int) -> List[HistorialEstadoMarca]:
-        """Obtiene el historial completo de una marca"""
+        """Implementa HistorialEstadoMarcaRepository.get_by_marca_id"""
         models = HistorialEstadoMarcaModel.objects.filter(marca_id=marca_id).order_by(
             "-fecha_cambio"
         )
         return [self._to_entity(model) for model in models]
 
     def actualizar(self, historial: HistorialEstadoMarca) -> HistorialEstadoMarca:
-        """Actualiza un registro de historial"""
+        """Implementa HistorialEstadoMarcaRepository.save (actualizar)"""
         model = self._to_model(historial)
         model.save()
         return self._to_entity(model)
 
     def eliminar(self, historial_id: int) -> bool:
-        """Elimina un registro de historial"""
+        """Implementa HistorialEstadoMarcaRepository.delete"""
         try:
             model = HistorialEstadoMarcaModel.objects.get(id=historial_id)
             model.delete()
@@ -91,19 +92,19 @@ class DjangoHistorialRepository(HistorialEstadoMarcaRepository):
     def listar_todos(
         self, limit: int = 100, offset: int = 0
     ) -> List[HistorialEstadoMarca]:
-        """Lista todos los registros de historial con paginación"""
+        """Implementa HistorialEstadoMarcaRepository.list_all"""
         models = HistorialEstadoMarcaModel.objects.all()[offset : offset + limit]
         return [self._to_entity(model) for model in models]
 
     def listar_por_estado(self, estado: str) -> List[HistorialEstadoMarca]:
-        """Lista historial por estado"""
+        """Implementa método adicional para filtrar por estado"""
         models = HistorialEstadoMarcaModel.objects.filter(estado_nuevo=estado).order_by(
             "-fecha_cambio"
         )
         return [self._to_entity(model) for model in models]
 
     def listar_por_usuario(self, usuario: str) -> List[HistorialEstadoMarca]:
-        """Lista historial por usuario responsable"""
+        """Implementa método adicional para filtrar por usuario"""
         models = HistorialEstadoMarcaModel.objects.filter(
             usuario_responsable=usuario
         ).order_by("-fecha_cambio")
@@ -112,14 +113,14 @@ class DjangoHistorialRepository(HistorialEstadoMarcaRepository):
     def listar_por_fecha(
         self, fecha_inicio: datetime, fecha_fin: datetime
     ) -> List[HistorialEstadoMarca]:
-        """Lista historial por rango de fechas"""
+        """Implementa método adicional para filtrar por rango de fechas"""
         models = HistorialEstadoMarcaModel.objects.filter(
             fecha_cambio__gte=fecha_inicio, fecha_cambio__lte=fecha_fin
         ).order_by("-fecha_cambio")
         return [self._to_entity(model) for model in models]
 
     def obtener_ultimo_cambio(self, marca_id: int) -> Optional[HistorialEstadoMarca]:
-        """Obtiene el último cambio de estado de una marca"""
+        """Implementa método adicional para obtener último cambio"""
         try:
             model = HistorialEstadoMarcaModel.objects.filter(marca_id=marca_id).latest(
                 "fecha_cambio"
@@ -129,9 +130,7 @@ class DjangoHistorialRepository(HistorialEstadoMarcaRepository):
             return None
 
     def obtener_estadisticas(self) -> Dict[str, Any]:
-        """Obtiene estadísticas del historial"""
-        from django.db.models import Count
-
+        """Implementa método adicional para estadísticas del historial"""
         total_cambios = HistorialEstadoMarcaModel.objects.count()
 
         # Cambios por estado
@@ -165,10 +164,7 @@ class DjangoHistorialRepository(HistorialEstadoMarcaRepository):
         }
 
     def obtener_tendencias_cambios(self, dias: int = 30) -> List[Dict[str, Any]]:
-        """Obtiene tendencias de cambios por día"""
-        from django.db.models import Count
-        from django.db.models.functions import TruncDate
-
+        """Implementa método adicional para tendencias de cambios"""
         fecha_limite = timezone.now() - timedelta(days=dias)
 
         tendencias = (

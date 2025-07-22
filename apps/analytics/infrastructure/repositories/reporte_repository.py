@@ -3,9 +3,8 @@ Implementación de repositorio de reportes usando Django ORM
 Responsabilidad única: Gestionar reportes de datos
 """
 
-from typing import List, Optional, Dict, Any
-from datetime import datetime, timedelta
-from django.db import models
+from datetime import datetime
+from django.db.models import Count, Sum, Avg, Q
 from django.utils import timezone
 
 from apps.analytics.domain.entities.reporte_data import ReporteData
@@ -26,8 +25,7 @@ class DjangoReporteRepository(ReporteRepository):
     def generar_reporte_marcas(
         self, fecha_inicio: datetime, fecha_fin: datetime
     ) -> ReporteData:
-        """Genera reporte de marcas en el período especificado"""
-        from django.db.models import Count, Sum, Avg
+        """Implementa ReporteRepository.generar_reporte_ejecutivo_mensual"""
         from apps.analytics.domain.enums import EstadoMarca
 
         marcas_periodo = MarcaGanadoBovinoModel.objects.filter(
@@ -118,9 +116,7 @@ class DjangoReporteRepository(ReporteRepository):
     def generar_reporte_logos(
         self, fecha_inicio: datetime, fecha_fin: datetime
     ) -> ReporteData:
-        """Genera reporte de logos en el período especificado"""
-        from django.db.models import Count, Avg
-
+        """Implementa ReporteRepository.generar_reporte_personalizado (logos)"""
         logos_periodo = LogoMarcaBovinaModel.objects.filter(
             fecha_generacion__gte=fecha_inicio, fecha_generacion__lte=fecha_fin
         )
@@ -141,7 +137,7 @@ class DjangoReporteRepository(ReporteRepository):
 
         # Distribución por modelo de IA
         modelos = logos_periodo.values("modelo_ia_usado").annotate(
-            total=Count("id"), exitosos=Count("id", filter=models.Q(exito=True))
+            total=Count("id"), exitosos=Count("id", filter=Q(exito=True))
         )
 
         # Distribución por calidad
@@ -175,7 +171,7 @@ class DjangoReporteRepository(ReporteRepository):
     def generar_reporte_kpis(
         self, fecha_inicio: datetime, fecha_fin: datetime
     ) -> ReporteData:
-        """Genera reporte de KPIs en el período especificado"""
+        """Implementa ReporteRepository.generar_reporte_anual (KPIs)"""
         kpis_periodo = KPIGanadoBovinoModel.objects.filter(
             fecha__gte=fecha_inicio.date(), fecha__lte=fecha_fin.date()
         ).order_by("fecha")
@@ -184,25 +180,25 @@ class DjangoReporteRepository(ReporteRepository):
         total_kpis = kpis_periodo.count()
         if total_kpis > 0:
             promedio_marcas = (
-                kpis_periodo.aggregate(promedio=models.Avg("marcas_registradas_mes"))[
+                kpis_periodo.aggregate(promedio=Avg("marcas_registradas_mes"))[
                     "promedio"
                 ]
                 or 0
             )
             promedio_aprobacion = (
-                kpis_periodo.aggregate(promedio=models.Avg("porcentaje_aprobacion"))[
+                kpis_periodo.aggregate(promedio=Avg("porcentaje_aprobacion"))[
                     "promedio"
                 ]
                 or 0
             )
             promedio_tiempo = (
-                kpis_periodo.aggregate(
-                    promedio=models.Avg("tiempo_promedio_procesamiento")
-                )["promedio"]
+                kpis_periodo.aggregate(promedio=Avg("tiempo_promedio_procesamiento"))[
+                    "promedio"
+                ]
                 or 0
             )
             total_ingresos = (
-                kpis_periodo.aggregate(total=models.Sum("ingresos_mes"))["total"] or 0
+                kpis_periodo.aggregate(total=Sum("ingresos_mes"))["total"] or 0
             )
         else:
             promedio_marcas = promedio_aprobacion = promedio_tiempo = total_ingresos = 0
@@ -251,7 +247,7 @@ class DjangoReporteRepository(ReporteRepository):
     def generar_reporte_consolidado(
         self, fecha_inicio: datetime, fecha_fin: datetime
     ) -> ReporteData:
-        """Genera reporte consolidado de todos los datos"""
+        """Implementa ReporteRepository.generar_reporte_comparativo_departamentos"""
         # Obtener reportes individuales
         reporte_marcas = self.generar_reporte_marcas(fecha_inicio, fecha_fin)
         reporte_logos = self.generar_reporte_logos(fecha_inicio, fecha_fin)

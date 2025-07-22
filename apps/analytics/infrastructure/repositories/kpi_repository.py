@@ -3,10 +3,8 @@ Implementación de repositorio de KPIs usando Django ORM
 Responsabilidad única: Gestionar KPIs de ganado bovino
 """
 
-from typing import List, Optional, Dict, Any
-from datetime import date, datetime, timedelta
-from django.db import models
-from django.utils import timezone
+from typing import List, Optional
+from datetime import date
 
 from apps.analytics.domain.entities.kpi_ganado_bovino import KPIGanadoBovino
 from apps.analytics.domain.repositories.kpi_repository import KPIGanadoBovinoRepository
@@ -20,7 +18,7 @@ class DjangoKpiRepository(KPIGanadoBovinoRepository):
     Responsabilidad única: Gestionar KPIs de ganado bovino"""
 
     def _to_entity(self, model: KPIGanadoBovinoModel) -> KPIGanadoBovino:
-        """Convierte modelo Django a entidad de dominio"""
+        """Conversión de modelo Django a entidad de dominio"""
         return KPIGanadoBovino(
             id=model.id,
             fecha=model.fecha,
@@ -44,7 +42,7 @@ class DjangoKpiRepository(KPIGanadoBovinoRepository):
         )
 
     def _to_model(self, entity: KPIGanadoBovino) -> KPIGanadoBovinoModel:
-        """Convierte entidad de dominio a modelo Django"""
+        """Conversión de entidad de dominio a modelo Django"""
         model_data = {
             "fecha": entity.fecha,
             "marcas_registradas_mes": entity.marcas_registradas_mes,
@@ -75,13 +73,13 @@ class DjangoKpiRepository(KPIGanadoBovinoRepository):
             return KPIGanadoBovinoModel(**model_data)
 
     def crear(self, kpi: KPIGanadoBovino) -> KPIGanadoBovino:
-        """Crea un nuevo KPI"""
+        """Implementa KPIGanadoBovinoRepository.save (crear)"""
         model = self._to_model(kpi)
         model.save()
         return self._to_entity(model)
 
     def obtener_por_fecha(self, fecha: date) -> Optional[KPIGanadoBovino]:
-        """Obtiene un KPI por fecha"""
+        """Implementa KPIGanadoBovinoRepository.get_by_fecha"""
         try:
             model = KPIGanadoBovinoModel.objects.get(fecha=fecha)
             return self._to_entity(model)
@@ -89,7 +87,7 @@ class DjangoKpiRepository(KPIGanadoBovinoRepository):
             return None
 
     def obtener_por_id(self, kpi_id: int) -> Optional[KPIGanadoBovino]:
-        """Obtiene un KPI por ID"""
+        """Implementa KPIGanadoBovinoRepository.get_by_id"""
         try:
             model = KPIGanadoBovinoModel.objects.get(id=kpi_id)
             return self._to_entity(model)
@@ -97,13 +95,13 @@ class DjangoKpiRepository(KPIGanadoBovinoRepository):
             return None
 
     def actualizar(self, kpi: KPIGanadoBovino) -> KPIGanadoBovino:
-        """Actualiza un KPI existente"""
+        """Implementa KPIGanadoBovinoRepository.save (actualizar)"""
         model = self._to_model(kpi)
         model.save()
         return self._to_entity(model)
 
     def eliminar(self, kpi_id: int) -> bool:
-        """Elimina un KPI"""
+        """Implementa KPIGanadoBovinoRepository.delete"""
         try:
             model = KPIGanadoBovinoModel.objects.get(id=kpi_id)
             model.delete()
@@ -112,21 +110,21 @@ class DjangoKpiRepository(KPIGanadoBovinoRepository):
             return False
 
     def listar_todos(self, limit: int = 100, offset: int = 0) -> List[KPIGanadoBovino]:
-        """Lista todos los KPIs con paginación"""
+        """Implementa KPIGanadoBovinoRepository.list_all"""
         models = KPIGanadoBovinoModel.objects.all()[offset : offset + limit]
         return [self._to_entity(model) for model in models]
 
     def listar_por_rango_fechas(
         self, fecha_inicio: date, fecha_fin: date
     ) -> List[KPIGanadoBovino]:
-        """Lista KPIs por rango de fechas"""
+        """Implementa KPIGanadoBovinoRepository.list_by_periodo"""
         models = KPIGanadoBovinoModel.objects.filter(
             fecha__gte=fecha_inicio, fecha__lte=fecha_fin
         ).order_by("-fecha")
         return [self._to_entity(model) for model in models]
 
     def obtener_ultimo_kpi(self) -> Optional[KPIGanadoBovino]:
-        """Obtiene el KPI más reciente"""
+        """Implementa KPIGanadoBovinoRepository.get_latest"""
         try:
             model = KPIGanadoBovinoModel.objects.latest("fecha")
             return self._to_entity(model)
@@ -134,7 +132,10 @@ class DjangoKpiRepository(KPIGanadoBovinoRepository):
             return None
 
     def obtener_tendencias_mensuales(self, meses: int = 12) -> List[KPIGanadoBovino]:
-        """Obtiene tendencias mensuales de KPIs"""
+        """Implementa KPIGanadoBovinoRepository.list_by_periodo (mensual)"""
+        from django.utils import timezone
+        from datetime import timedelta
+
         fecha_limite = timezone.now().date() - timedelta(days=meses * 30)
         models = KPIGanadoBovinoModel.objects.filter(fecha__gte=fecha_limite).order_by(
             "-fecha"
@@ -142,7 +143,7 @@ class DjangoKpiRepository(KPIGanadoBovinoRepository):
         return [self._to_entity(model) for model in models]
 
     def calcular_kpi_diario(self, fecha: date) -> KPIGanadoBovino:
-        """Calcula KPIs para una fecha específica"""
+        """Implementa KPIGanadoBovinoRepository.calcular_kpis_actuales"""
         from django.db.models import Count, Avg, Sum
         from apps.analytics.infrastructure.models import (
             MarcaGanadoBovinoModel,

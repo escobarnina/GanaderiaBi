@@ -4,9 +4,6 @@ Responsabilidad única: Gestionar marcas de ganado bovino
 """
 
 from typing import List, Optional, Dict, Any
-from datetime import datetime, timedelta
-from django.db import models
-from django.utils import timezone
 
 from apps.analytics.domain.entities.marca_ganado_bovino import MarcaGanadoBovino
 from apps.analytics.domain.entities.historial_estado_marca import HistorialEstadoMarca
@@ -32,7 +29,7 @@ class DjangoMarcaRepository(MarcaGanadoBovinoRepository):
     Responsabilidad única: Gestionar marcas de ganado bovino"""
 
     def _to_entity(self, model: MarcaGanadoBovinoModel) -> MarcaGanadoBovino:
-        """Convierte modelo Django a entidad de dominio"""
+        """Conversión de modelo Django a entidad de dominio"""
         return MarcaGanadoBovino(
             id=model.id,
             numero_marca=model.numero_marca,
@@ -56,7 +53,7 @@ class DjangoMarcaRepository(MarcaGanadoBovinoRepository):
         )
 
     def _to_model(self, entity: MarcaGanadoBovino) -> MarcaGanadoBovinoModel:
-        """Convierte entidad de dominio a modelo Django"""
+        """Conversión de entidad de dominio a modelo Django"""
         model_data = {
             "numero_marca": entity.numero_marca,
             "nombre_productor": entity.nombre_productor,
@@ -88,7 +85,7 @@ class DjangoMarcaRepository(MarcaGanadoBovinoRepository):
     def _to_historial_entity(
         self, model: HistorialEstadoMarcaModel
     ) -> HistorialEstadoMarca:
-        """Convierte modelo de historial Django a entidad de dominio"""
+        """Conversión de modelo de historial Django a entidad de dominio"""
         return HistorialEstadoMarca(
             id=model.id,
             marca_id=model.marca_id,
@@ -100,13 +97,13 @@ class DjangoMarcaRepository(MarcaGanadoBovinoRepository):
         )
 
     def crear(self, marca: MarcaGanadoBovino) -> MarcaGanadoBovino:
-        """Crea una nueva marca"""
+        """Implementa MarcaGanadoBovinoRepository.crear"""
         model = self._to_model(marca)
         model.save()
         return self._to_entity(model)
 
     def obtener_por_id(self, marca_id: int) -> Optional[MarcaGanadoBovino]:
-        """Obtiene una marca por su ID"""
+        """Implementa MarcaGanadoBovinoRepository.obtener_por_id"""
         try:
             model = MarcaGanadoBovinoModel.objects.get(id=marca_id)
             return self._to_entity(model)
@@ -114,7 +111,7 @@ class DjangoMarcaRepository(MarcaGanadoBovinoRepository):
             return None
 
     def obtener_por_numero(self, numero_marca: str) -> Optional[MarcaGanadoBovino]:
-        """Obtiene una marca por su número"""
+        """Implementa MarcaGanadoBovinoRepository.obtener_por_numero_marca"""
         try:
             model = MarcaGanadoBovinoModel.objects.get(numero_marca=numero_marca)
             return self._to_entity(model)
@@ -122,13 +119,13 @@ class DjangoMarcaRepository(MarcaGanadoBovinoRepository):
             return None
 
     def actualizar(self, marca: MarcaGanadoBovino) -> MarcaGanadoBovino:
-        """Actualiza una marca existente"""
+        """Implementa MarcaGanadoBovinoRepository.save (actualizar)"""
         model = self._to_model(marca)
         model.save()
         return self._to_entity(model)
 
     def eliminar(self, marca_id: int) -> bool:
-        """Elimina una marca"""
+        """Implementa MarcaGanadoBovinoRepository.delete"""
         try:
             model = MarcaGanadoBovinoModel.objects.get(id=marca_id)
             model.delete()
@@ -139,24 +136,24 @@ class DjangoMarcaRepository(MarcaGanadoBovinoRepository):
     def listar_todas(
         self, limit: int = 100, offset: int = 0
     ) -> List[MarcaGanadoBovino]:
-        """Lista todas las marcas con paginación"""
+        """Implementa MarcaGanadoBovinoRepository.list_all"""
         models = MarcaGanadoBovinoModel.objects.all()[offset : offset + limit]
         return [self._to_entity(model) for model in models]
 
     def listar_por_estado(self, estado: EstadoMarca) -> List[MarcaGanadoBovino]:
-        """Lista marcas por estado"""
+        """Implementa MarcaGanadoBovinoRepository.list_by_estado"""
         models = MarcaGanadoBovinoModel.objects.filter(estado=estado.value)
         return [self._to_entity(model) for model in models]
 
     def listar_por_departamento(
         self, departamento: Departamento
     ) -> List[MarcaGanadoBovino]:
-        """Lista marcas por departamento"""
+        """Implementa MarcaGanadoBovinoRepository.list_by_departamento"""
         models = MarcaGanadoBovinoModel.objects.filter(departamento=departamento.value)
         return [self._to_entity(model) for model in models]
 
     def obtener_estadisticas(self) -> Dict[str, Any]:
-        """Obtiene estadísticas generales"""
+        """Implementa MarcaGanadoBovinoRepository.get_estadisticas_por_departamento/raza/proposito"""
         from django.db.models import Count, Avg, Sum
 
         total_marcas = MarcaGanadoBovinoModel.objects.count()
@@ -189,7 +186,7 @@ class DjangoMarcaRepository(MarcaGanadoBovinoRepository):
         }
 
     def obtener_historial_estados(self, marca_id: int) -> List[HistorialEstadoMarca]:
-        """Obtiene el historial de estados de una marca"""
+        """Implementa MarcaGanadoBovinoRepository.get_by_marca_id (historial)"""
         models = HistorialEstadoMarcaModel.objects.filter(marca_id=marca_id).order_by(
             "-fecha_cambio"
         )
@@ -198,7 +195,7 @@ class DjangoMarcaRepository(MarcaGanadoBovinoRepository):
     def registrar_cambio_estado(
         self, historial: HistorialEstadoMarca
     ) -> HistorialEstadoMarca:
-        """Registra un cambio de estado"""
+        """Implementa MarcaGanadoBovinoRepository.save (historial)"""
         model = HistorialEstadoMarcaModel(
             marca_id=historial.marca_id,
             estado_anterior=historial.estado_anterior,

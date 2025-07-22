@@ -4,8 +4,7 @@ Responsabilidad única: Gestionar logos de marcas bovinas
 """
 
 from typing import List, Optional, Dict, Any
-from django.db import models
-from django.utils import timezone
+from django.db.models import Count, Avg, Q
 
 from apps.analytics.domain.entities.logo_marca_bovina import LogoMarcaBovina
 from apps.analytics.domain.repositories.logo_repository import LogoMarcaBovinaRepository
@@ -20,7 +19,7 @@ class DjangoLogoRepository(LogoMarcaBovinaRepository):
     Responsabilidad única: Gestionar logos de marcas bovinas"""
 
     def _to_entity(self, model: LogoMarcaBovinaModel) -> LogoMarcaBovina:
-        """Convierte modelo Django a entidad de dominio"""
+        """Conversión de modelo Django a entidad de dominio"""
         return LogoMarcaBovina(
             id=model.id,
             marca_id=model.marca_id,
@@ -34,7 +33,7 @@ class DjangoLogoRepository(LogoMarcaBovinaRepository):
         )
 
     def _to_model(self, entity: LogoMarcaBovina) -> LogoMarcaBovinaModel:
-        """Convierte entidad de dominio a modelo Django"""
+        """Conversión de entidad de dominio a modelo Django"""
         model_data = {
             "marca_id": entity.marca_id,
             "url_logo": entity.url_logo,
@@ -55,13 +54,13 @@ class DjangoLogoRepository(LogoMarcaBovinaRepository):
             return LogoMarcaBovinaModel(**model_data)
 
     def crear(self, logo: LogoMarcaBovina) -> LogoMarcaBovina:
-        """Crea un nuevo logo"""
+        """Implementa LogoMarcaBovinaRepository.save (crear)"""
         model = self._to_model(logo)
         model.save()
         return self._to_entity(model)
 
     def obtener_por_id(self, logo_id: int) -> Optional[LogoMarcaBovina]:
-        """Obtiene un logo por su ID"""
+        """Implementa LogoMarcaBovinaRepository.get_by_id"""
         try:
             model = LogoMarcaBovinaModel.objects.get(id=logo_id)
             return self._to_entity(model)
@@ -69,20 +68,20 @@ class DjangoLogoRepository(LogoMarcaBovinaRepository):
             return None
 
     def obtener_por_marca(self, marca_id: int) -> List[LogoMarcaBovina]:
-        """Obtiene todos los logos de una marca"""
+        """Implementa LogoMarcaBovinaRepository.get_by_marca_id"""
         models = LogoMarcaBovinaModel.objects.filter(marca_id=marca_id).order_by(
             "-fecha_generacion"
         )
         return [self._to_entity(model) for model in models]
 
     def actualizar(self, logo: LogoMarcaBovina) -> LogoMarcaBovina:
-        """Actualiza un logo existente"""
+        """Implementa LogoMarcaBovinaRepository.save (actualizar)"""
         model = self._to_model(logo)
         model.save()
         return self._to_entity(model)
 
     def eliminar(self, logo_id: int) -> bool:
-        """Elimina un logo"""
+        """Implementa LogoMarcaBovinaRepository.delete"""
         try:
             model = LogoMarcaBovinaModel.objects.get(id=logo_id)
             model.delete()
@@ -91,36 +90,34 @@ class DjangoLogoRepository(LogoMarcaBovinaRepository):
             return False
 
     def listar_todos(self, limit: int = 100, offset: int = 0) -> List[LogoMarcaBovina]:
-        """Lista todos los logos con paginación"""
+        """Implementa LogoMarcaBovinaRepository.list_all"""
         models = LogoMarcaBovinaModel.objects.all()[offset : offset + limit]
         return [self._to_entity(model) for model in models]
 
     def listar_exitosos(self) -> List[LogoMarcaBovina]:
-        """Lista logos generados exitosamente"""
+        """Implementa LogoMarcaBovinaRepository.list_exitosos"""
         models = LogoMarcaBovinaModel.objects.filter(exito=True)
         return [self._to_entity(model) for model in models]
 
     def listar_por_modelo_ia(self, modelo: ModeloIA) -> List[LogoMarcaBovina]:
-        """Lista logos por modelo de IA"""
+        """Implementa LogoMarcaBovinaRepository.list_by_modelo_ia"""
         models = LogoMarcaBovinaModel.objects.filter(modelo_ia_usado=modelo.value)
         return [self._to_entity(model) for model in models]
 
     def listar_por_calidad(self, calidad: CalidadLogo) -> List[LogoMarcaBovina]:
-        """Lista logos por calidad"""
+        """Implementa LogoMarcaBovinaRepository.list_by_calidad"""
         models = LogoMarcaBovinaModel.objects.filter(calidad_logo=calidad.value)
         return [self._to_entity(model) for model in models]
 
     def obtener_estadisticas(self) -> Dict[str, Any]:
-        """Obtiene estadísticas de logos"""
-        from django.db.models import Count, Avg
-
+        """Implementa LogoMarcaBovinaRepository.get_estadisticas_generacion"""
         total_logos = LogoMarcaBovinaModel.objects.count()
         logos_exitosos = LogoMarcaBovinaModel.objects.filter(exito=True).count()
         tasa_exito = (logos_exitosos / total_logos * 100) if total_logos > 0 else 0
 
         # Estadísticas por modelo de IA
         modelos = LogoMarcaBovinaModel.objects.values("modelo_ia_usado").annotate(
-            total=Count("id"), exitosos=Count("id", filter=models.Q(exito=True))
+            total=Count("id"), exitosos=Count("id", filter=Q(exito=True))
         )
 
         # Estadísticas por calidad
@@ -149,16 +146,14 @@ class DjangoLogoRepository(LogoMarcaBovinaRepository):
         }
 
     def obtener_rendimiento_modelos(self) -> List[Dict[str, Any]]:
-        """Obtiene rendimiento por modelo de IA"""
-        from django.db.models import Count, Avg
-
+        """Implementa método adicional para análisis de rendimiento por modelo"""
         rendimiento = LogoMarcaBovinaModel.objects.values("modelo_ia_usado").annotate(
             total_generados=Count("id"),
-            exitosos=Count("id", filter=models.Q(exito=True)),
+            exitosos=Count("id", filter=Q(exito=True)),
             tiempo_promedio=Avg("tiempo_generacion_segundos"),
-            alta_calidad=Count("id", filter=models.Q(calidad_logo="ALTA")),
-            media_calidad=Count("id", filter=models.Q(calidad_logo="MEDIA")),
-            baja_calidad=Count("id", filter=models.Q(calidad_logo="BAJA")),
+            alta_calidad=Count("id", filter=Q(calidad_logo="ALTA")),
+            media_calidad=Count("id", filter=Q(calidad_logo="MEDIA")),
+            baja_calidad=Count("id", filter=Q(calidad_logo="BAJA")),
         )
 
         return [
