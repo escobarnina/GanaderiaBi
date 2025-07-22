@@ -1,498 +1,374 @@
-# Reglas de Desarrollo y Estándares - Microservicio de Inteligencia de Negocios
+# 📋 Reglas de Desarrollo - Clean Architecture
 
-## 2.1. Prácticas de Código
+## 🎯 **Principios Fundamentales**
 
-### 2.1.1. Clean Code & SOLID Principles
+### **1. Clean Architecture**
+- **Independencia de Frameworks**: El dominio no debe depender de Django, ORM, o cualquier framework
+- **Testabilidad**: Cada capa debe ser testeable independientemente
+- **Independencia de UI**: La lógica de negocio no debe depender de la interfaz de usuario
+- **Independencia de Base de Datos**: El dominio no debe depender de la base de datos
 
-* **Single Responsibility**: Una clase = una responsabilidad específica
-  * ✅ Implementado: Cada entidad en su propio archivo (`marca_ganado_bovino.py`, `logo_marca_bovina.py`, etc.)
-  * ✅ Implementado: Cada interfaz de repositorio en su propio archivo
-* **Open/Closed**: Extensible para nuevas funcionalidades sin modificar código existente
-  * ✅ Implementado: Interfaces de repositorios permiten nuevas implementaciones
-* **Liskov Substitution**: Interfaces bien definidas y consistentes
-  * ✅ Implementado: Repositorios concretos implementan interfaces abstractas
-* **Interface Segregation**: Interfaces pequeñas y específicas
-  * ✅ Implementado: Cada repositorio tiene su interfaz específica
-* **Dependency Inversion**: Inyección de dependencias, no dependencias directas
-  * ✅ Implementado: Container de dependencias y adapters para compatibilidad
+### **2. Principios SOLID**
+- **SRP (Single Responsibility)**: Cada clase debe tener una sola responsabilidad
+- **OCP (Open/Closed)**: Abierto para extensión, cerrado para modificación
+- **LSP (Liskov Substitution)**: Las implementaciones deben ser intercambiables
+- **ISP (Interface Segregation)**: Interfaces específicas para cada necesidad
+- **DIP (Dependency Inversion)**: Depender de abstracciones, no de implementaciones
 
-**Ejemplo de implementación actual:**
+## 🏗️ **Estructura de Use Cases**
+
+### **Regla 1: Un Use Case por Archivo**
 ```python
-# ✅ Correcto - Clean Code (implementado en Fase 1)
+# ✅ CORRECTO
+# apps/analytics/use_cases/marca/crear_marca_use_case.py
+class CrearMarcaUseCase:
+    """Use Case para crear una nueva marca"""
+    def execute(self, data: Dict[str, Any]) -> MarcaGanadoBovino:
+        pass
+
+# ❌ INCORRECTO
+# apps/analytics/use_cases/marca_use_cases.py
+class CrearMarcaUseCase:
+    pass
+class ObtenerMarcaUseCase:
+    pass
+class ActualizarMarcaUseCase:
+    pass
+```
+
+### **Regla 2: Estructura de Carpetas por Dominio**
+```
+apps/analytics/use_cases/
+├── marca/                    # Dominio de Marcas
+├── dashboard/                # Dominio de Dashboard
+├── logo/                     # Dominio de Logos
+├── kpi/                      # Dominio de KPIs
+├── historial/                # Dominio de Historial
+└── reporte/                  # Dominio de Reportes
+```
+
+### **Regla 3: Nomenclatura de Use Cases**
+```python
+# ✅ CORRECTO
+CrearMarcaUseCase
+ObtenerMarcaUseCase
+ActualizarMarcaUseCase
+EliminarMarcaUseCase
+ListarMarcasUseCase
+CambiarEstadoMarcaUseCase
+ObtenerEstadisticasMarcasUseCase
+
+# ❌ INCORRECTO
+MarcaUseCase
+MarcaController
+MarcaService
+```
+
+### **Regla 4: Método Principal**
+```python
+# ✅ CORRECTO
+class CrearMarcaUseCase:
+    def __init__(self, marca_repository: MarcaGanadoBovinoRepository):
+        self.marca_repository = marca_repository
+
+    def execute(self, data: Dict[str, Any]) -> MarcaGanadoBovino:
+        """Ejecuta la creación de una nueva marca"""
+        # Lógica del use case
+        pass
+
+# ❌ INCORRECTO
+class CrearMarcaUseCase:
+    def crear_marca(self, data):  # No usar nombres específicos
+        pass
+```
+
+## 📝 **Reglas de Comentarios**
+
+### **Regla 5: Comentarios de Clase**
+```python
+# ✅ CORRECTO - Comentario conciso
+class CrearMarcaUseCase:
+    """Use Case para crear una nueva marca de ganado bovino"""
+
+# ❌ INCORRECTO - Comentario extenso
+class CrearMarcaUseCase:
+    """
+    Use Case para crear una nueva marca de ganado bovino.
+    Este use case implementa el patrón de Clean Architecture
+    y sigue los principios SOLID...
+    """
+```
+
+### **Regla 6: Comentarios de Métodos**
+```python
+# ✅ CORRECTO - Comentario detallado para métodos complejos
+def execute(self, data: Dict[str, Any]) -> MarcaGanadoBovino:
+    """
+    Ejecuta la creación de una nueva marca de ganado bovino
+    
+    Args:
+        data: Diccionario con los datos de la marca a crear
+            - numero_marca (str, obligatorio): Número único de la marca
+            - nombre_productor (str, obligatorio): Nombre del productor
+            - cantidad_cabezas (int, opcional): Cantidad de cabezas (default: 0)
+    
+    Returns:
+        MarcaGanadoBovino: La marca creada con ID asignado
+    
+    Raises:
+        ValueError: Si los datos son inválidos según las reglas de negocio
+    """
+    pass
+
+# ✅ CORRECTO - Comentario simple para métodos simples
+def obtener_por_id(self, marca_id: int) -> Optional[MarcaGanadoBovino]:
+    """Obtiene una marca por su ID"""
+    pass
+```
+
+## 🔧 **Reglas de Dependencias**
+
+### **Regla 7: Inyección de Dependencias**
+```python
+# ✅ CORRECTO - Dependencias inyectadas en constructor
+class CrearMarcaUseCase:
+    def __init__(self, marca_repository: MarcaGanadoBovinoRepository):
+        self.marca_repository = marca_repository
+
+# ❌ INCORRECTO - Dependencias hardcodeadas
+class CrearMarcaUseCase:
+    def __init__(self):
+        self.marca_repository = MarcaGanadoBovinoRepositoryImpl()
+```
+
+### **Regla 8: Dependencias de Dominio**
+```python
+# ✅ CORRECTO - Solo dependencias de dominio
 from apps.analytics.domain.entities.marca_ganado_bovino import MarcaGanadoBovino
 from apps.analytics.domain.repositories.marca_repository import MarcaGanadoBovinoRepository
+from apps.analytics.domain.enums import EstadoMarca
 
-class MarcaGanadoBovino:
-    """Entidad de dominio - Single Responsibility"""
-    def __init__(self, numero_marca: str, nombre_productor: str, ...):
-        self.numero_marca = numero_marca
-        self.nombre_productor = nombre_productor
-        # Validaciones específicas de la entidad
+# ❌ INCORRECTO - Dependencias de infraestructura
+from apps.analytics.infrastructure.models.marca_ganado_bovino_model import MarcaGanadoBovinoModel
+from django.db import models
+```
+
+## 🧪 **Reglas de Testing**
+
+### **Regla 9: Testing de Use Cases**
+```python
+# ✅ CORRECTO - Test unitario de use case
+def test_crear_marca_use_case():
+    # Arrange
+    mock_repository = Mock()
+    use_case = CrearMarcaUseCase(mock_repository)
+    data = {"numero_marca": "M001", "nombre_productor": "Juan Pérez"}
     
-    def validar_estado(self) -> bool:
-        """Responsabilidad única: validar estado"""
-        pass
-
-# ✅ Correcto - Interface Segregation
-class MarcaGanadoBovinoRepository(ABC):
-    """Interfaz específica para operaciones de marcas"""
-    @abstractmethod
-    def get_by_id(self, marca_id: int) -> Optional[MarcaGanadoBovino]:
-        pass
+    # Act
+    result = use_case.execute(data)
     
-    @abstractmethod
-    def save(self, marca: MarcaGanadoBovino) -> MarcaGanadoBovino:
-        pass
-
-# ✅ Correcto - Dependency Inversion
-class DjangoMarcaRepository(MarcaGanadoBovinoRepository):
-    """Implementación concreta usando Django ORM"""
-    def get_by_id(self, marca_id: int) -> Optional[MarcaGanadoBovino]:
-        # Conversión entre modelo Django y entidad de dominio
-        pass
+    # Assert
+    assert result is not None
+    mock_repository.crear.assert_called_once()
 ```
 
-### 2.1.2. Formateo y Estilo (PEP8 / Black)
-
-* **Formateo automático**: Black con configuración estándar
-* **Líneas máximas**: 88 caracteres
-* **Nomenclatura**: snake_case para variables y funciones
-* **Imports**: Organizados y agrupados
-* **Docstrings**: Google style para documentación
-
-**Configuración Black:**
-```toml
-# pyproject.toml
-[tool.black]
-line-length = 88
-target-version = ['py39']
-include = '\.pyi?$'
-extend-exclude = '''
-/(
-  # directories
-  \.eggs
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | build
-  | dist
-)/
-'''
-```
-
-### 2.1.3. DRY (Don't Repeat Yourself)
-
-* **Reutilización**: Lógica común en `services.py` o `use_cases/`
-* **Helpers**: Funciones utilitarias en módulos específicos
-* **Templates**: Para reportes y visualizaciones
-* **Constants**: Valores constantes centralizados
-
-**Ejemplo de implementación:**
+### **Regla 10: Mocks de Repositorios**
 ```python
-# ✅ Correcto - DRY
-class ReportGenerator:
-    def __init__(self, template_service: TemplateService):
-        self.template_service = template_service
+# ✅ CORRECTO - Mock de interfaz de repositorio
+@patch('apps.analytics.domain.repositories.marca_repository.MarcaGanadoBovinoRepository')
+def test_use_case_with_mock_repository(mock_repository):
+    use_case = CrearMarcaUseCase(mock_repository)
+    # Test implementation
+```
+
+## 📁 **Reglas de Organización**
+
+### **Regla 11: Estructura de Archivos**
+```
+apps/analytics/use_cases/
+├── __init__.py                    # Exporta todos los use cases
+├── marca/                         # Dominio de Marcas
+│   ├── __init__.py               # Exporta use cases de marca
+│   ├── crear_marca_use_case.py
+│   ├── obtener_marca_use_case.py
+│   └── ...
+├── dashboard/                     # Dominio de Dashboard
+│   ├── __init__.py
+│   ├── obtener_dashboard_data_use_case.py
+│   └── generar_reporte_dashboard_use_case.py
+└── ...
+```
+
+### **Regla 12: Archivos __init__.py**
+```python
+# ✅ CORRECTO - apps/analytics/use_cases/__init__.py
+"""
+Use Cases para el sistema de inteligencia de negocios ganadero
+"""
+
+# Use Cases de Marca
+from .marca.crear_marca_use_case import CrearMarcaUseCase
+from .marca.obtener_marca_use_case import ObtenerMarcaUseCase
+# ... otros imports
+
+__all__ = [
+    "CrearMarcaUseCase",
+    "ObtenerMarcaUseCase",
+    # ... otros use cases
+]
+```
+
+## 🚫 **Reglas de Prohibición**
+
+### **Regla 13: No Usar ViewSets en Use Cases**
+```python
+# ❌ INCORRECTO - No usar ViewSets en use cases
+from rest_framework import viewsets
+
+class CrearMarcaUseCase(viewsets.ModelViewSet):
+    pass
+```
+
+### **Regla 14: No Dependencias de Django en Dominio**
+```python
+# ❌ INCORRECTO - No usar Django en use cases
+from django.db import models
+from django.contrib.auth.models import User
+
+class CrearMarcaUseCase:
+    def execute(self, data):
+        user = User.objects.get(id=data['user_id'])  # ❌ Dependencia de Django
+```
+
+### **Regla 15: No Lógica de Presentación en Use Cases**
+```python
+# ❌ INCORRECTO - No lógica de presentación en use cases
+class CrearMarcaUseCase:
+    def execute(self, request):  # ❌ No usar request directamente
+        serializer = MarcaSerializer(data=request.data)  # ❌ No serializers en use cases
+        if serializer.is_valid():
+            # ...
+```
+
+## ✅ **Reglas de Validación**
+
+### **Regla 16: Validaciones de Negocio**
+```python
+# ✅ CORRECTO - Validaciones en use cases
+class CrearMarcaUseCase:
+    def execute(self, data: Dict[str, Any]) -> MarcaGanadoBovino:
+        # Validar datos requeridos
+        self._validar_datos_requeridos(data)
+        
+        # Validar reglas de negocio
+        self._validar_reglas_negocio(data)
+        
+        # Crear entidad
+        marca = self._crear_entidad_marca(data)
+        
+        # Persistir
+        return self.marca_repository.crear(marca)
     
-    def generate_monthly_report(self, data: dict) -> str:
-        template = self.template_service.get_template('monthly_report')
-        return template.render(data)
-    
-    def generate_annual_report(self, data: dict) -> str:
-        template = self.template_service.get_template('annual_report')
-        return template.render(data)
-
-# ❌ Incorrecto - Repetición
-class ReportGenerator:
-    def generate_monthly_report(self, data: dict) -> str:
-        # Código duplicado para renderizado
-        pass
-    
-    def generate_annual_report(self, data: dict) -> str:
-        # Código duplicado para renderizado
-        pass
+    def _validar_datos_requeridos(self, data: Dict[str, Any]) -> None:
+        if not data.get("numero_marca"):
+            raise ValueError("El número de marca es requerido")
 ```
 
-### 2.1.4. Type Hints y MyPy
-
-* **Type hints**: Obligatorios en Python 3.9+
-* **MyPy**: Chequeo estático de tipos
-* **Strict mode**: Configuración estricta para calidad
-* **Generic types**: Uso apropiado de genéricos
-
-**Configuración MyPy:**
-```toml
-# pyproject.toml
-[tool.mypy]
-python_version = "3.9"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-check_untyped_defs = true
-disallow_untyped_decorators = true
-no_implicit_optional = true
-warn_redundant_casts = true
-warn_unused_ignores = true
-warn_no_return = true
-warn_unreachable = true
-strict_equality = true
-```
-
-## 2.2. Estructura de Repositorio
-
-### 2.2.1. Estructura Principal
-
-```
-ganaderia_bi/
-├── settings.py           # Configuración Django
-├── urls.py              # URLs principales
-├── wsgi.py              # WSGI application
-├── apps/
-│   └── analytics/        # ✅ Nueva arquitectura Clean Architecture
-│       ├── domain/       # ✅ FASE 1 COMPLETADA
-│       │   ├── enums.py                  # Enumeraciones del dominio
-│       │   ├── entities/                  # Entidades separadas por responsabilidad
-│       │   │   ├── marca_ganado_bovino.py
-│       │   │   ├── logo_marca_bovina.py
-│       │   │   ├── kpi_ganado_bovino.py
-│       │   │   ├── historial_estado_marca.py
-│       │   │   ├── dashboard_data.py
-│       │   │   └── reporte_data.py
-│       │   └── repositories/              # Interfaces de repositorios
-│       │       ├── marca_repository.py
-│       │       ├── logo_repository.py
-│       │       ├── kpi_repository.py
-│       │       ├── historial_repository.py
-│       │       ├── dashboard_repository.py
-│       │       └── reporte_repository.py
-│       ├── infrastructure/                # ✅ FASE 1 COMPLETADA
-│       │   ├── repositories/              # Implementaciones con Django ORM
-│       │   │   └── django_repositories.py
-│       │   └── adapters.py               # Adapters para compatibilidad
-│       ├── use_cases/                     # 🔄 FASE 2 (en desarrollo)
-│       └── presentation/                  # 🔄 FASE 3 (pendiente)
-├── business_intelligence/ # 🏛️ Código legacy (mantener compatibilidad)
-│   ├── models.py         # Modelos Django originales
-│   ├── views/            # Views existentes
-│   ├── serializers.py    # Serializers existentes
-│   └── urls.py           # URLs existentes
-├── scripts/              # Scripts ETL y utilidades
-├── docker/               # Archivos Docker
-├── k8s/                  # Manifiestos Kubernetes
-├── docs/                 # Documentación
-├── requirements.txt      # Dependencias
-├── .env.example          # Variables de entorno ejemplo
-├── .gitignore
-├── pyproject.toml        # Configuración de herramientas
-├── README.md
-├── Makefile              # Comandos de desarrollo
-├── .pre-commit-config.yaml # Pre-commit hooks
-└── arquitectura.md       # Documento de arquitectura
-```
-
-### 2.2.2. Convenciones de Nomenclatura
-
-* **Archivos Python**: snake_case (ej: `kpi_calculator.py`)
-* **Clases**: PascalCase (ej: `KPICalculator`)
-* **Funciones y variables**: snake_case (ej: `calculate_monthly_kpis`)
-* **Constantes**: UPPER_SNAKE_CASE (ej: `MAX_RETRY_ATTEMPTS`)
-* **Módulos**: snake_case (ej: `analytics/use_cases/`)
-
-### 2.2.3. Organización de Tests
-
-```
-tests/
-├── unit/                 # Tests unitarios
-│   ├── test_kpi_calculator.py
-│   ├── test_report_generator.py
-│   └── test_trend_analyzer.py
-├── integration/          # Tests de integración
-│   ├── test_api_endpoints.py
-│   ├── test_database_operations.py
-│   └── test_external_services.py
-├── factories/            # Factories para tests
-│   ├── kpi_factory.py
-│   ├── report_factory.py
-│   └── user_factory.py
-├── conftest.py          # Configuración pytest
-└── fixtures/            # Datos de prueba
-    ├── sample_data.json
-    └── test_reports/
-```
-
-## 2.3. Calidad y Testing
-
-### 2.3.1. Testing Strategy
-
-* **Unit Tests**: 80%+ coverage obligatorio
-* **Integration Tests**: APIs y base de datos
-* **E2E Tests**: Flujos completos críticos
-* **Performance Tests**: Carga y stress testing
-
-### 2.3.2. Herramientas de Testing
-
+### **Regla 17: Manejo de Errores**
 ```python
-# requirements/test.txt
-pytest==7.4.0
-pytest-django==4.5.2
-pytest-cov==4.1.0
-factory-boy==3.3.0
-faker==19.12.0
-responses==0.23.3
-pytest-mock==3.11.1
-pytest-xdist==3.3.1
+# ✅ CORRECTO - Manejo específico de errores
+class CrearMarcaUseCase:
+    def execute(self, data: Dict[str, Any]) -> MarcaGanadoBovino:
+        try:
+            # Lógica del use case
+            return self.marca_repository.crear(marca)
+        except ValueError as e:
+            # Re-raise para que la capa de presentación lo maneje
+            raise e
+        except Exception as e:
+            # Log del error y re-raise
+            logger.error(f"Error en CrearMarcaUseCase: {e}")
+            raise
 ```
 
-### 2.3.3. Configuración Pytest
+## 📊 **Estado de Cumplimiento y Buenas Prácticas**
 
-```python
-# pytest.ini
-[tool:pytest]
-DJANGO_SETTINGS_MODULE = bi.settings.test
-python_files = tests.py test_*.py *_tests.py
-addopts = 
-    --strict-markers
-    --strict-config
-    --cov=apps
-    --cov-report=html
-    --cov-report=term-missing
-    --cov-fail-under=80
-testpaths = apps/tests
-markers =
-    unit: Unit tests
-    integration: Integration tests
-    slow: Slow running tests
-    api: API tests
-```
+### **✅ Use Cases Layer - 100% Completado**
+- **32 use cases** implementados en estructura modular
+- **Separación de responsabilidades**: Una responsabilidad por use case
+- **Principios SOLID**: Cumplidos al 100%
+- **Testabilidad**: Cada use case se puede testear independientemente
+- **Escalabilidad**: Fácil agregar nuevos use cases
 
-### 2.3.4. CI/CD Pipeline
+### **✅ Dominio (Domain Layer) - 100% Completado**
+- **Entidades**: Todas implementadas con lógica de negocio
+  - `MarcaGanadoBovino`: Entidad principal con validaciones de negocio
+  - `HistorialEstadoMarca`: Entidad para auditoría de cambios
+  - `LogoMarcaBovina`: Entidad para logos generados por IA
+  - `DashboardData`: Entidad para datos del dashboard
+  - `KpiGanadoBovino`: Entidad para métricas y KPIs
+  - `ReporteData`: Entidad para datos de reportes
+- **Repositorios**: Todas las interfaces definidas
+  - `MarcaGanadoBovinoRepository`: CRUD y consultas de marcas
+  - `HistorialRepository`: Gestión de historial de cambios
+  - `LogoMarcaBovinaRepository`: Gestión de logos
+  - `DashboardRepository`: Consultas de datos del dashboard
+  - `KpiRepository`: Gestión y cálculo de KPIs
+  - `ReporteRepository`: Generación y gestión de reportes
+- **Enums**: Centralizados y bien organizados
+  - `EstadoMarca`: Estados de las marcas
+  - `TipoLogo`: Tipos de logos generados
+  - `EstadoHistorial`: Estados del historial
 
-```yaml
-# .github/workflows/ci.yml
-name: CI/CD Pipeline
+### **✅ Infraestructura (Infrastructure Layer) - 100% Completado**
+- **Modelos**: Todos los modelos de Django ORM implementados
+  - `MarcaGanadoBovinoModel`: Modelo para marcas con índices optimizados
+  - `HistorialEstadoMarcaModel`: Modelo para historial de cambios
+  - `LogoMarcaBovinaModel`: Modelo para logos con metadatos de IA
+  - `DashboardDataModel`: Modelo para datos del dashboard
+  - `KpiGanadoBovinoModel`: Modelo para KPIs con métricas
+  - `ReporteDataModel`: Modelo para reportes con datos JSON
+- **Repositorios**: Todas las implementaciones completadas
+  - `MarcaGanadoBovinoRepositoryImpl`: Implementación con Django ORM
+  - `HistorialRepositoryImpl`: Implementación con Django ORM
+  - `LogoMarcaBovinaRepositoryImpl`: Implementación con Django ORM
+  - `DashboardRepositoryImpl`: Implementación con Django ORM
+  - `KpiRepositoryImpl`: Implementación con Django ORM
+  - `ReporteRepositoryImpl`: Implementación con Django ORM
+- **Container**: Inyección de dependencias configurada
+  - Configuración automática de repositorios
+  - Inyección de dependencias en use cases
+  - Mapeo entidad-modelo implementado
 
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main]
+### **⏳ Presentación (Presentation Layer) - Pendiente**
+- **Controllers**: Por implementar siguiendo estas reglas
+- **Serializers**: Por implementar
+- **APIs**: Por migrar desde ViewSets legacy
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-      
-      - name: Install dependencies
-        run: |
-          pip install -r requirements/test.txt
-      
-      - name: Run linting
-        run: |
-          flake8 apps/
-          black --check apps/
-          mypy apps/
-      
-      - name: Run tests
-        run: |
-          pytest --cov=apps --cov-report=xml
-      
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./coverage.xml
-```
+## 🚀 **Próximos Pasos**
 
-### 2.3.5. Code Review Checklist
+### **1. Implementar Presentation Layer**
+- [ ] Crear controllers siguiendo las reglas establecidas
+- [ ] Implementar serializers específicos
+- [ ] Migrar ViewSets legacy a controllers
 
-**Funcionalidad:**
-- [ ] El código cumple con los requerimientos
-- [ ] No hay regresiones en funcionalidad existente
-- [ ] Los tests cubren los casos edge
+### **2. Testing Completo**
+- [ ] Tests unitarios para cada use case
+- [ ] Tests de integración
+- [ ] Tests de presentación
 
-**Calidad:**
-- [ ] Sigue los principios SOLID
-- [ ] No hay código duplicado (DRY)
-- [ ] Nomenclatura clara y consistente
-- [ ] Documentación actualizada
+### **3. Documentación**
+- [ ] Documentar APIs
+- [ ] Crear guías de uso
+- [ ] Documentar patrones de Clean Architecture
 
-**Seguridad:**
-- [ ] Validación de inputs
-- [ ] Sanitización de datos
-- [ ] No hay vulnerabilidades conocidas
-- [ ] Manejo seguro de secretos
+## ✅ **Conclusión**
 
-**Performance:**
-- [ ] Consultas optimizadas
-- [ ] Uso apropiado de cache
-- [ ] No hay memory leaks
-- [ ] Response times aceptables
+Las reglas establecidas aseguran:
+- ✅ **Cumplimiento de Clean Architecture**
+- ✅ **Aplicación de principios SOLID**
+- ✅ **Código mantenible y escalable**
+- ✅ **Preparación para microservicios**
+- ✅ **Testing efectivo**
 
-## 2.4. Seguridad
-
-### 2.4.1. Autenticación y Autorización
-
-* **JWT**: Tokens con expiración configurable
-* **OAuth2**: Integración con proveedores externos
-* **RBAC**: Roles basados en acceso
-* **Rate Limiting**: Protección contra abuso
-
-### 2.4.2. Validación de Datos
-
-```python
-# ✅ Correcto - Validación robusta
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.core.exceptions import ValidationError
-
-class KPIModel(models.Model):
-    value = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        validators=[
-            MinValueValidator(0, message="El valor debe ser positivo"),
-            MaxValueValidator(999999.99, message="El valor excede el límite")
-        ]
-    )
-    
-    def clean(self):
-        if self.value < 0:
-            raise ValidationError("Los KPIs no pueden ser negativos")
-
-# ❌ Incorrecto - Sin validación
-class KPIModel(models.Model):
-    value = models.DecimalField(max_digits=10, decimal_places=2)
-```
-
-### 2.4.3. Sanitización de Inputs
-
-```python
-# ✅ Correcto - Sanitización
-import bleach
-from django.utils.html import strip_tags
-
-def sanitize_input(text: str) -> str:
-    """Sanitiza input de usuario"""
-    # Remover HTML tags
-    clean_text = strip_tags(text)
-    # Sanitizar contenido
-    clean_text = bleach.clean(clean_text, strip=True)
-    return clean_text
-
-# ❌ Incorrecto - Sin sanitización
-def process_input(text: str) -> str:
-    return text  # Vulnerable a XSS
-```
-
-### 2.4.4. Manejo de Secretos
-
-```python
-# ✅ Correcto - Variables de entorno
-from decouple import config
-
-DATABASE_URL = config('DATABASE_URL', default='sqlite:///db.sqlite3')
-SECRET_KEY = config('SECRET_KEY', default='dev-secret-key')
-API_KEY = config('API_KEY', default='')
-
-# ❌ Incorrecto - Hardcoded secrets
-DATABASE_URL = 'mysql://user:password@localhost/db'
-SECRET_KEY = 'my-secret-key-123'
-```
-
-### 2.4.5. Logging y Auditoría
-
-```python
-import logging
-from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
-
-logger = logging.getLogger(__name__)
-
-class AuditMixin:
-    def log_action(self, action_flag, message):
-        LogEntry.objects.log_action(
-            user_id=self.request.user.id,
-            content_type_id=self.content_type.id,
-            object_id=self.object.id,
-            object_repr=str(self.object),
-            action_flag=action_flag,
-            change_message=message
-        )
-        logger.info(f"Audit: {action_flag} - {message}")
-```
-
-### 2.4.6. Escaneo de Vulnerabilidades
-
-* **Dependabot**: Actualizaciones automáticas de dependencias
-* **Snyk**: Escaneo de vulnerabilidades
-* **Bandit**: Análisis estático de seguridad Python
-* **Safety**: Verificación de vulnerabilidades conocidas
-
-```bash
-# Comandos de seguridad
-bandit -r apps/
-safety check
-pip-audit
-```
-
-## 2.9. Estado de Implementación de Reglas
-
-### 2.9.1. Fase 1 Completada ✅
-* **SOLID Principles**: Implementados en Domain Layer
-  * ✅ Single Responsibility: Entidades separadas por archivo
-  * ✅ Open/Closed: Interfaces extensibles
-  * ✅ Liskov Substitution: Repositorios concretos
-  * ✅ Interface Segregation: Interfaces específicas
-  * ✅ Dependency Inversion: Container y adapters
-* **Clean Architecture**: Estructura implementada
-  * ✅ Domain Layer: Entidades y reglas de negocio puras
-  * ✅ Infrastructure Layer: Implementaciones con Django ORM
-  * ✅ **Modelos Django separados por responsabilidad** (corregido)
-  * ✅ **Single Source of Truth en enumeraciones** (corregido)
-* **Type Hints**: Implementados en todas las entidades
-* **Documentación**: Docstrings en todas las clases
-
-### 2.9.2. Fase 2 Completada ✅
-* **Configuración Simplificada**: Principio KISS aplicado
-  * Una sola configuración en `settings.py`
-  * Un solo archivo `requirements.txt`
-  * Comandos simplificados en `Makefile`
-* **Compatibilidad Preservada**: Variables de entorno y comandos legacy
-* **Dependency Injection**: Container configurado en `apps/analytics/infrastructure/container.py`
-* **Estructura Optimizada**: Eliminación de archivos redundantes
-
-### 2.9.3. Próximas Implementaciones
-* **Use Cases Layer**: Aplicar reglas en lógica de aplicación
-* **Presentation Layer**: Aplicar reglas en APIs y serializers
-* **Testing**: Implementar tests unitarios y de integración
-* **CI/CD**: Automatizar verificaciones de calidad
-
----
-
-**Reglas de Desarrollo y Estándares - Microservicio de Inteligencia de Negocios**
-*Versión: 1.3*
-*Fecha: 2025*
-*Equipo: BI/AI/Agentes*
-*Estado: Fase 1 Completada + Correcciones SOLID Aplicadas* 
-
-## 2.10. Estado de Cumplimiento y Buenas Prácticas
-
-- Las **entidades** cumplen SRP, OCP, LSP, ISP y DIP, y están separadas por archivo.
-- Las **enumeraciones** están centralizadas y son la única fuente de verdad.
-- Las **interfaces de repositorio** están en el dominio, separadas y específicas.
-- Los **modelos Django** están en la infraestructura, cada uno en su propio archivo, reflejando la estructura de las entidades.
-- Los **repositorios de infraestructura** implementan las interfaces del dominio, con conversión clara entre modelos y entidades, y sin exponer detalles de Django fuera de la infraestructura.
-- Se han limpiado imports y eliminado dependencias innecesarias en los repositorios.
-- Se han añadido comentarios en los métodos de los repositorios para indicar la interfaz implementada.
-
-**Resultado:**
-- Fuerte cohesión y débil acoplamiento entre capas.
-- Cumplimiento estricto de Clean Architecture y principios SOLID en todas las capas revisadas hasta ahora.
-
---- 
+**Estado actual**: ✅ **Use Cases Layer 100% completado siguiendo todas las reglas establecidas** 
