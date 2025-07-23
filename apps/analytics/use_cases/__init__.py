@@ -60,6 +60,17 @@ from .reporte.generar_reporte_sostenibilidad_use_case import (
     GenerarReporteSostenibilidadUseCase,
 )
 
+# Use Cases de Data Generation
+from .data_generation.generar_datos_mockaroo_use_case import (
+    GenerarDatosMockarooUseCase,
+)
+from .data_generation.generar_descripcion_marca_use_case import (
+    GenerarDescripcionMarcaUseCase,
+)
+from .data_generation.generar_prompt_logo_use_case import (
+    GenerarPromptLogoUseCase,
+)
+
 __all__ = [
     # Marca Use Cases
     "CrearMarcaUseCase",
@@ -99,4 +110,8 @@ __all__ = [
     "GenerarReporteImpactoEconomicoUseCase",
     "GenerarReporteInnovacionTecnologicaUseCase",
     "GenerarReporteSostenibilidadUseCase",
+    # Data Generation Use Cases
+    "GenerarDatosMockarooUseCase",
+    "GenerarDescripcionMarcaUseCase",
+    "GenerarPromptLogoUseCase",
 ]
