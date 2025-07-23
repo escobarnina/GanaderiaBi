@@ -394,17 +394,28 @@ tests/
 - ✅ Implementar serializers específicos
 - ✅ Configurar URLs organizadas por dominio
 
-### **2. Testing Completo**
+### **✅ 2. Legacy Migration Completada**
+- ✅ Admin de Django migrado a nueva arquitectura
+- ✅ Comandos de gestión migrados
+- ✅ Script de migración de datos creado
+- ✅ Makefile actualizado con comandos de migración
+
+### **3. Testing Completo**
 - [ ] Tests unitarios para cada use case
 - [ ] Tests de integración
 - [ ] Tests de presentación
 
-### **3. Preparar Microservicios**
+### **4. Eliminación del Legacy**
+- [ ] Ejecutar migración de datos: `make migrate-legacy`
+- [ ] Verificar funcionamiento completo
+- [ ] Eliminar app legacy: `make clean-legacy`
+
+### **5. Preparar Microservicios**
 - [ ] Identificar dominios para microservicios
 - [ ] Definir APIs entre microservicios
 - [ ] Configurar comunicación entre servicios
 
-### **4. Documentación**
+### **6. Documentación**
 - [ ] Documentar APIs
 - [ ] Crear guías de uso
 - [ ] Documentar patrones de Clean Architecture

@@ -32,9 +32,16 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
-    "business_intelligence",  # App legacy - mantener por compatibilidad
+    "business_intelligence",  # App legacy - mantener por compatibilidad temporal
     "apps.analytics",  # ✅ Nueva app con Clean Architecture - IMPLEMENTADA
 ]
+
+# Configuración del sitio administrativo
+ADMIN_SITE_HEADER = (
+    "🐄 Administración - Sistema de Marcas Ganaderas Bovinas (Clean Architecture)"
+)
+ADMIN_SITE_TITLE = "Ganado Bovino Admin"
+ADMIN_INDEX_TITLE = "Panel de Control - Inteligencia de Negocios Ganadera"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

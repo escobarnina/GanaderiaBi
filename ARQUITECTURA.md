@@ -668,15 +668,28 @@ urlpatterns = [
 - ✅ Inyección de dependencias por dominio configurada
 - ✅ Estructura optimizada sin duplicación
 
-### **3. Preparar Microservicios**
-- [ ] Identificar dominios para microservicios
-- [ ] Definir APIs entre microservicios
-- [ ] Configurar comunicación entre servicios
+### **✅ 3. Legacy Migration - Completado**
+- ✅ Admin de Django migrado a nueva arquitectura (`apps/analytics/infrastructure/admin.py`)
+- ✅ Comandos de gestión migrados (`apps/analytics/management/commands/generar_datos_analytics.py`)
+- ✅ Script de migración de datos creado (`scripts/migrar_legacy_a_clean_architecture.py`)
+- ✅ Makefile actualizado con comandos de migración
+- ✅ Configuración de Django actualizada
 
 ### **4. Testing y Documentación**
 - [ ] Implementar tests unitarios para cada use case
 - [ ] Crear tests de integración
 - [ ] Documentar APIs y patrones
+
+### **5. Eliminación del Legacy**
+- [ ] Ejecutar migración de datos: `make migrate-legacy`
+- [ ] Verificar funcionamiento completo
+- [ ] Eliminar app legacy: `make clean-legacy`
+- [ ] Actualizar configuración de Django
+
+### **6. Preparar Microservicios**
+- [ ] Identificar dominios para microservicios
+- [ ] Definir APIs entre microservicios
+- [ ] Configurar comunicación entre servicios
 
 ## 📈 **Métricas de Calidad**
 

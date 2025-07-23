@@ -20,6 +20,9 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Importar configuración del admin para Clean Architecture
+import admin_config
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     # URLs de la nueva arquitectura Clean Architecture
