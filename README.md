@@ -84,10 +84,13 @@ apps/analytics/
   - `EstadoHistorial`: Estados del historial
 
 ### **✅ Capa de Aplicación - 100% Completado**
-- **32 use cases** implementados en estructura modular
+- **35 use cases** implementados en estructura modular
 - **Separación de responsabilidades**: Una responsabilidad por use case
 - **Principios SOLID**: Cumplidos al 100%
 - **Testabilidad**: Cada use case se puede testear independientemente
+- **Nuevos dominios agregados**:
+  - **Data Generation**: 3 use cases para generación de datos
+  - **Analytics**: 1 use case para análisis de tendencias
 
 ### **✅ Capa de Infraestructura - 100% Completado**
 - **Modelos**: Todos los modelos de Django ORM implementados
@@ -247,6 +250,20 @@ apps/analytics/use_cases/reporte/
 ├── generar_reporte_impacto_economico_use_case.py
 ├── generar_reporte_innovacion_tecnologica_use_case.py
 └── generar_reporte_sostenibilidad_use_case.py
+```
+
+### **🔧 Dominio de Data Generation (3 use cases)**
+```
+apps/analytics/use_cases/data_generation/
+├── generar_datos_mockaroo_use_case.py
+├── generar_descripcion_marca_use_case.py
+└── generar_prompt_logo_use_case.py
+```
+
+### **📈 Dominio de Analytics (1 use case)**
+```
+apps/analytics/use_cases/analytics/
+└── calcular_tendencias_departamento_use_case.py
 ```
 
 ## 🛠️ **Tecnologías Utilizadas**

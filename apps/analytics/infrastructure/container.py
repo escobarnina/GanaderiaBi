@@ -42,10 +42,6 @@ def get_reporte_repository():
     return get_container().get_reporte_repository()
 
 
-def get_legacy_service_adapter():
-    return get_container().get_legacy_service_adapter()
-
-
 # Funciones para use cases de marca
 def get_crear_marca_use_case():
     return get_container().get_crear_marca_use_case()
@@ -182,3 +178,21 @@ def get_generar_reporte_innovacion_tecnologica_use_case():
 
 def get_generar_reporte_sostenibilidad_use_case():
     return get_container().get_generar_reporte_sostenibilidad_use_case()
+
+
+# Funciones para use cases de data generation
+def get_generar_datos_mockaroo_use_case():
+    return get_container().get_generar_datos_mockaroo_use_case()
+
+
+def get_generar_descripcion_marca_use_case():
+    return get_container().get_generar_descripcion_marca_use_case()
+
+
+def get_generar_prompt_logo_use_case():
+    return get_container().get_generar_prompt_logo_use_case()
+
+
+# Funciones para use cases de analytics
+def get_calcular_tendencias_departamento_use_case():
+    return get_container().get_calcular_tendencias_departamento_use_case()

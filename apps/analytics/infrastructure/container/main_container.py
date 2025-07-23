@@ -145,3 +145,17 @@ class MainContainer:
 
     def get_generar_reporte_sostenibilidad_use_case(self):
         return self.use_cases_container.get_generar_reporte_sostenibilidad_use_case()
+
+    # Métodos para use cases de data generation
+    def get_generar_datos_mockaroo_use_case(self):
+        return self.use_cases_container.get_generar_datos_mockaroo_use_case()
+
+    def get_generar_descripcion_marca_use_case(self):
+        return self.use_cases_container.get_generar_descripcion_marca_use_case()
+
+    def get_generar_prompt_logo_use_case(self):
+        return self.use_cases_container.get_generar_prompt_logo_use_case()
+
+    # Métodos para use cases de analytics
+    def get_calcular_tendencias_departamento_use_case(self):
+        return self.use_cases_container.get_calcular_tendencias_departamento_use_case()

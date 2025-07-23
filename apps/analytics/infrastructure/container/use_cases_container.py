@@ -39,6 +39,11 @@ from apps.analytics.use_cases.data_generation.generar_descripcion_marca_use_case
     GenerarDescripcionMarcaUseCase,
 )
 
+# Importar use cases de analytics
+from apps.analytics.use_cases.analytics.calcular_tendencias_departamento_use_case import (
+    CalcularTendenciasDepartamentoUseCase,
+)
+
 # Importar use cases de KPI
 from apps.analytics.use_cases.kpi.calcular_kpis_use_case import CalcularKPIsUseCase
 from apps.analytics.use_cases.kpi.obtener_kpis_use_case import ObtenerKPIsUseCase
@@ -232,6 +237,27 @@ class UseCasesContainer:
             }
         )
 
+        # Configurar use cases de data generation
+        self._use_cases.update(
+            {
+                "generar_datos_mockaroo_use_case": GenerarDatosMockarooUseCase(
+                    marca_repo
+                ),
+                "generar_descripcion_marca_use_case": GenerarDescripcionMarcaUseCase(
+                    marca_repo
+                ),
+            }
+        )
+
+        # Configurar use cases de analytics
+        self._use_cases.update(
+            {
+                "calcular_tendencias_departamento_use_case": CalcularTendenciasDepartamentoUseCase(
+                    marca_repo, kpi_repo
+                ),
+            }
+        )
+
     def get_crear_marca_use_case(self) -> CrearMarcaUseCase:
         """Obtiene el use case para crear marcas"""
         return self._use_cases["crear_marca_use_case"]
@@ -381,6 +407,20 @@ class UseCasesContainer:
     ) -> GenerarReporteSostenibilidadUseCase:
         """Obtiene el use case para generar reporte de sostenibilidad"""
         return self._use_cases["generar_reporte_sostenibilidad_use_case"]
+
+    def get_generar_datos_mockaroo_use_case(self) -> GenerarDatosMockarooUseCase:
+        """Obtiene el use case para generar datos con Mockaroo"""
+        return self._use_cases["generar_datos_mockaroo_use_case"]
+
+    def get_generar_descripcion_marca_use_case(self) -> GenerarDescripcionMarcaUseCase:
+        """Obtiene el use case para generar descripción de marca"""
+        return self._use_cases["generar_descripcion_marca_use_case"]
+
+    def get_calcular_tendencias_departamento_use_case(
+        self,
+    ) -> CalcularTendenciasDepartamentoUseCase:
+        """Obtiene el use case para calcular tendencias por departamento"""
+        return self._use_cases["calcular_tendencias_departamento_use_case"]
 
     def get_all_use_cases(self) -> Dict[str, Any]:
         """Obtiene todos los use cases"""
