@@ -28,6 +28,44 @@ from drf_spectacular.views import (
 # Importar configuración del admin para Clean Architecture
 import admin_config
 
+
+# Registrar las apps del admin manualmente para evitar el error NoReverseMatch
+def register_admin_apps():
+    """Registrar las apps del admin manualmente."""
+    try:
+        from apps.analytics.presentation.admin import (
+            MarcaGanadoBovinoAdmin,
+            LogoMarcaBovinaAdmin,
+            KPIGanadoBovinoAdmin,
+            HistorialEstadoMarcaAdmin,
+            DashboardDataAdmin,
+            ReporteDataAdmin,
+        )
+
+        from apps.analytics.infrastructure.models import (
+            MarcaGanadoBovinoModel,
+            LogoMarcaBovinaModel,
+            KPIGanadoBovinoModel,
+            HistorialEstadoMarcaModel,
+            DashboardDataModel,
+            ReporteDataModel,
+        )
+
+        # Registrar los modelos en el admin
+        admin.site.register(MarcaGanadoBovinoModel, MarcaGanadoBovinoAdmin)
+        admin.site.register(LogoMarcaBovinaModel, LogoMarcaBovinaAdmin)
+        admin.site.register(KPIGanadoBovinoModel, KPIGanadoBovinoAdmin)
+        admin.site.register(HistorialEstadoMarcaModel, HistorialEstadoMarcaAdmin)
+        admin.site.register(DashboardDataModel, DashboardDataAdmin)
+        admin.site.register(ReporteDataModel, ReporteDataAdmin)
+
+    except Exception as e:
+        print(f"Error registrando apps del admin: {e}")
+
+
+# Registrar las apps del admin
+register_admin_apps()
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     # URLs de la nueva arquitectura Clean Architecture
@@ -44,5 +82,7 @@ urlpatterns = [
 
 # Configuración de archivos estáticos y media para desarrollo
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+    urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

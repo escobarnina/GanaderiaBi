@@ -12,6 +12,12 @@ from decouple import config
 # Configurar PyMySQL para que funcione como mysqlclient
 pymysql.install_as_MySQLdb()
 
+# Importar configuración de compatibilidad para MariaDB 10.4
+try:
+    import db_compatibility
+except ImportError:
+    pass
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -74,19 +80,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "wsgi.application"
 
-# Database con PyMySQL
+# Database con PyMySQL (compatible con MariaDB 10.4)
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "ganaderia_bi",
-        "USER": "root",  # Temporalmente usando root
-        "PASSWORD": "",
+        "USER": "bi_user",
+        "PASSWORD": "password",
         "HOST": "localhost",
         "PORT": "3306",
         "OPTIONS": {
             "sql_mode": "traditional",
             "charset": "utf8mb4",
             "use_unicode": True,
+            "init_command": "SET sql_mode='traditional'",
+            "autocommit": True,
         },
         "TEST": {
             "CHARSET": "utf8mb4",

@@ -1,0 +1,595 @@
+/* ============================================================================
+   ESTILOS ESPECÍFICOS PARA ANALYTICS ADMIN
+   Sistema de Inteligencia de Negocios Ganadero
+   ============================================================================ */
+
+/* Importar estilos base unificados */
+@import url('base_admin.css');
+
+/* Contenedor principal de analytics */
+.analytics-admin {
+  font-family: var(--font-family);
+}
+
+/* Estilos para estados con colores */
+.estado-pendiente {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.estado-proceso {
+  color: #17a2b8;
+  font-weight: bold;
+}
+
+.estado-aprobado {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.estado-rechazado {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Estilos para métricas */
+.metrica-alta {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.metrica-media {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.metrica-baja {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Estilos para el dashboard */
+.dashboard-card {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.dashboard-metric {
+  display: inline-block;
+  margin: 5px 10px;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 4px;
+  border-left: 4px solid #007bff;
+}
+
+/* Estilos para alertas */
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  border-color: #ffeaa7;
+  color: #856404;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dashboard-metric {
+    display: block;
+    margin: 5px 0;
+  }
+}
+
+/* Estilos para tablas */
+.analytics-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.analytics-table th,
+.analytics-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.analytics-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+/* Estilos para botones de acción */
+.btn-analytics {
+  display: inline-block;
+  padding: 6px 12px;
+  margin: 2px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.btn-analytics:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.btn-success {
+  background-color: #28a745;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Estilos adicionales para analytics */
+
+/* Filtros avanzados */
+.filtros-avanzados {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filtros-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.filtros-header h3 {
+  margin: 0;
+  color: #343a40;
+  font-size: 18px;
+}
+
+.btn-toggle-filtros {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.filtros-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.filtro-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.filtro-item label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #495057;
+}
+
+.filtro-item input,
+.filtro-item select {
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.filtro-item input:focus,
+.filtro-item select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+/* Contadores en tiempo real */
+.contador-tiempo-real {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.contador-valor {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.contador-etiqueta {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Gráficos */
+.chart-container {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container h3 {
+  margin: 0 0 15px 0;
+  color: #343a40;
+  font-size: 16px;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+/* Notificaciones */
+.notificacion {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  padding: 15px 20px;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease-out;
+}
+
+.notificacion.success {
+  background-color: #28a745;
+}
+
+.notificacion.error {
+  background-color: #dc3545;
+}
+
+.notificacion.warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.notificacion.info {
+  background-color: #17a2b8;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Búsqueda en tiempo real */
+.busqueda-tiempo-real {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.busqueda-tiempo-real input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.busqueda-tiempo-real input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none;
+}
+
+.busqueda-tiempo-real::before {
+  content: "🔍";
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #6c757d;
+}
+
+.busqueda-tiempo-real input {
+  padding-left: 45px;
+}
+
+/* Ordenamiento de tablas */
+.tabla-ordenable th {
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.tabla-ordenable th:hover {
+  background-color: #e9ecef;
+}
+
+.tabla-ordenable th::after {
+  content: "↕";
+  position: absolute;
+  right: 10px;
+  color: #6c757d;
+  font-size: 12px;
+}
+
+.tabla-ordenable th.ordenado-asc::after {
+  content: "↑";
+  color: #007bff;
+}
+
+.tabla-ordenable th.ordenado-desc::after {
+  content: "↓";
+  color: #007bff;
+}
+
+/* Acciones masivas */
+.acciones-masivas {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.acciones-masivas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.elementos-seleccionados {
+  font-weight: 600;
+  color: #495057;
+}
+
+.acciones-botones {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-accion-masiva {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-accion-masiva.primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-accion-masiva.success {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-accion-masiva.danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-accion-masiva:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Exportación */
+.exportacion-opciones {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.btn-exportar {
+  padding: 8px 16px;
+  border: 1px solid #dee2e6;
+  background: white;
+  color: #495057;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-exportar:hover {
+  background-color: #f8f9fa;
+  border-color: #007bff;
+  color: #007bff;
+}
+
+/* Validación de formularios */
+.campo-invalido {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25) !important;
+}
+
+.campo-valido {
+  border-color: #28a745 !important;
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25) !important;
+}
+
+.mensaje-error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.mensaje-exito {
+  color: #28a745;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Estados de carga */
+.cargando {
+  position: relative;
+  overflow: hidden;
+}
+
+.cargando::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Tooltips personalizados */
+.tooltip-analytics {
+  position: relative;
+  cursor: help;
+}
+
+.tooltip-analytics:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #343a40;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive design mejorado */
+@media (max-width: 768px) {
+  .filtros-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .acciones-botones {
+    flex-direction: column;
+  }
+  
+  .exportacion-opciones {
+    flex-wrap: wrap;
+  }
+  
+  .contador-valor {
+    font-size: 24px;
+  }
+  
+  .chart-container {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-metric {
+    margin: 5px 0;
+    text-align: center;
+  }
+  
+  .filtros-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  .acciones-masivas-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Modo oscuro para analytics */
+@media (prefers-color-scheme: dark) {
+  .analytics-admin {
+    background-color: #2d3748;
+    color: #f8f9fa;
+  }
+  
+  .dashboard-card,
+  .chart-container,
+  .filtros-avanzados {
+    background-color: #4a5568;
+    border-color: #718096;
+    color: #f8f9fa;
+  }
+  
+  .analytics-table th {
+    background-color: #4a5568;
+    color: #f8f9fa;
+  }
+  
+  .analytics-table td {
+    border-bottom-color: #718096;
+  }
+  
+  .filtro-item input,
+  .filtro-item select {
+    background-color: #4a5568;
+    border-color: #718096;
+    color: #f8f9fa;
+  }
+  
+  .busqueda-tiempo-real input {
+    background-color: #4a5568;
+    border-color: #718096;
+    color: #f8f9fa;
+  }
+} 

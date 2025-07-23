@@ -10,10 +10,10 @@ djangorestframework>=3.14.0
 django-cors-headers>=3.13.0
 python-decouple>=3.8
 
-# Base de datos (MySQL)
-PyMySQL>=1.0.0
+# Base de datos (MySQL/MariaDB)
+PyMySQL>=1.1.0
 cryptography>=41.0.0
-mysql-connector-python>=8.0.0
+mysqlclient>=2.1.0
 
 # ✅ Clean Architecture (IMPLEMENTADO)
 dependency-injector>=4.40.0
@@ -35,6 +35,21 @@ requests>=2.31.0
 # Generación de reportes
 xlsxwriter>=3.1.0
 openpyxl>=3.1.0
+reportlab>=4.0.0
+
+# Visualización de datos
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Procesamiento de imágenes
+Pillow>=10.0.0
+
+# Base de datos PostgreSQL (opcional)
+psycopg2-binary>=2.9.0
+
+# Herramientas de desarrollo
+django-debug-toolbar>=4.0.0
+django-celery-beat>=2.5.0
 
 # ============================================================================
 # DEPENDENCIAS DE DESARROLLO Y TESTING

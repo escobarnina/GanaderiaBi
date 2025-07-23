@@ -1,0 +1,94 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Ganadería BI Admin') }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; {{ title }}
+</div>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    .dashboard-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .stat-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    .admin-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        margin: -1rem -1rem 2rem -1rem;
+        border-radius: 0 0 10px 10px;
+    }
+    
+    .admin-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .admin-subtitle {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <h1 class="admin-title">🐄 Panel de Control Ganadero</h1>
+    <p class="admin-subtitle">Sistema de Inteligencia de Negocios para la Gestión de Ganado Bovino</p>
+</div>
+
+<div class="dashboard-stats">
+    <div class="stat-card">
+        <div class="stat-number">{{ app_list|length }}</div>
+        <div class="stat-label">Módulos Activos</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Modelos Registrados</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">Clean Architecture</div>
+        <div class="stat-label">Arquitectura Implementada</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">Microservicios</div>
+        <div class="stat-label">Preparado para Escalabilidad</div>
+    </div>
+</div>
+
+{{ block.super }}
+{% endblock %} 

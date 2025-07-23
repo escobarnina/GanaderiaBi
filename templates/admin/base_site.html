@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Ganadería BI Admin') }}{% endblock %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom_admin.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block extrahead %}
+<script src="{% static 'admin/js/custom_admin.js' %}"></script>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        🐄 {{ site_header|default:_('Sistema de Inteligencia de Negocios Ganadero') }}
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %} 
