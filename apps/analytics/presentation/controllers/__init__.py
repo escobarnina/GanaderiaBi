@@ -42,7 +42,16 @@ from .kpi import (
     comparativa_trimestral,
     analisis_estacional,
 )
-from .dashboard_controller import DashboardController
+
+from .dashboard import (
+    kpis_principales,
+    metricas_tiempo_real,
+    tendencias_mensuales,
+    analisis_tendencias,
+    resumen_ejecutivo,
+    generar_reporte_ejecutivo,
+    metricas_eficiencia_regional,
+)
 from .historial_controller import HistorialController
 from .reporte_controller import ReporteController
 
@@ -81,8 +90,15 @@ __all__ = [
     "kpis_actuales",
     "comparativa_trimestral",
     "analisis_estacional",
+    # Dashboard Controllers
+    "kpis_principales",
+    "metricas_tiempo_real",
+    "tendencias_mensuales",
+    "analisis_tendencias",
+    "resumen_ejecutivo",
+    "generar_reporte_ejecutivo",
+    "metricas_eficiencia_regional",
     # Otros Controllers (pendientes)
-    "DashboardController",
     "HistorialController",
     "ReporteController",
 ]
