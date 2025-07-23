@@ -33,7 +33,15 @@ from .logo import (
     generar_logos_masivo,
 )
 
-from .kpi_controller import KPIController
+from .kpi import (
+    listar_kpis,
+    obtener_kpi,
+    calcular_kpis,
+    ultimos_12_meses,
+    kpis_actuales,
+    comparativa_trimestral,
+    analisis_estacional,
+)
 from .dashboard_controller import DashboardController
 from .historial_controller import HistorialController
 from .reporte_controller import ReporteController
@@ -65,8 +73,15 @@ __all__ = [
     "analisis_prompts",
     "regenerar_logo",
     "generar_logos_masivo",
+    # KPI Controllers
+    "listar_kpis",
+    "obtener_kpi",
+    "calcular_kpis",
+    "ultimos_12_meses",
+    "kpis_actuales",
+    "comparativa_trimestral",
+    "analisis_estacional",
     # Otros Controllers (pendientes)
-    "KPIController",
     "DashboardController",
     "HistorialController",
     "ReporteController",
