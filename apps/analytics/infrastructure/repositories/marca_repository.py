@@ -205,3 +205,99 @@ class DjangoMarcaRepository(MarcaGanadoBovinoRepository):
         )
         model.save()
         return self._to_historial_entity(model)
+
+    # Métodos adicionales requeridos por la interfaz
+    def get_by_id(self, marca_id: int) -> Optional[MarcaGanadoBovino]:
+        """Alias para obtener_por_id"""
+        return self.obtener_por_id(marca_id)
+
+    def get_by_numero_marca(self, numero_marca: str) -> Optional[MarcaGanadoBovino]:
+        """Alias para obtener_por_numero"""
+        return self.obtener_por_numero(numero_marca)
+
+    def list_all(self, limit: int = 100, offset: int = 0) -> List[MarcaGanadoBovino]:
+        """Alias para listar_todas"""
+        return self.listar_todas(limit, offset)
+
+    def list_by_estado(self, estado: EstadoMarca) -> List[MarcaGanadoBovino]:
+        """Alias para listar_por_estado"""
+        return self.listar_por_estado(estado)
+
+    def list_by_departamento(
+        self, departamento: Departamento
+    ) -> List[MarcaGanadoBovino]:
+        """Alias para listar_por_departamento"""
+        return self.listar_por_departamento(departamento)
+
+    def list_by_raza(self, raza: RazaBovino) -> List[MarcaGanadoBovino]:
+        """Lista marcas por raza bovina"""
+        models = MarcaGanadoBovinoModel.objects.filter(raza_bovino=raza.value)
+        return [self._to_entity(model) for model in models]
+
+    def list_by_proposito(self, proposito: PropositoGanado) -> List[MarcaGanadoBovino]:
+        """Lista marcas por propósito ganadero"""
+        models = MarcaGanadoBovinoModel.objects.filter(proposito_ganado=proposito.value)
+        return [self._to_entity(model) for model in models]
+
+    def list_pendientes(self) -> List[MarcaGanadoBovino]:
+        """Lista marcas pendientes de procesamiento"""
+        models = MarcaGanadoBovinoModel.objects.filter(
+            estado=EstadoMarca.PENDIENTE.value
+        )
+        return [self._to_entity(model) for model in models]
+
+    def list_por_procesar(self) -> List[MarcaGanadoBovino]:
+        """Lista marcas que están en proceso"""
+        models = MarcaGanadoBovinoModel.objects.filter(
+            estado=EstadoMarca.EN_PROCESO.value
+        )
+        return [self._to_entity(model) for model in models]
+
+    def list_procesadas_hoy(self) -> List[MarcaGanadoBovino]:
+        """Lista marcas procesadas hoy"""
+        from datetime import datetime, date
+
+        today = date.today()
+        models = MarcaGanadoBovinoModel.objects.filter(fecha_procesamiento__date=today)
+        return [self._to_entity(model) for model in models]
+
+    def count_by_estado(self, estado: EstadoMarca) -> int:
+        """Cuenta marcas por estado"""
+        return MarcaGanadoBovinoModel.objects.filter(estado=estado.value).count()
+
+    def count_by_departamento(self, departamento: Departamento) -> int:
+        """Cuenta marcas por departamento"""
+        return MarcaGanadoBovinoModel.objects.filter(
+            departamento=departamento.value
+        ).count()
+
+    def save(self, marca: MarcaGanadoBovino) -> MarcaGanadoBovino:
+        """Alias para actualizar"""
+        return self.actualizar(marca)
+
+    def get_estadisticas_por_raza(self) -> Dict[str, Any]:
+        """Obtiene estadísticas agrupadas por raza"""
+        from django.db.models import Count
+
+        stats = MarcaGanadoBovinoModel.objects.values("raza_bovino").annotate(
+            total=Count("id")
+        )
+        return {stat["raza_bovino"]: stat["total"] for stat in stats}
+
+    def get_estadisticas_por_departamento(self) -> Dict[str, Any]:
+        """Obtiene estadísticas agrupadas por departamento"""
+        from django.db.models import Count
+
+        stats = MarcaGanadoBovinoModel.objects.values("departamento").annotate(
+            total=Count("id")
+        )
+        return {stat["departamento"]: stat["total"] for stat in stats}
+
+    def get_estadisticas_por_proposito(self) -> Dict[str, Any]:
+        """Obtiene estadísticas agrupadas por propósito"""
+        from django.db.models import Count
+
+        stats = MarcaGanadoBovinoModel.objects.values("proposito_ganado").annotate(
+            total=Count("id")
+        )
+        return {stat["proposito_ganado"]: stat["total"] for stat in stats}

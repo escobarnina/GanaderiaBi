@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from typing import Dict, Any
 
-from apps.analytics.presentation.serializers.logo_serializers import (
+from apps.analytics.presentation.serializers.estadisticas_serializers import (
     RendimientoModelosIASerializer,
 )
 from apps.analytics.infrastructure.container.main_container import Container
