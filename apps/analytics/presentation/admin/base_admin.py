@@ -287,9 +287,18 @@ class BaseAnalyticsAdmin(admin.ModelAdmin):
         """Optimizar queryset base"""
         qs = super().get_queryset(request)
 
-        # Agregar select_related común si existe
-        if hasattr(self.model, "created_by"):
-            qs = qs.select_related("created_by")
+        # Agregar select_related solo para campos relacionales válidos
+        select_related_fields = []
+
+        # Verificar campos relacionales comunes
+        for field_name in ["created_by", "updated_by", "user", "owner"]:
+            if hasattr(self.model, field_name):
+                field = self.model._meta.get_field(field_name)
+                if hasattr(field, "related_model") and field.related_model:
+                    select_related_fields.append(field_name)
+
+        if select_related_fields:
+            qs = qs.select_related(*select_related_fields)
 
         return qs
 

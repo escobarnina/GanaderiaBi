@@ -163,7 +163,6 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
     ]
 
     # Configuración de optimización
-    list_select_related = ["creado_por"]
     list_per_page = 20
 
     def get_urls(self):
@@ -316,6 +315,14 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
             tamaño_color = "#2196f3"
             tamaño_icon = "🏠"
 
+        # Obtener valores de display de forma segura
+        raza_display = getattr(
+            obj, "get_raza_bovino_display", lambda: obj.raza_bovino
+        )()
+        proposito_display = getattr(
+            obj, "get_proposito_ganado_display", lambda: obj.proposito_ganado
+        )()
+
         return format_html(
             '<div style="text-align: center; line-height: 1.3;">'
             '<div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 5px;">'
@@ -331,9 +338,9 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
             '<div style="font-size: 10px; color: {}; margin-top: 2px;">{} {}</div>'
             "</div>",
             raza_color,
-            obj.get_raza_bovino_display(),
+            raza_display,
             proposito_icon,
-            obj.get_proposito_ganado_display(),
+            proposito_display,
             tamaño_icon,
             tamaño_color,
             self.format_numero_con_separadores(obj.cantidad_cabezas),
@@ -1312,12 +1319,29 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
 
     def get_queryset(self, request):
         """Optimizar consultas con select_related y prefetch_related"""
-        return (
-            super()
-            .get_queryset(request)
-            .select_related("creado_por")
-            .prefetch_related("historial", "logos")
-        )
+        qs = super().get_queryset(request)
+
+        # Solo agregar select_related para campos relacionales válidos
+        select_related_fields = []
+        prefetch_related_fields = []
+
+        # Verificar campos relacionales
+        for field_name in ["marca", "historial", "logos"]:
+            if hasattr(self.model, field_name):
+                field = self.model._meta.get_field(field_name)
+                if hasattr(field, "related_model") and field.related_model:
+                    if field.many_to_many or field.one_to_many:
+                        prefetch_related_fields.append(field_name)
+                    else:
+                        select_related_fields.append(field_name)
+
+        if select_related_fields:
+            qs = qs.select_related(*select_related_fields)
+
+        if prefetch_related_fields:
+            qs = qs.prefetch_related(*prefetch_related_fields)
+
+        return qs
 
     class Media:
         css = {"all": ("admin/css/marca_admin.css",)}

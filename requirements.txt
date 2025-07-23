@@ -3,7 +3,7 @@
 # ============================================================================
 
 # Framework principal
-Django>=4.2.7
+Django>=5.2.0
 djangorestframework>=3.14.0
 
 # Configuración y CORS

@@ -5,18 +5,25 @@ Configuración única para desarrollo y testing.
 """
 
 import os
-import pymysql
 from pathlib import Path
-from decouple import config
 
-# Configurar PyMySQL para que funcione como mysqlclient
+# Configurar PyMySQL ANTES de cualquier importación de Django
+import pymysql
+
 pymysql.install_as_MySQLdb()
 
-# Importar configuración de compatibilidad para MariaDB 10.4
+# Configuración de compatibilidad con MariaDB 10.4
+import pymysql.cursors
+
+pymysql.cursors.DictCursor = pymysql.cursors.Cursor
+
+# Importar configuración de compatibilidad con MariaDB
 try:
     import db_compatibility
 except ImportError:
     pass
+
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -80,21 +87,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "wsgi.application"
 
-# Database con PyMySQL (compatible con MariaDB 10.4)
+# Database - MariaDB 10.5 para desarrollo con XAMPP
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "ganaderia_bi",
-        "USER": "bi_user",
-        "PASSWORD": "password",
+        "USER": "root",
+        "PASSWORD": "",  # Sin contraseña por defecto en XAMPP
         "HOST": "localhost",
         "PORT": "3306",
         "OPTIONS": {
-            "sql_mode": "traditional",
+            "sql_mode": "STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO",
             "charset": "utf8mb4",
             "use_unicode": True,
-            "init_command": "SET sql_mode='traditional'",
+            "init_command": "SET sql_mode='STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO'",
             "autocommit": True,
+            "isolation_level": "READ COMMITTED",
         },
         "TEST": {
             "CHARSET": "utf8mb4",
@@ -135,7 +143,7 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "static"] if (BASE_DIR / "static").exists() else []
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Media files
@@ -144,6 +152,13 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Configuración específica para MariaDB - Deshabilitar RETURNING
+DJANGO_DB_OPTIONS = {
+    "mysql": {
+        "supports_returning": False,
+    }
+}
 
 # Logging configuration
 LOGGING = {
