@@ -64,7 +64,20 @@ from .historial import (
     evaluador_detalle,
     comparativa_evaluadores,
 )
-from .reporte_controller import ReporteController
+
+from .reporte import (
+    reporte_ejecutivo_mensual,
+    reporte_anual,
+    reporte_comparativo_departamentos,
+    analisis_competitividad_departamental,
+    reporte_personalizado,
+    generar_reporte_personalizado_avanzado,
+    exportar_excel,
+    reporte_productor_individual,
+    reporte_impacto_economico,
+    reporte_innovacion_tecnologica,
+    reporte_sostenibilidad_sectorial,
+)
 
 __all__ = [
     # Marca Controllers
@@ -120,6 +133,16 @@ __all__ = [
     "eficiencia_evaluadores",
     "evaluador_detalle",
     "comparativa_evaluadores",
-    # Otros Controllers (pendientes)
-    "ReporteController",
+    # Reporte Controllers
+    "reporte_ejecutivo_mensual",
+    "reporte_anual",
+    "reporte_comparativo_departamentos",
+    "analisis_competitividad_departamental",
+    "reporte_personalizado",
+    "generar_reporte_personalizado_avanzado",
+    "exportar_excel",
+    "reporte_productor_individual",
+    "reporte_impacto_economico",
+    "reporte_innovacion_tecnologica",
+    "reporte_sostenibilidad_sectorial",
 ]

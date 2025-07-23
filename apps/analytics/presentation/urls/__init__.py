@@ -16,5 +16,5 @@ urlpatterns = [
     path("kpis/", include("apps.analytics.presentation.urls.kpi_urls")),
     path("dashboard/", include("apps.analytics.presentation.urls.dashboard_urls")),
     path("historial/", include("apps.analytics.presentation.urls.historial_urls")),
-    # path('reportes/', include('apps.analytics.presentation.urls.reporte_urls')),
+    path("reportes/", include("apps.analytics.presentation.urls.reporte_urls")),
 ]
