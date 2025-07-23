@@ -22,11 +22,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # URLs legacy del business_intelligence (mantener compatibilidad)
-    path("api/bi/v1/", include("business_intelligence.urls")),
     # URLs de la nueva arquitectura Clean Architecture
-    # TODO: Implementar cuando se complete la Fase 3 (Presentation Layer)
-    # path("api/bi/v2/", include("apps.analytics.presentation.routers")),
+    path("api/analytics/", include("apps.analytics.presentation.urls")),
+    # URLs legacy del business_intelligence (mantener compatibilidad temporal)
+    path("api/bi/v1/", include("business_intelligence.urls")),
 ]
 
 # Configuración de archivos estáticos y media para desarrollo

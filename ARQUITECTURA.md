@@ -38,7 +38,8 @@ apps/analytics/
 │   └── container.py         # Inyección de dependencias
 └── presentation/             # 🖥️ Capa de Presentación
     ├── serializers/         # Serializadores de API
-    └── views/               # Controladores de API
+    ├── controllers/         # Controladores de API
+    └── urls/               # Configuración de URLs
 ```
 
 ## 🎯 **Capa de Dominio (Domain Layer)**
@@ -573,7 +574,7 @@ class MarcaSerializer(serializers.Serializer):
 
 ### **Controladores (Controllers)**
 ```python
-# apps/analytics/presentation/controllers/marca_controller.py
+# apps/analytics/presentation/controllers/marca/crud_controller.py
 class MarcaController:
     """Controlador para operaciones de marcas"""
     
@@ -589,6 +590,21 @@ class MarcaController:
             marca = self.crear_marca_use_case.execute(data)
             return Response(MarcaSerializer(marca).data, status=201)
         return Response(serializer.errors, status=400)
+```
+
+### **URLs Organizadas por Dominio**
+```python
+# apps/analytics/presentation/urls/__init__.py
+urlpatterns = [
+    path("marcas/", include("apps.analytics.presentation.urls.marca_urls")),
+    path("logos/", include("apps.analytics.presentation.urls.logo_urls")),
+    path("kpis/", include("apps.analytics.presentation.urls.kpi_urls")),
+    path("dashboard/", include("apps.analytics.presentation.urls.dashboard_urls")),
+    path("historial/", include("apps.analytics.presentation.urls.historial_urls")),
+    path("reportes/", include("apps.analytics.presentation.urls.reporte_urls")),
+    path("estadisticas/", include("apps.analytics.presentation.urls.estadisticas_urls")),
+    path("data-generation/", include("apps.analytics.presentation.urls.data_generation_urls")),
+]
 ```
 
 ## 📊 **Estado de Implementación y Cumplimiento de Principios**
@@ -622,17 +638,31 @@ class MarcaController:
   - `dashboard_serializers.py`: Serializers para entidades de dashboard
   - `historial_serializers.py`: Serializers para entidades de historial
   - `reporte_serializers.py`: Serializers para entidades de reporte
-- **Controllers**: Por implementar
-- **APIs**: Por migrar desde ViewSets legacy
+  - `estadisticas_serializers.py`: Serializers para entidades de estadísticas
+  - `data_generation_serializers.py`: Serializers para generación de datos
+- **Controllers**: Todos los controllers implementados por dominio
+  - `marca/`: Controllers para operaciones de marcas (13 controllers)
+  - `logo/`: Controllers para operaciones de logos (11 controllers)
+  - `kpi/`: Controllers para operaciones de KPIs (7 controllers)
+  - `dashboard/`: Controllers para operaciones de dashboard (7 controllers)
+  - `historial/`: Controllers para operaciones de historial (10 controllers)
+  - `reporte/`: Controllers para operaciones de reportes (11 controllers)
+  - `estadisticas/`: Controllers para operaciones de estadísticas (9 controllers)
+  - `data_generation/`: Controllers para generación de datos (3 controllers)
+- **URLs**: Configuración completa de URLs organizadas por dominio
+  - URLs específicas para cada dominio
+  - Estructura modular y escalable
+  - Integración con el sistema de URLs principal
 
 ## 🚀 **Próximos Pasos para Microservicios**
 
-### **1. Completar Presentation Layer**
-- [ ] Implementar controllers para cada dominio
-- [ ] Migrar ViewSets legacy a controllers
-- ✅ **Serializers específicos implementados**
+### **✅ 1. Presentation Layer Completada**
+- ✅ Implementar controllers para cada dominio
+- ✅ Migrar ViewSets legacy a controllers
+- ✅ Implementar serializers específicos
+- ✅ Configurar URLs organizadas por dominio
 
-### **2. ✅ Container Reestructurado - Completado**
+### **✅ 2. Container Reestructurado - Completado**
 - ✅ Container movido a ubicación correcta (`infrastructure/container/`)
 - ✅ Separación de responsabilidades implementada
 - ✅ Inyección de dependencias por dominio configurada
@@ -658,6 +688,7 @@ class MarcaController:
 | **Escalabilidad** | ✅ Preparado | 100% |
 | **Independencia de Frameworks** | ✅ Completado | 100% |
 | **Preparación Microservicios** | ✅ Preparado | 100% |
+| **Presentation Layer** | ✅ Completado | 100% |
 
 ## ✅ **Conclusión**
 
@@ -668,4 +699,6 @@ La arquitectura implementada:
 - ✅ **Es escalable y mantenible**
 - ✅ **Permite testing independiente de infraestructura**
 
-**Estado actual**: ✅ **Domain, Application, Infrastructure y Presentation Layers 100% completados** 
+**Estado actual**: ✅ **TODAS LAS CAPAS 100% COMPLETADAS - MIGRACIÓN FINALIZADA**
+
+**Versión del proyecto**: 2.0.0 - Migración completa a Clean Architecture 
