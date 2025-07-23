@@ -60,6 +60,11 @@ from .reporte.generar_reporte_sostenibilidad_use_case import (
     GenerarReporteSostenibilidadUseCase,
 )
 
+# Use Cases de Analytics
+from .analytics.calcular_tendencias_departamento_use_case import (
+    CalcularTendenciasDepartamentoUseCase,
+)
+
 # Use Cases de Data Generation
 from .data_generation.generar_datos_mockaroo_use_case import (
     GenerarDatosMockarooUseCase,
@@ -110,6 +115,8 @@ __all__ = [
     "GenerarReporteImpactoEconomicoUseCase",
     "GenerarReporteInnovacionTecnologicaUseCase",
     "GenerarReporteSostenibilidadUseCase",
+    # Analytics Use Cases
+    "CalcularTendenciasDepartamentoUseCase",
     # Data Generation Use Cases
     "GenerarDatosMockarooUseCase",
     "GenerarDescripcionMarcaUseCase",
