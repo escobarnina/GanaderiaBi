@@ -27,9 +27,53 @@ run: ## Ejecutar servidor de desarrollo
 	@echo "🚀 Iniciando servidor de desarrollo..."
 	$(MANAGE) runserver
 
-test: ## Ejecutar tests
-	@echo "🧪 Ejecutando tests..."
-	$(MANAGE) test
+test: ## Ejecutar todos los tests
+	@echo "🧪 Ejecutando todos los tests..."
+	pytest
+
+test-unit: ## Ejecutar solo tests unitarios
+	@echo "🧪 Ejecutando tests unitarios..."
+	pytest -m unit
+
+test-integration: ## Ejecutar solo tests de integración
+	@echo "🧪 Ejecutando tests de integración..."
+	pytest -m integration
+
+test-api: ## Ejecutar solo tests de API
+	@echo "🧪 Ejecutando tests de API..."
+	pytest -m api
+
+test-marca: ## Ejecutar tests de marcas
+	@echo "🏷️ Ejecutando tests de marcas..."
+	pytest tests/unit/test_marca_use_cases.py -v
+
+test-logo: ## Ejecutar tests de logos
+	@echo "🎨 Ejecutando tests de logos..."
+	pytest tests/unit/ -k "logo" -v
+
+test-kpi: ## Ejecutar tests de KPIs
+	@echo "📈 Ejecutando tests de KPIs..."
+	pytest tests/unit/ -k "kpi" -v
+
+test-dashboard: ## Ejecutar tests de dashboard
+	@echo "📊 Ejecutando tests de dashboard..."
+	pytest tests/unit/ -k "dashboard" -v
+
+test-coverage: ## Ejecutar tests con cobertura
+	@echo "📊 Ejecutando tests con cobertura..."
+	pytest --cov=apps --cov-report=html --cov-report=term-missing
+
+test-fast: ## Ejecutar tests rápidos (sin slow)
+	@echo "⚡ Ejecutando tests rápidos..."
+	pytest -m "not slow"
+
+test-slow: ## Ejecutar solo tests lentos
+	@echo "🐌 Ejecutando tests lentos..."
+	pytest -m slow
+
+test-watch: ## Ejecutar tests en modo watch
+	@echo "👀 Ejecutando tests en modo watch..."
+	pytest-watch
 
 clean: ## Limpiar archivos temporales
 	@echo "🧹 Limpiando archivos temporales..."
@@ -82,7 +126,7 @@ docs-api: ## Generar documentación de APIs
 
 docs-serve: ## Servir documentación de APIs
 	@echo "🌐 Sirviendo documentación de APIs..."
-	@echo "📖 Abrir navegador en: http://localhost:8000/api/docs/"
+	@echo "📖 Abre tu navegador en: http://localhost:8000/api/docs/"
 	$(MANAGE) runserver
 
 docs-validate: ## Validar documentación de APIs
