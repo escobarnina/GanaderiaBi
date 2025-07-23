@@ -18,7 +18,21 @@ from .marca import (
     estadisticas_por_departamento,
     procesamiento_masivo,
 )
-from .logo_controller import LogoController
+
+from .logo import (
+    listar_logos,
+    obtener_logo,
+    generar_logo,
+    logos_pendientes,
+    logos_fallidos,
+    logos_por_calidad,
+    evaluar_calidad_masiva,
+    rendimiento_modelos_ia,
+    analisis_prompts,
+    regenerar_logo,
+    generar_logos_masivo,
+)
+
 from .kpi_controller import KPIController
 from .dashboard_controller import DashboardController
 from .historial_controller import HistorialController
@@ -39,8 +53,19 @@ __all__ = [
     "estadisticas_por_raza",
     "estadisticas_por_departamento",
     "procesamiento_masivo",
+    # Logo Controllers
+    "listar_logos",
+    "obtener_logo",
+    "generar_logo",
+    "logos_pendientes",
+    "logos_fallidos",
+    "logos_por_calidad",
+    "evaluar_calidad_masiva",
+    "rendimiento_modelos_ia",
+    "analisis_prompts",
+    "regenerar_logo",
+    "generar_logos_masivo",
     # Otros Controllers (pendientes)
-    "LogoController",
     "KPIController",
     "DashboardController",
     "HistorialController",
