@@ -11,7 +11,7 @@ from typing import Dict, Any
 import calendar
 
 from apps.analytics.presentation.serializers.kpi_serializers import (
-    KpiGanadoBovinoSerializer,
+    KPIGanadoBovinoSerializer,
 )
 from apps.analytics.infrastructure.container.main_container import Container
 

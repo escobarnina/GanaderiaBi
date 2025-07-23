@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from typing import Dict, Any
 
 from apps.analytics.presentation.serializers.kpi_serializers import (
-    KpiGanadoBovinoSerializer,
+    KPIGanadoBovinoSerializer,
 )
 from apps.analytics.infrastructure.container.main_container import Container
 
@@ -45,7 +45,7 @@ def ultimos_12_meses(request):
         )
 
         # Serializar respuesta
-        serializer = KpiGanadoBovinoSerializer()
+        serializer = KPIGanadoBovinoSerializer()
         data = [serializer.to_representation(kpi) for kpi in kpis]
 
         # Calcular métricas de tendencia
@@ -149,7 +149,7 @@ def kpis_actuales(request):
         kpi_actual = kpis_actuales[0]
 
         # Serializar KPI actual
-        serializer = KpiGanadoBovinoSerializer()
+        serializer = KPIGanadoBovinoSerializer()
         data_actual = serializer.to_representation(kpi_actual)
 
         # Comparación con mes anterior (si existe)

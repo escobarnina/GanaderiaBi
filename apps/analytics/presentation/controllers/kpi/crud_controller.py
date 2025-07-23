@@ -10,8 +10,8 @@ from rest_framework.response import Response
 from typing import Dict, Any
 
 from apps.analytics.presentation.serializers.kpi_serializers import (
-    KpiGanadoBovinoSerializer,
-    KpiGanadoBovinoListSerializer,
+    KPIGanadoBovinoSerializer,
+    KPIGanadoBovinoListSerializer,
 )
 from apps.analytics.infrastructure.container.main_container import Container
 
@@ -69,7 +69,7 @@ def listar_kpis(request):
         kpis = controller.obtener_kpis_use_case.execute(filters)
 
         # Serializar respuesta
-        serializer = KpiGanadoBovinoListSerializer()
+        serializer = KPIGanadoBovinoListSerializer()
         data = [serializer.to_representation(kpi) for kpi in kpis]
 
         return Response(
@@ -99,7 +99,7 @@ def obtener_kpi(request, kpi_id: int):
             )
 
         # Serializar respuesta
-        serializer = KpiGanadoBovinoSerializer()
+        serializer = KPIGanadoBovinoSerializer()
         data = serializer.to_representation(kpi)
 
         return Response(data)
@@ -140,7 +140,7 @@ def calcular_kpis(request):
         kpis_calculados = controller.calcular_kpis_use_case.execute(data)
 
         # Serializar respuesta
-        serializer = KpiGanadoBovinoSerializer()
+        serializer = KPIGanadoBovinoSerializer()
         data = [serializer.to_representation(kpi) for kpi in kpis_calculados]
 
         return Response(
