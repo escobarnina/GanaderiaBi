@@ -1,388 +1,100 @@
-# business_intelligence/urls.py - Actualizado para estructura modular
+"""
+URLs de business_intelligence - Migrado a Clean Architecture
+Redirige a los nuevos controllers de Clean Architecture
+"""
+
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import (
-    MarcaGanadoBovinoViewSet,
-    LogoMarcaBovinaViewSet,
-    DashboardBovinoViewSet,
-    KPIGanadoBovinoViewSet,
-    HistorialEstadoMarcaViewSet,
-    EstadisticasBovinoViewSet,
-    ReportesBovinoViewSet,
-)
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
-# Router principal para los ViewSets
-router = DefaultRouter()
+# ============================================================================
+# FUNCIONES DE REDIRECCIÓN PARA MIGRACIÓN GRADUAL
+# ============================================================================
 
-# Registro de ViewSets con los nuevos modelos bovinos
-router.register(r"marcas-bovinas", MarcaGanadoBovinoViewSet, basename="marcas-bovinas")
-router.register(r"logos-bovinos", LogoMarcaBovinaViewSet, basename="logos-bovinos")
-router.register(
-    r"dashboard-bovino", DashboardBovinoViewSet, basename="dashboard-bovino"
-)
-router.register(r"kpis-bovinos", KPIGanadoBovinoViewSet, basename="kpis-bovinos")
-router.register(
-    r"historial-estados", HistorialEstadoMarcaViewSet, basename="historial-estados"
-)
-router.register(
-    r"estadisticas-bovinos", EstadisticasBovinoViewSet, basename="estadisticas-bovinos"
-)
-router.register(r"reportes-bovinos", ReportesBovinoViewSet, basename="reportes-bovinos")
+def redirect_to_clean_architecture(request, new_path):
+    """Redirige a la nueva estructura de Clean Architecture"""
+    return HttpResponseRedirect(f"/api/analytics/{new_path}")
 
-# URLs principales
+# ============================================================================
+# URLS PRINCIPALES - REDIRIGEN A CLEAN ARCHITECTURE
+# ============================================================================
+
 urlpatterns = [
-    # URLs del router
-    path("", include(router.urls)),
-    # URLs para dashboard (acceso directo)
-    path(
-        "dashboard/",
-        include(
-            [
-                path(
-                    "kpis-principales/",
-                    DashboardBovinoViewSet.as_view({"get": "kpis_principales"}),
-                    name="dashboard-kpis",
-                ),
-                path(
-                    "tendencias-mensuales/",
-                    DashboardBovinoViewSet.as_view({"get": "tendencias_mensuales"}),
-                    name="dashboard-tendencias",
-                ),
-                path(
-                    "metricas-tiempo-real/",
-                    DashboardBovinoViewSet.as_view({"get": "metricas_tiempo_real"}),
-                    name="dashboard-tiempo-real",
-                ),
-                path(
-                    "resumen-ejecutivo/",
-                    DashboardBovinoViewSet.as_view({"get": "resumen_ejecutivo"}),
-                    name="dashboard-resumen",
-                ),
-            ]
-        ),
-    ),
-    # URLs para estadísticas específicas
-    path(
-        "estadisticas/",
-        include(
-            [
-                path(
-                    "por-raza/",
-                    EstadisticasBovinoViewSet.as_view({"get": "estadisticas_por_raza"}),
-                    name="stats-raza",
-                ),
-                path(
-                    "por-departamento/",
-                    EstadisticasBovinoViewSet.as_view(
-                        {"get": "estadisticas_por_departamento"}
-                    ),
-                    name="stats-departamento",
-                ),
-                path(
-                    "por-proposito/",
-                    EstadisticasBovinoViewSet.as_view(
-                        {"get": "estadisticas_por_proposito"}
-                    ),
-                    name="stats-proposito",
-                ),
-                path(
-                    "rendimiento-ia/",
-                    EstadisticasBovinoViewSet.as_view(
-                        {"get": "rendimiento_modelos_ia"}
-                    ),
-                    name="stats-ia",
-                ),
-                path(
-                    "comparativa-temporal/",
-                    EstadisticasBovinoViewSet.as_view({"get": "comparativa_temporal"}),
-                    name="stats-temporal",
-                ),
-                path(
-                    "predicciones/",
-                    EstadisticasBovinoViewSet.as_view({"get": "predicciones_demanda"}),
-                    name="stats-predicciones",
-                ),
-                path(
-                    "eficiencia/",
-                    EstadisticasBovinoViewSet.as_view({"get": "analisis_eficiencia"}),
-                    name="stats-eficiencia",
-                ),
-                path(
-                    "tendencias-geograficas/",
-                    EstadisticasBovinoViewSet.as_view(
-                        {"get": "tendencias_geograficas"}
-                    ),
-                    name="stats-geografico",
-                ),
-                path(
-                    "distribucion-razas/",
-                    EstadisticasBovinoViewSet.as_view({"get": "distribucion_razas"}),
-                    name="stats-razas",
-                ),
-            ]
-        ),
-    ),
-    # URLs para reportes ejecutivos
-    path(
-        "reportes/",
-        include(
-            [
-                path(
-                    "ejecutivo-mensual/",
-                    ReportesBovinoViewSet.as_view({"get": "reporte_ejecutivo_mensual"}),
-                    name="reporte-mensual",
-                ),
-                path(
-                    "anual/",
-                    ReportesBovinoViewSet.as_view({"get": "reporte_anual"}),
-                    name="reporte-anual",
-                ),
-                path(
-                    "comparativo-departamentos/",
-                    ReportesBovinoViewSet.as_view(
-                        {"get": "reporte_comparativo_departamentos"}
-                    ),
-                    name="reporte-departamentos",
-                ),
-                path(
-                    "personalizado/",
-                    ReportesBovinoViewSet.as_view({"post": "reporte_personalizado"}),
-                    name="reporte-personalizado",
-                ),
-                path(
-                    "exportar/excel/",
-                    ReportesBovinoViewSet.as_view({"get": "exportar_excel"}),
-                    name="exportar-excel",
-                ),
-            ]
-        ),
-    ),
-    # URLs para gestión de marcas bovinas
-    path(
-        "marcas/",
-        include(
-            [
-                path(
-                    "pendientes/",
-                    MarcaGanadoBovinoViewSet.as_view({"get": "marcas_pendientes"}),
-                    name="marcas-pendientes",
-                ),
-                path(
-                    "por-procesar/",
-                    MarcaGanadoBovinoViewSet.as_view({"get": "marcas_por_procesar"}),
-                    name="marcas-procesar",
-                ),
-                path(
-                    "procesadas-hoy/",
-                    MarcaGanadoBovinoViewSet.as_view({"get": "marcas_procesadas_hoy"}),
-                    name="marcas-hoy",
-                ),
-                path(
-                    "alertas-tiempo/",
-                    MarcaGanadoBovinoViewSet.as_view(
-                        {"get": "alertas_tiempo_procesamiento"}
-                    ),
-                    name="marcas-alertas",
-                ),
-                path(
-                    "estadisticas-raza/",
-                    MarcaGanadoBovinoViewSet.as_view({"get": "estadisticas_por_raza"}),
-                    name="marcas-stats-raza",
-                ),
-                path(
-                    "estadisticas-departamento/",
-                    MarcaGanadoBovinoViewSet.as_view(
-                        {"get": "estadisticas_por_departamento"}
-                    ),
-                    name="marcas-stats-dept",
-                ),
-                path(
-                    "procesamiento-masivo/",
-                    MarcaGanadoBovinoViewSet.as_view({"post": "procesamiento_masivo"}),
-                    name="marcas-masivo",
-                ),
-                path(
-                    "<int:pk>/aprobar/",
-                    MarcaGanadoBovinoViewSet.as_view({"post": "aprobar_marca"}),
-                    name="aprobar-marca",
-                ),
-                path(
-                    "<int:pk>/rechazar/",
-                    MarcaGanadoBovinoViewSet.as_view({"post": "rechazar_marca"}),
-                    name="rechazar-marca",
-                ),
-                path(
-                    "<int:pk>/historial/",
-                    MarcaGanadoBovinoViewSet.as_view({"get": "ver_historial"}),
-                    name="marca-historial",
-                ),
-            ]
-        ),
-    ),
-    # URLs para gestión de logos bovinos
-    path(
-        "logos/",
-        include(
-            [
-                path(
-                    "pendientes-generacion/",
-                    LogoMarcaBovinaViewSet.as_view({"get": "logos_pendientes"}),
-                    name="logos-pendientes",
-                ),
-                path(
-                    "fallidos/",
-                    LogoMarcaBovinaViewSet.as_view({"get": "logos_fallidos"}),
-                    name="logos-fallidos",
-                ),
-                path(
-                    "por-calidad/",
-                    LogoMarcaBovinaViewSet.as_view({"get": "logos_por_calidad"}),
-                    name="logos-calidad",
-                ),
-                path(
-                    "rendimiento-modelos/",
-                    LogoMarcaBovinaViewSet.as_view({"get": "rendimiento_modelos_ia"}),
-                    name="logos-rendimiento",
-                ),
-                path(
-                    "analisis-prompts/",
-                    LogoMarcaBovinaViewSet.as_view({"get": "analisis_prompts"}),
-                    name="logos-prompts",
-                ),
-                path(
-                    "generar-masivo/",
-                    LogoMarcaBovinaViewSet.as_view({"post": "generar_logos_masivo"}),
-                    name="logos-masivo",
-                ),
-                path(
-                    "evaluar-calidad-masiva/",
-                    LogoMarcaBovinaViewSet.as_view({"post": "evaluar_calidad_masiva"}),
-                    name="logos-evaluar",
-                ),
-                path(
-                    "<int:pk>/regenerar/",
-                    LogoMarcaBovinaViewSet.as_view({"post": "regenerar_logo"}),
-                    name="regenerar-logo",
-                ),
-            ]
-        ),
-    ),
-    # URLs para KPIs bovinos
-    path(
-        "kpis/",
-        include(
-            [
-                path(
-                    "ultimos-12-meses/",
-                    KPIGanadoBovinoViewSet.as_view({"get": "ultimos_12_meses"}),
-                    name="kpis-12-meses",
-                ),
-                path(
-                    "comparativa-trimestral/",
-                    KPIGanadoBovinoViewSet.as_view({"get": "comparativa_trimestral"}),
-                    name="kpis-trimestral",
-                ),
-                path(
-                    "analisis-estacional/",
-                    KPIGanadoBovinoViewSet.as_view({"get": "analisis_estacional"}),
-                    name="kpis-estacional",
-                ),
-                path(
-                    "actuales/",
-                    KPIGanadoBovinoViewSet.as_view({"get": "kpis_actuales"}),
-                    name="kpis-actuales",
-                ),
-            ]
-        ),
-    ),
-    # URLs para historial y auditoría
-    path(
-        "historial/",
-        include(
-            [
-                path(
-                    "actividad-reciente/",
-                    HistorialEstadoMarcaViewSet.as_view({"get": "actividad_reciente"}),
-                    name="historial-reciente",
-                ),
-                path(
-                    "auditoria-usuario/",
-                    HistorialEstadoMarcaViewSet.as_view({"get": "auditoria_usuario"}),
-                    name="historial-usuario",
-                ),
-                path(
-                    "patrones-cambio/",
-                    HistorialEstadoMarcaViewSet.as_view(
-                        {"get": "patrones_cambio_estado"}
-                    ),
-                    name="historial-patrones",
-                ),
-                path(
-                    "eficiencia-evaluadores/",
-                    HistorialEstadoMarcaViewSet.as_view(
-                        {"get": "eficiencia_evaluadores"}
-                    ),
-                    name="historial-evaluadores",
-                ),
-            ]
-        ),
-    ),
+    # ============================================================================
+    # REDIRECCIONES A MARCAS (Clean Architecture)
+    # ============================================================================
+    path("marcas-bovinas/", lambda request: redirect_to_clean_architecture(request, "marcas/"), name="marcas-bovinas-legacy"),
+    path("marcas-bovinas/<int:pk>/", lambda request, pk: redirect_to_clean_architecture(request, f"marcas/{pk}/"), name="marca-detail-legacy"),
+    
+    # ============================================================================
+    # REDIRECCIONES A LOGOS (Clean Architecture)
+    # ============================================================================
+    path("logos-bovinos/", lambda request: redirect_to_clean_architecture(request, "logos/"), name="logos-bovinos-legacy"),
+    path("logos-bovinos/<int:pk>/", lambda request, pk: redirect_to_clean_architecture(request, f"logos/{pk}/"), name="logo-detail-legacy"),
+    
+    # ============================================================================
+    # REDIRECCIONES A DASHBOARD (Clean Architecture)
+    # ============================================================================
+    path("dashboard-bovino/", lambda request: redirect_to_clean_architecture(request, "dashboard/"), name="dashboard-bovino-legacy"),
+    path("dashboard/kpis-principales/", lambda request: redirect_to_clean_architecture(request, "dashboard/kpis/"), name="dashboard-kpis-legacy"),
+    path("dashboard/tendencias-mensuales/", lambda request: redirect_to_clean_architecture(request, "dashboard/tendencias/"), name="dashboard-tendencias-legacy"),
+    path("dashboard/metricas-tiempo-real/", lambda request: redirect_to_clean_architecture(request, "dashboard/tiempo-real/"), name="dashboard-tiempo-real-legacy"),
+    path("dashboard/resumen-ejecutivo/", lambda request: redirect_to_clean_architecture(request, "dashboard/ejecutivo/"), name="dashboard-resumen-legacy"),
+    
+    # ============================================================================
+    # REDIRECCIONES A KPIS (Clean Architecture)
+    # ============================================================================
+    path("kpis-bovinos/", lambda request: redirect_to_clean_architecture(request, "kpis/"), name="kpis-bovinos-legacy"),
+    path("kpis/ultimos-12-meses/", lambda request: redirect_to_clean_architecture(request, "kpis/12-meses/"), name="kpis-12-meses-legacy"),
+    path("kpis/comparativa-trimestral/", lambda request: redirect_to_clean_architecture(request, "kpis/trimestral/"), name="kpis-trimestral-legacy"),
+    path("kpis/analisis-estacional/", lambda request: redirect_to_clean_architecture(request, "kpis/estacional/"), name="kpis-estacional-legacy"),
+    path("kpis/actuales/", lambda request: redirect_to_clean_architecture(request, "kpis/actuales/"), name="kpis-actuales-legacy"),
+    
+    # ============================================================================
+    # REDIRECCIONES A HISTORIAL (Clean Architecture)
+    # ============================================================================
+    path("historial-estados/", lambda request: redirect_to_clean_architecture(request, "historial/"), name="historial-estados-legacy"),
+    path("historial/actividad-reciente/", lambda request: redirect_to_clean_architecture(request, "historial/actividad/"), name="historial-reciente-legacy"),
+    path("historial/auditoria-usuario/", lambda request: redirect_to_clean_architecture(request, "historial/auditoria/"), name="historial-usuario-legacy"),
+    path("historial/patrones-cambio/", lambda request: redirect_to_clean_architecture(request, "historial/patrones/"), name="historial-patrones-legacy"),
+    path("historial/eficiencia-evaluadores/", lambda request: redirect_to_clean_architecture(request, "historial/eficiencia/"), name="historial-evaluadores-legacy"),
+    
+    # ============================================================================
+    # REDIRECCIONES A ESTADÍSTICAS (Clean Architecture)
+    # ============================================================================
+    path("estadisticas-bovinos/", lambda request: redirect_to_clean_architecture(request, "estadisticas/"), name="estadisticas-bovinos-legacy"),
+    path("estadisticas/por-raza/", lambda request: redirect_to_clean_architecture(request, "estadisticas/por-raza/"), name="stats-raza-legacy"),
+    path("estadisticas/por-departamento/", lambda request: redirect_to_clean_architecture(request, "estadisticas/por-departamento/"), name="stats-departamento-legacy"),
+    path("estadisticas/por-proposito/", lambda request: redirect_to_clean_architecture(request, "estadisticas/por-proposito/"), name="stats-proposito-legacy"),
+    path("estadisticas/rendimiento-ia/", lambda request: redirect_to_clean_architecture(request, "estadisticas/rendimiento-modelos-ia/"), name="stats-ia-legacy"),
+    path("estadisticas/comparativa-temporal/", lambda request: redirect_to_clean_architecture(request, "estadisticas/comparativa-temporal/"), name="stats-temporal-legacy"),
+    path("estadisticas/predicciones/", lambda request: redirect_to_clean_architecture(request, "estadisticas/predicciones-demanda/"), name="stats-predicciones-legacy"),
+    path("estadisticas/eficiencia/", lambda request: redirect_to_clean_architecture(request, "estadisticas/analisis-eficiencia/"), name="stats-eficiencia-legacy"),
+    path("estadisticas/tendencias-geograficas/", lambda request: redirect_to_clean_architecture(request, "estadisticas/tendencias-geograficas/"), name="stats-geografico-legacy"),
+    path("estadisticas/distribucion-razas/", lambda request: redirect_to_clean_architecture(request, "estadisticas/distribucion-razas/"), name="stats-razas-legacy"),
+    
+    # ============================================================================
+    # REDIRECCIONES A REPORTES (Clean Architecture)
+    # ============================================================================
+    path("reportes-bovinos/", lambda request: redirect_to_clean_architecture(request, "reportes/"), name="reportes-bovinos-legacy"),
+    path("reportes/ejecutivo-mensual/", lambda request: redirect_to_clean_architecture(request, "reportes/ejecutivo/mensual/"), name="reporte-mensual-legacy"),
+    path("reportes/anual/", lambda request: redirect_to_clean_architecture(request, "reportes/ejecutivo/anual/"), name="reporte-anual-legacy"),
+    path("reportes/comparativo-departamentos/", lambda request: redirect_to_clean_architecture(request, "reportes/comparativo/departamentos/"), name="reporte-departamentos-legacy"),
+    path("reportes/personalizado/", lambda request: redirect_to_clean_architecture(request, "reportes/personalizado/"), name="reporte-personalizado-legacy"),
+    path("reportes/exportar/excel/", lambda request: redirect_to_clean_architecture(request, "reportes/personalizado/exportar/"), name="exportar-excel-legacy"),
+    
+    # ============================================================================
+    # REDIRECCIONES A DATA GENERATION (Clean Architecture)
+    # ============================================================================
+    path("data-generation/generar-datos-mockaroo/", lambda request: redirect_to_clean_architecture(request, "data-generation/generar-datos-mockaroo/"), name="data-generation-mockaroo-legacy"),
+    path("data-generation/generar-descripcion-marca/", lambda request: redirect_to_clean_architecture(request, "data-generation/generar-descripcion-marca/"), name="data-generation-descripcion-legacy"),
+    path("data-generation/generar-prompts-logo/", lambda request: redirect_to_clean_architecture(request, "data-generation/generar-prompts-logo/"), name="data-generation-prompts-legacy"),
 ]
 
-# URLs de compatibilidad (mantienen las URLs anteriores funcionando)
-compatibility_urls = [
-    # Redirecciones para mantener compatibilidad con versiones anteriores
-    path(
-        "marcas/",
-        MarcaGanadoBovinoViewSet.as_view({"get": "list", "post": "create"}),
-        name="marcas-compat",
-    ),
-    path(
-        "marcas/<int:pk>/",
-        MarcaGanadoBovinoViewSet.as_view(
-            {
-                "get": "retrieve",
-                "put": "update",
-                "patch": "partial_update",
-                "delete": "destroy",
-            }
-        ),
-        name="marca-detail-compat",
-    ),
-    path(
-        "logos/",
-        LogoMarcaBovinaViewSet.as_view({"get": "list", "post": "create"}),
-        name="logos-compat",
-    ),
-    path(
-        "logos/<int:pk>/",
-        LogoMarcaBovinaViewSet.as_view(
-            {
-                "get": "retrieve",
-                "put": "update",
-                "patch": "partial_update",
-                "delete": "destroy",
-            }
-        ),
-        name="logo-detail-compat",
-    ),
-    # Dashboard compatibility
-    path(
-        "dashboard/kpis_principales/",
-        DashboardBovinoViewSet.as_view({"get": "kpis_principales"}),
-        name="dashboard-kpis-compat",
-    ),
-    path(
-        "dashboard/tendencias_mensuales/",
-        DashboardBovinoViewSet.as_view({"get": "tendencias_mensuales"}),
-        name="dashboard-tendencias-compat",
-    ),
-    path(
-        "dashboard/metricas_tiempo_real/",
-        DashboardBovinoViewSet.as_view({"get": "metricas_tiempo_real"}),
-        name="dashboard-tiempo-real-compat",
-    ),
-]
+# ============================================================================
+# MENSAJE DE MIGRACIÓN
+# ============================================================================
 
-# Agregar URLs de compatibilidad
-urlpatterns += compatibility_urls
+def migration_notice(request):
+    """Muestra un mensaje sobre la migración a Clean Architecture"""
+    return HttpResponseRedirect("/api/analytics/")

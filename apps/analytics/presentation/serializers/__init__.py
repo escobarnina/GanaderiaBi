@@ -50,6 +50,24 @@ from .reporte_serializers import (
     ExportacionReporteSerializer,
 )
 
+from .estadisticas_serializers import (
+    EstadisticasPorRazaSerializer,
+    EstadisticasPorDepartamentoSerializer,
+    EstadisticasPorPropositoSerializer,
+    ComparativaTemporalSerializer,
+    PrediccionesDemandaSerializer,
+    TendenciasGeograficasSerializer,
+    RendimientoModelosIASerializer,
+    AnalisisEficienciaSerializer,
+    DistribucionRazasSerializer,
+)
+
+from .data_generation_serializers import (
+    GenerarDatosMockarooSerializer,
+    GenerarDescripcionMarcaSerializer,
+    GenerarPromptsLogoSerializer,
+)
+
 __all__ = [
     # Marca serializers
     "MarcaGanadoBovinoSerializer",
@@ -86,4 +104,18 @@ __all__ = [
     "ReporteInnovacionTecnologicaSerializer",
     "ReporteSostenibilidadSerializer",
     "ExportacionReporteSerializer",
+    # Estadísticas serializers
+    "EstadisticasPorRazaSerializer",
+    "EstadisticasPorDepartamentoSerializer",
+    "EstadisticasPorPropositoSerializer",
+    "ComparativaTemporalSerializer",
+    "PrediccionesDemandaSerializer",
+    "TendenciasGeograficasSerializer",
+    "RendimientoModelosIASerializer",
+    "AnalisisEficienciaSerializer",
+    "DistribucionRazasSerializer",
+    # Data Generation serializers
+    "GenerarDatosMockarooSerializer",
+    "GenerarDescripcionMarcaSerializer",
+    "GenerarPromptsLogoSerializer",
 ]
