@@ -14,7 +14,7 @@ from .base_admin import BaseAnalyticsAdmin
 from ...infrastructure.models import LogoMarcaBovinaModel
 
 
-@admin.register(LogoMarcaBovinaModel)
+# @admin.register(LogoMarcaBovinaModel)
 class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
     """
     Admin para logos de marcas bovinas - Clean Architecture.

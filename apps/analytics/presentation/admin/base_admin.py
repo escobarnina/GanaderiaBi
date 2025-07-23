@@ -44,6 +44,9 @@ class BaseAnalyticsAdmin(admin.ModelAdmin):
 
     def format_tiempo_segundos(self, segundos):
         """Formatea tiempo en segundos a formato legible"""
+        if segundos is None:
+            return "No disponible"
+
         if segundos < 60:
             return f"{segundos} segundos"
         else:
@@ -53,6 +56,9 @@ class BaseAnalyticsAdmin(admin.ModelAdmin):
 
     def format_dias_con_color(self, dias):
         """Formatea días con color según el rango"""
+        if dias is None:
+            return "No disponible"
+
         if dias <= 7:
             color = "#4caf50"  # Verde
         elif dias <= 30:

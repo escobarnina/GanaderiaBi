@@ -14,7 +14,7 @@ from .base_admin import BaseAnalyticsAdmin
 from ...infrastructure.models import KPIGanadoBovinoModel
 
 
-@admin.register(KPIGanadoBovinoModel)
+# @admin.register(KPIGanadoBovinoModel)
 class KPIGanadoBovinoAdmin(BaseAnalyticsAdmin):
     """
     Admin para KPIs de ganado bovino - Clean Architecture.

@@ -14,7 +14,7 @@ from .base_admin import BaseAnalyticsAdmin
 from ...infrastructure.models import HistorialEstadoMarcaModel
 
 
-@admin.register(HistorialEstadoMarcaModel)
+# @admin.register(HistorialEstadoMarcaModel)
 class HistorialEstadoMarcaAdmin(BaseAnalyticsAdmin):
     """
     Admin para historial de estados - Clean Architecture.

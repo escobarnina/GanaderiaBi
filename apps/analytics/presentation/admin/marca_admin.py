@@ -15,7 +15,7 @@ from .base_admin import BaseAnalyticsAdmin
 from ...infrastructure.models import MarcaGanadoBovinoModel, HistorialEstadoMarcaModel
 
 
-@admin.register(MarcaGanadoBovinoModel)
+# @admin.register(MarcaGanadoBovinoModel)
 class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
     """
     Admin para marcas de ganado bovino - Clean Architecture.

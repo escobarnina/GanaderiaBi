@@ -15,7 +15,7 @@ from .base_admin import BaseAnalyticsAdmin
 from ...infrastructure.models import ReporteDataModel
 
 
-@admin.register(ReporteDataModel)
+# @admin.register(ReporteDataModel)
 class ReporteDataAdmin(BaseAnalyticsAdmin):
     """
     Admin para datos de reportes - Clean Architecture.

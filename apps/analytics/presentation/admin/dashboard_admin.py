@@ -14,7 +14,7 @@ from .base_admin import BaseAnalyticsAdmin
 from ...infrastructure.models import DashboardDataModel
 
 
-@admin.register(DashboardDataModel)
+# @admin.register(DashboardDataModel)
 class DashboardDataAdmin(BaseAnalyticsAdmin):
     """
     Admin para datos del dashboard - Clean Architecture.
