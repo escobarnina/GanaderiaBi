@@ -90,11 +90,11 @@ check: ## Verificar estado del proyecto
 
 db-setup: ## Configurar base de datos
 	@echo "🗄️ Configurando base de datos..."
-	@python scripts/setup_database.py
+	@python scripts/setup_complete_database.py
 
 db-test: ## Probar conexión a base de datos
 	@echo "🧪 Probando conexión a base de datos..."
-	@python -c "import mysql.connector; conn = mysql.connector.connect(host='localhost', user='bi_user', password='password', database='ganaderia_bi'); print('✅ Conexión exitosa')"
+	@python scripts/test_db_connection.py
 
 db-migrate: ## Ejecutar migraciones de Django
 	@echo "🔄 Ejecutando migraciones..."
@@ -103,6 +103,8 @@ db-migrate: ## Ejecutar migraciones de Django
 db-superuser: ## Crear superusuario
 	@echo "👤 Creando superusuario..."
 	@python manage.py createsuperuser
+
+
 
 status: ## Mostrar estado de migración
 	@echo "📊 Estado de migración a Clean Architecture:"

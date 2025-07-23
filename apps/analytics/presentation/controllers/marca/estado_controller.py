@@ -12,7 +12,9 @@ from typing import Dict, Any
 from apps.analytics.presentation.serializers.marca_serializers import (
     MarcaGanadoBovinoSerializer,
 )
-from apps.analytics.infrastructure.container.main_container import Container
+from apps.analytics.infrastructure.container.main_container import (
+    MainContainer as Container,
+)
 
 
 class MarcaEstadoController:

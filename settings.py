@@ -77,11 +77,11 @@ WSGI_APPLICATION = "wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": config("DB_NAME", default="ganaderia_bi"),
-        "USER": config("DB_USER", default="root"),
-        "PASSWORD": config("DB_PASSWORD", default=""),
-        "HOST": config("DB_HOST", default="localhost"),
-        "PORT": config("DB_PORT", default="3306"),
+        "NAME": "ganaderia_bi",
+        "USER": "root",  # Temporalmente usando root
+        "PASSWORD": "",
+        "HOST": "localhost",
+        "PORT": "3306",
         "OPTIONS": {
             "sql_mode": "traditional",
             "charset": "utf8mb4",

@@ -3,6 +3,7 @@ Serializers de Clean Architecture para marcas de ganado bovino
 Trabajan con entidades de dominio, no con modelos Django
 """
 
+from datetime import datetime
 from rest_framework import serializers
 from typing import Dict, Any, List
 

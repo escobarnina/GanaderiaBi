@@ -159,3 +159,7 @@ class MainContainer:
     # Métodos para use cases de analytics
     def get_calcular_tendencias_departamento_use_case(self):
         return self.use_cases_container.get_calcular_tendencias_departamento_use_case()
+
+
+# Alias para mantener compatibilidad
+Container = MainContainer
