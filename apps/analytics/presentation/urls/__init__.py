@@ -17,4 +17,11 @@ urlpatterns = [
     path("dashboard/", include("apps.analytics.presentation.urls.dashboard_urls")),
     path("historial/", include("apps.analytics.presentation.urls.historial_urls")),
     path("reportes/", include("apps.analytics.presentation.urls.reporte_urls")),
+    path(
+        "estadisticas/", include("apps.analytics.presentation.urls.estadisticas_urls")
+    ),
+    path(
+        "data-generation/",
+        include("apps.analytics.presentation.urls.data_generation_urls"),
+    ),
 ]

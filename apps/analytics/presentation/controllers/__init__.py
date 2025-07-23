@@ -79,6 +79,24 @@ from .reporte import (
     reporte_sostenibilidad_sectorial,
 )
 
+from .estadisticas import (
+    estadisticas_por_raza,
+    estadisticas_por_departamento,
+    estadisticas_por_proposito,
+    comparativa_temporal,
+    predicciones_demanda,
+    tendencias_geograficas,
+    rendimiento_modelos_ia,
+    analisis_eficiencia,
+    distribucion_razas,
+)
+
+from .data_generation import (
+    generar_datos_mockaroo,
+    generar_descripcion_marca,
+    generar_prompts_logo,
+)
+
 __all__ = [
     # Marca Controllers
     "listar_marcas",
@@ -145,4 +163,18 @@ __all__ = [
     "reporte_impacto_economico",
     "reporte_innovacion_tecnologica",
     "reporte_sostenibilidad_sectorial",
+    # Estadísticas Controllers
+    "estadisticas_por_raza",
+    "estadisticas_por_departamento",
+    "estadisticas_por_proposito",
+    "comparativa_temporal",
+    "predicciones_demanda",
+    "tendencias_geograficas",
+    "rendimiento_modelos_ia",
+    "analisis_eficiencia",
+    "distribucion_razas",
+    # Data Generation Controllers
+    "generar_datos_mockaroo",
+    "generar_descripcion_marca",
+    "generar_prompts_logo",
 ]
