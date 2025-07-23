@@ -52,7 +52,18 @@ from .dashboard import (
     generar_reporte_ejecutivo,
     metricas_eficiencia_regional,
 )
-from .historial_controller import HistorialController
+from .historial import (
+    listar_historial,
+    obtener_historial,
+    historial_por_marca,
+    actividad_reciente,
+    auditoria_usuario,
+    patrones_cambio_estado,
+    analisis_flujos_estado,
+    eficiencia_evaluadores,
+    evaluador_detalle,
+    comparativa_evaluadores,
+)
 from .reporte_controller import ReporteController
 
 __all__ = [
@@ -98,7 +109,17 @@ __all__ = [
     "resumen_ejecutivo",
     "generar_reporte_ejecutivo",
     "metricas_eficiencia_regional",
+    # Historial Controllers
+    "listar_historial",
+    "obtener_historial",
+    "historial_por_marca",
+    "actividad_reciente",
+    "auditoria_usuario",
+    "patrones_cambio_estado",
+    "analisis_flujos_estado",
+    "eficiencia_evaluadores",
+    "evaluador_detalle",
+    "comparativa_evaluadores",
     # Otros Controllers (pendientes)
-    "HistorialController",
     "ReporteController",
 ]
