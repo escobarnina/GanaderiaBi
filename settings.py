@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
+    "drf_spectacular",  # ✅ API Documentation
     "apps.analytics",  # ✅ Nueva app con Clean Architecture - IMPLEMENTADA
 ]
 
@@ -106,6 +107,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 CORS_ALLOWED_ORIGINS = [
@@ -185,6 +187,49 @@ IA_API_URL = config("IA_API_URL", default="http://localhost:8004/api/ia/v1/")
 # ✅ Configuraciones para Clean Architecture (IMPLEMENTADAS)
 # Configuración de Redis para Celery
 REDIS_URL = config("REDIS_URL", default="redis://localhost:6379/0")
+
+# ✅ Configuración de Documentación de APIs (IMPLEMENTADA)
+SPECTACULAR_SETTINGS = {
+    "TITLE": "🐄 API de Inteligencia de Negocios Ganadero",
+    "DESCRIPTION": """
+    Sistema de inteligencia de negocios para la gestión de ganado bovino.
+    
+    ## Funcionalidades Principales:
+    - **Gestión de Marcas**: CRUD completo de marcas de ganado
+    - **Generación de Logos**: Logos generados por IA
+    - **Dashboard y KPIs**: Métricas y análisis ejecutivo
+    - **Reportes**: Reportes especializados del sector
+    - **Historial**: Auditoría y trazabilidad de cambios
+    - **Analytics**: Análisis avanzado y tendencias
+    
+    ## Arquitectura:
+    - Clean Architecture implementada
+    - Principios SOLID aplicados
+    - Preparado para microservicios
+    """,
+    "VERSION": "2.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True,
+    "SCHEMA_PATH_PREFIX": "/api/analytics/",
+    "TAGS": [
+        {"name": "marcas", "description": "Gestión de marcas de ganado bovino"},
+        {"name": "logos", "description": "Generación y gestión de logos con IA"},
+        {"name": "dashboard", "description": "Dashboard ejecutivo y métricas"},
+        {"name": "kpis", "description": "Indicadores clave de rendimiento"},
+        {"name": "historial", "description": "Auditoría y trazabilidad"},
+        {"name": "reportes", "description": "Reportes especializados"},
+        {"name": "estadisticas", "description": "Análisis estadístico"},
+        {"name": "data-generation", "description": "Generación de datos de prueba"},
+    ],
+    "CONTACT": {
+        "name": "Equipo BI/AI/Agentes",
+        "email": "bi@ganaderia.com",
+    },
+    "LICENSE": {
+        "name": "MIT License",
+        "url": "https://opensource.org/licenses/MIT",
+    },
+}
 
 # Configuración de Celery
 CELERY_BROKER_URL = REDIS_URL

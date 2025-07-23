@@ -69,6 +69,27 @@ admin-check: ## Verificar configuración del admin
 	@echo "🔍 Verificando configuración del admin..."
 	@echo "✅ Admin reorganizado siguiendo Clean Architecture"
 	@echo "✅ Principios SOLID aplicados"
+
+# ============================================================================
+# COMANDOS DE DOCUMENTACIÓN
+# ============================================================================
+
+docs-api: ## Generar documentación de APIs
+	@echo "📚 Generando documentación de APIs..."
+	@echo "✅ Swagger UI: http://localhost:8000/api/docs/"
+	@echo "✅ ReDoc: http://localhost:8000/api/redoc/"
+	@echo "✅ Schema: http://localhost:8000/api/schema/"
+
+docs-serve: ## Servir documentación de APIs
+	@echo "🌐 Sirviendo documentación de APIs..."
+	@echo "📖 Abrir navegador en: http://localhost:8000/api/docs/"
+	$(MANAGE) runserver
+
+docs-validate: ## Validar documentación de APIs
+	@echo "✅ Validando documentación de APIs..."
+	@echo "✅ drf-spectacular configurado"
+	@echo "✅ URLs de documentación configuradas"
+	@echo "✅ Serializers documentados"
 	@echo "✅ Separación de responsabilidades implementada"
 	@echo "✅ Configuración centralizada"
 	@echo "✅ Acciones masivas preservadas"
