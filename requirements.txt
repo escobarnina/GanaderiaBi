@@ -1,3 +1,7 @@
+# ============================================================================
+# DEPENDENCIAS PRINCIPALES DEL PROYECTO
+# ============================================================================
+
 # Framework principal
 Django>=4.2.7
 djangorestframework>=3.14.0
@@ -9,6 +13,7 @@ python-decouple>=3.8
 # Base de datos (MySQL)
 PyMySQL>=1.0.0
 cryptography>=41.0.0
+mysql-connector-python>=8.0.0
 
 # ✅ Clean Architecture (IMPLEMENTADO)
 dependency-injector>=4.40.0
@@ -31,11 +36,16 @@ requests>=2.31.0
 xlsxwriter>=3.1.0
 openpyxl>=3.1.0
 
+# ============================================================================
+# DEPENDENCIAS DE DESARROLLO Y TESTING
+# ============================================================================
+
 # Testing
 pytest>=7.4.0
 pytest-django>=4.5.0
 factory-boy>=3.2.0
 faker>=19.12.0
+pytest-cov>=4.1.0
 
 # Linting & formatting
 black>=23.9.0
@@ -56,6 +66,13 @@ safety>=2.3.0
 # ✅ Monitoreo y logging (IMPLEMENTADO)
 structlog>=23.1.0
 
+# Pre-commit hooks
+pre-commit>=3.4.0
+
+# ============================================================================
+# DEPENDENCIAS OPCIONALES PARA FUTURAS FASES
+# ============================================================================
+
 # TODO: Dependencias para Fase 3 (Use Cases y Presentation)
 # Descomentar cuando se implemente la nueva arquitectura:
 
@@ -65,3 +82,15 @@ structlog>=23.1.0
 # 
 # # Jupyter para desarrollo avanzado
 # jupyter>=1.0.0
+# 
+# # Machine Learning (para futuras funcionalidades de IA)
+# scikit-learn>=1.3.0
+# 
+# # APIs de IA (para generación de logos)
+# openai>=1.0.0
+# 
+# # Caché y optimización
+# django-redis>=5.2.0
+# 
+# # Monitoreo avanzado
+# sentry-sdk>=1.35.0
