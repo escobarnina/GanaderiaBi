@@ -67,7 +67,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "urls"
+ROOT_URLCONF = "ganaderia_bi.urls"
 
 TEMPLATES = [
     {
@@ -85,9 +85,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "wsgi.application"
+WSGI_APPLICATION = "ganaderia_bi.wsgi.application"
 
-# Database - MariaDB 10.5 para desarrollo con XAMPP
+# Database - MariaDB para desarrollo con XAMPP
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
@@ -110,6 +110,14 @@ DATABASES = {
         },
     }
 }
+
+# Database - SQLite para desarrollo (comentado temporalmente)
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [

@@ -26,7 +26,7 @@ from drf_spectacular.views import (
 )
 
 # Importar configuración del admin para Clean Architecture
-import admin_config
+import ganaderia_bi.admin_config
 
 
 # Registrar las apps del admin manualmente para evitar el error NoReverseMatch
