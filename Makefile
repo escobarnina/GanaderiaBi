@@ -88,6 +88,22 @@ check: ## Verificar estado del proyecto
 	@echo "✅ Admin: 6 admins migrados a Presentation Layer siguiendo Clean Architecture"
 	@echo "✅ Comandos de gestión migrados"
 
+db-setup: ## Configurar base de datos
+	@echo "🗄️ Configurando base de datos..."
+	@python scripts/setup_database.py
+
+db-test: ## Probar conexión a base de datos
+	@echo "🧪 Probando conexión a base de datos..."
+	@python -c "import mysql.connector; conn = mysql.connector.connect(host='localhost', user='bi_user', password='password', database='ganaderia_bi'); print('✅ Conexión exitosa')"
+
+db-migrate: ## Ejecutar migraciones de Django
+	@echo "🔄 Ejecutando migraciones..."
+	@python manage.py migrate
+
+db-superuser: ## Crear superusuario
+	@echo "👤 Creando superusuario..."
+	@python manage.py createsuperuser
+
 status: ## Mostrar estado de migración
 	@echo "📊 Estado de migración a Clean Architecture:"
 	@echo "✅ Domain Layer: 100% completado"

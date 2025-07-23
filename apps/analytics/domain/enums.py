@@ -15,6 +15,11 @@ class EstadoMarca(Enum):
     APROBADO = "APROBADO"
     RECHAZADO = "RECHAZADO"
 
+    @classmethod
+    def choices(cls):
+        """Retorna las opciones para Django forms"""
+        return [(member.value, member.value) for member in cls]
+
 
 class RazaBovino(Enum):
     """Razas de ganado bovino"""
@@ -32,6 +37,11 @@ class RazaBovino(Enum):
     MIXTO = "MIXTO"
     OTRO = "OTRO"
 
+    @classmethod
+    def choices(cls):
+        """Retorna las opciones para Django forms"""
+        return [(member.value, member.value) for member in cls]
+
 
 class PropositoGanado(Enum):
     """Propósitos del ganado bovino"""
@@ -40,6 +50,11 @@ class PropositoGanado(Enum):
     LECHE = "LECHE"
     DOBLE_PROPOSITO = "DOBLE_PROPOSITO"
     REPRODUCCION = "REPRODUCCION"
+
+    @classmethod
+    def choices(cls):
+        """Retorna las opciones para Django forms"""
+        return [(member.value, member.value) for member in cls]
 
 
 class Departamento(Enum):
@@ -55,6 +70,11 @@ class Departamento(Enum):
     BENI = "BENI"
     PANDO = "PANDO"
 
+    @classmethod
+    def choices(cls):
+        """Retorna las opciones para Django forms"""
+        return [(member.value, member.value) for member in cls]
+
 
 class ModeloIA(Enum):
     """Modelos de IA para generación de logos"""
@@ -66,6 +86,11 @@ class ModeloIA(Enum):
     STABLE_DIFFUSION = "STABLE_DIFFUSION"
     LEONARDO_AI = "LEONARDO_AI"
 
+    @classmethod
+    def choices(cls):
+        """Retorna las opciones para Django forms"""
+        return [(member.value, member.value) for member in cls]
+
 
 class CalidadLogo(Enum):
     """Calidades de logos generados"""
@@ -73,3 +98,8 @@ class CalidadLogo(Enum):
     ALTA = "ALTA"
     MEDIA = "MEDIA"
     BAJA = "BAJA"
+
+    @classmethod
+    def choices(cls):
+        """Retorna las opciones para Django forms"""
+        return [(member.value, member.value) for member in cls]

@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
-    "business_intelligence",  # App legacy - mantener por compatibilidad temporal
     "apps.analytics",  # ✅ Nueva app con Clean Architecture - IMPLEMENTADA
 ]
 
@@ -54,7 +53,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "ganaderia_bi.urls"
+ROOT_URLCONF = "urls"
 
 TEMPLATES = [
     {
@@ -72,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "ganaderia_bi.wsgi.application"
+WSGI_APPLICATION = "wsgi.application"
 
 # Database con PyMySQL
 DATABASES = {
@@ -156,21 +155,15 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
-        "file": {
-            "level": "DEBUG",
-            "class": "logging.FileHandler",
-            "filename": BASE_DIR / "logs" / "django.log",
-            "formatter": "verbose",
-        },
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "file"],
+            "handlers": ["console"],
             "level": "DEBUG",
             "propagate": True,
         },
-        "business_intelligence": {
-            "handlers": ["console", "file"],
+        "apps.analytics": {
+            "handlers": ["console"],
             "level": "DEBUG",
             "propagate": True,
         },

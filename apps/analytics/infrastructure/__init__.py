@@ -10,10 +10,10 @@ Componentes disponibles:
 - Repositories: Implementaciones de repositorios
 """
 
-from .container import get_container
+from .container import MainContainer
 
 __all__ = [
-    "get_container",
+    "MainContainer",
 ]
 
 

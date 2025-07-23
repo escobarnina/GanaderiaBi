@@ -27,8 +27,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # URLs de la nueva arquitectura Clean Architecture
     path("api/analytics/", include("apps.analytics.presentation.urls")),
-    # URLs legacy del business_intelligence (mantener compatibilidad temporal)
-    path("api/bi/v1/", include("business_intelligence.urls")),
 ]
 
 # Configuración de archivos estáticos y media para desarrollo
