@@ -347,6 +347,7 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
             tamaño_color,
             tamaño_icon,
             tamaño_clase,
+            tamaño_clase,
         )
 
     ganado_info_visual.short_description = "🐄 Ganado"

@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import redirect
+from django.http import HttpResponse
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -27,6 +29,11 @@ from drf_spectacular.views import (
 
 # Importar configuración del admin para Clean Architecture
 import ganaderia_bi.admin_config
+
+
+def dashboard_view(request):
+    """Vista simple del dashboard que redirige al admin"""
+    return redirect("/admin/analytics/")
 
 
 # Registrar las apps del admin manualmente para evitar el error NoReverseMatch
@@ -68,6 +75,8 @@ register_admin_apps()
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # Dashboard principal
+    path("dashboard/", dashboard_view, name="dashboard"),
     # URLs de la nueva arquitectura Clean Architecture
     path("api/analytics/", include("apps.analytics.presentation.urls")),
     # ✅ URLs de Documentación de APIs

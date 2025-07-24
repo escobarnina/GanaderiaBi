@@ -102,6 +102,9 @@ class BaseAnalyticsAdmin(admin.ModelAdmin):
 
     def format_tiempo_segundos(self, segundos):
         """Formatea tiempo en segundos a formato legible"""
+        if segundos is None:
+            return "N/A"
+
         if segundos < 60:
             return f"{segundos:.1f}s"
         elif segundos < 3600:
@@ -113,6 +116,9 @@ class BaseAnalyticsAdmin(admin.ModelAdmin):
 
     def format_tiempo_duracion(self, duracion):
         """Formatea duración de tiempo (timedelta)"""
+        if duracion is None:
+            return "N/A"
+
         if isinstance(duracion, timedelta):
             total_seconds = int(duracion.total_seconds())
             return self.format_tiempo_segundos(total_seconds)
@@ -120,6 +126,11 @@ class BaseAnalyticsAdmin(admin.ModelAdmin):
 
     def format_dias_con_color(self, dias):
         """Formatea días con color según urgencia"""
+        if dias is None:
+            return format_html(
+                '<span style="color: #999; font-style: italic;">N/A</span>'
+            )
+
         if dias <= 7:
             color = "#28a745"  # Verde
         elif dias <= 30:
@@ -133,7 +144,17 @@ class BaseAnalyticsAdmin(admin.ModelAdmin):
 
     def format_porcentaje_con_color(self, porcentaje, umbral_alto=80, umbral_medio=60):
         """Formatea porcentaje con color según umbrales"""
-        porcentaje_float = float(porcentaje)
+        if porcentaje is None:
+            return format_html(
+                '<span style="color: #999; font-style: italic;">N/A</span>'
+            )
+
+        try:
+            porcentaje_float = float(porcentaje)
+        except (ValueError, TypeError):
+            return format_html(
+                '<span style="color: #999; font-style: italic;">N/A</span>'
+            )
 
         if porcentaje_float >= umbral_alto:
             color = "#28a745"  # Verde
@@ -164,6 +185,9 @@ class BaseAnalyticsAdmin(admin.ModelAdmin):
 
     def format_tamaño_archivo(self, bytes_size):
         """Formatea tamaño de archivo en formato legible"""
+        if bytes_size is None:
+            return "N/A"
+
         if bytes_size < 1024:
             return f"{bytes_size} B"
         elif bytes_size < 1024 * 1024:
