@@ -148,17 +148,12 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
         marca_url = reverse(
             "admin:analytics_marcaganadobovinomodel_change", args=[obj.marca.pk]
         )
-        return format_html(
-            '<div style="line-height: 1.4;">'
-            '<strong><a href="{}" style="color: #007bff; text-decoration: none;">{}</a></strong><br>'
-            '<small style="color: #6c757d;">👤 {}</small><br>'
-            '<small style="color: #28a745;">🐄 {} cabezas</small>'
-            "</div>",
-            marca_url,
-            obj.marca.numero_marca,
-            obj.marca.nombre_productor[:30]
-            + ("..." if len(obj.marca.nombre_productor) > 30 else ""),
-            getattr(obj.marca, "cantidad_cabezas", "N/A"),
+        return mark_safe(
+            f'<div style="line-height: 1.4;">'
+            f'<strong><a href="{marca_url}" style="color: #007bff; text-decoration: none;">{obj.marca.numero_marca}</a></strong><br>'
+            f'<small style="color: #6c757d;">👤 {obj.marca.nombre_productor[:30] + ("..." if len(obj.marca.nombre_productor) > 30 else "")}</small><br>'
+            f'<small style="color: #28a745;">🐄 {getattr(obj.marca, "cantidad_cabezas", "N/A")} cabezas</small>'
+            f"</div>"
         )
 
     marca_info_completa.short_description = "🏷️ Marca"
@@ -177,19 +172,15 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
         overlay_color = "#4caf50" if obj.exito else "#f44336"
         overlay_icon = "✓" if obj.exito else "✗"
 
-        return format_html(
-            '<div style="position: relative; display: inline-block;">'
-            '<img src="{}" style="width: 60px; height: 60px; object-fit: cover; '
-            'border-radius: 8px; border: 2px solid {};" />'
-            '<div style="position: absolute; top: -5px; right: -5px; background: {}; '
-            "color: white; border-radius: 50%; width: 20px; height: 20px; "
-            "display: flex; align-items: center; justify-content: center; "
-            'font-size: 12px; font-weight: bold;">{}</div>'
-            "</div>",
-            obj.url_logo,
-            overlay_color,
-            overlay_color,
-            overlay_icon,
+        return mark_safe(
+            f'<div style="position: relative; display: inline-block;">'
+            f'<img src="{obj.url_logo}" style="width: 60px; height: 60px; object-fit: cover; '
+            f'border-radius: 8px; border: 2px solid {overlay_color};" />'
+            f'<div style="position: absolute; top: -5px; right: -5px; background: {overlay_color}; '
+            f"color: white; border-radius: 50%; width: 20px; height: 20px; "
+            f"display: flex; align-items: center; justify-content: center; "
+            f'font-size: 12px; font-weight: bold;">{overlay_icon}</div>'
+            f"</div>"
         )
 
     preview_logo_thumbnail.short_description = "🖼️ Preview"
@@ -224,17 +215,13 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
             badge_color = "#f44336"
             badge_text = "❌ Bajo"
 
-        return format_html(
-            '<div style="text-align: center;">'
-            '<strong style="color: #2c3e50;">{}</strong><br>'
-            '<span style="background: {}; color: white; padding: 2px 6px; '
-            'border-radius: 12px; font-size: 10px; font-weight: bold;">{}</span><br>'
-            '<small style="color: #6c757d;">{}% éxito</small>'
-            "</div>",
-            obj.modelo_ia_usado,
-            badge_color,
-            badge_text,
-            f"{tasa_exito:.1f}",
+        return mark_safe(
+            f'<div style="text-align: center;">'
+            f'<strong style="color: #2c3e50;">{obj.modelo_ia_usado}</strong><br>'
+            f'<span style="background: {badge_color}; color: white; padding: 2px 6px; '
+            f'border-radius: 12px; font-size: 10px; font-weight: bold;">{badge_text}</span><br>'
+            f'<small style="color: #6c757d;">{f"{tasa_exito:.1f}"}% éxito</small>'
+            f"</div>"
         )
 
     modelo_ia_con_badge.short_description = "🤖 Modelo IA"
@@ -243,20 +230,20 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
     def resultado_visual(self, obj):
         """Resultado con indicador visual mejorado"""
         if obj.exito:
-            return format_html(
-                '<div style="display: flex; align-items: center; gap: 8px;">'
-                '<div style="width: 12px; height: 12px; background: #4caf50; '
-                'border-radius: 50%; box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);"></div>'
-                '<span style="color: #4caf50; font-weight: bold;">✅ Exitoso</span>'
-                "</div>"
+            return mark_safe(
+                f'<div style="display: flex; align-items: center; gap: 8px;">'
+                f'<div style="width: 12px; height: 12px; background: #4caf50; '
+                f'border-radius: 50%; box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);"></div>'
+                f'<span style="color: #4caf50; font-weight: bold;">✅ Exitoso</span>'
+                f"</div>"
             )
         else:
-            return format_html(
-                '<div style="display: flex; align-items: center; gap: 8px;">'
-                '<div style="width: 12px; height: 12px; background: #f44336; '
-                'border-radius: 50%; box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.2);"></div>'
-                '<span style="color: #f44336; font-weight: bold;">❌ Fallido</span>'
-                "</div>"
+            return mark_safe(
+                f'<div style="display: flex; align-items: center; gap: 8px;">'
+                f'<div style="width: 12px; height: 12px; background: #f44336; '
+                f'border-radius: 50%; box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.2);"></div>'
+                f'<span style="color: #f44336; font-weight: bold;">❌ Fallido</span>'
+                f"</div>"
             )
 
     resultado_visual.short_description = "📊 Resultado"
@@ -274,17 +261,12 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
             obj.calidad_logo, {"color": "#757575", "stars": "", "icon": "⚪"}
         )
 
-        return format_html(
-            '<div style="text-align: center;">'
-            '<div style="color: {}; font-size: 16px;">{}</div>'
-            '<div style="color: {}; font-weight: bold; font-size: 12px;">{}</div>'
-            '<div style="color: #ffc107; font-size: 14px;">{}</div>'
-            "</div>",
-            config["color"],
-            config["icon"],
-            config["color"],
-            obj.calidad_logo,
-            config["stars"],
+        return mark_safe(
+            f'<div style="text-align: center;">'
+            f'<div style="color: {config["color"]}; font-size: 16px;">{config["icon"]}</div>'
+            f'<div style="color: {config["color"]}; font-weight: bold; font-size: 12px;">{obj.calidad_logo}</div>'
+            f'<div style="color: #ffc107; font-size: 14px;">{config["stars"]}</div>'
+            f"</div>"
         )
 
     calidad_con_indicador.short_description = "⭐ Calidad"
@@ -312,17 +294,12 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
             icon = "🐢"
             label = "Muy lento"
 
-        return format_html(
-            '<div style="text-align: center;">'
-            '<div style="color: {}; font-size: 16px;">{}</div>'
-            '<div style="color: {}; font-weight: bold;">{}</div>'
-            '<small style="color: #6c757d;">{}</small>'
-            "</div>",
-            color,
-            icon,
-            color,
-            tiempo_formateado,
-            label,
+        return mark_safe(
+            f'<div style="text-align: center;">'
+            f'<div style="color: {color}; font-size: 16px;">{icon}</div>'
+            f'<div style="color: {color}; font-weight: bold;">{tiempo_formateado}</div>'
+            f'<small style="color: #6c757d;">{label}</small>'
+            f"</div>"
         )
 
     tiempo_generacion_visual.short_description = "⏱️ Tiempo"
@@ -351,14 +328,11 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
 
         fecha_formateada = obj.fecha_generacion.strftime("%d/%m/%Y %H:%M")
 
-        return format_html(
-            '<div style="text-align: center;">'
-            '<div style="color: {}; font-weight: bold; font-size: 12px;">{}</div>'
-            '<small style="color: #6c757d;">{}</small>'
-            "</div>",
-            color,
-            tiempo_relativo,
-            fecha_formateada,
+        return mark_safe(
+            f'<div style="text-align: center;">'
+            f'<div style="color: {color}; font-weight: bold; font-size: 12px;">{tiempo_relativo}</div>'
+            f'<small style="color: #6c757d;">{fecha_formateada}</small>'
+            f"</div>"
         )
 
     fecha_generacion_relativa.short_description = "📅 Generado"
@@ -382,9 +356,8 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
             self.create_action_button(f"#analizar-{obj.pk}", "📊 Analizar", "#6c757d")
         )
 
-        return format_html(
-            '<div style="display: flex; gap: 2px; flex-wrap: wrap;">{}</div>',
-            "".join(acciones),
+        return mark_safe(
+            f'<div style="display: flex; gap: 2px; flex-wrap: wrap;">{"".join(acciones)}</div>'
         )
 
     acciones_logo.short_description = "⚡ Acciones"
@@ -401,29 +374,25 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
                 "</div>"
             )
 
-        return format_html(
-            '<div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 8px;">'
-            '<img src="{}" style="max-width: 300px; max-height: 300px; '
-            'border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />'
-            '<div style="margin-top: 15px; display: flex; justify-content: center; gap: 15px;">'
-            '<div style="text-align: center;">'
-            '<div style="color: #007bff; font-weight: bold;">Modelo</div>'
-            '<div style="color: #6c757d; font-size: 14px;">{}</div>'
-            "</div>"
-            '<div style="text-align: center;">'
-            '<div style="color: #007bff; font-weight: bold;">Calidad</div>'
-            '<div style="color: #6c757d; font-size: 14px;">{}</div>'
-            "</div>"
-            '<div style="text-align: center;">'
-            '<div style="color: #007bff; font-weight: bold;">Tiempo</div>'
-            '<div style="color: #6c757d; font-size: 14px;">{}</div>'
-            "</div>"
-            "</div>"
-            "</div>",
-            obj.url_logo,
-            obj.modelo_ia_usado,
-            obj.calidad_logo,
-            self.format_tiempo_segundos(obj.tiempo_generacion_segundos),
+        return mark_safe(
+            f'<div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 8px;">'
+            f'<img src="{obj.url_logo}" style="max-width: 300px; max-height: 300px; '
+            f'border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />'
+            f'<div style="margin-top: 15px; display: flex; justify-content: center; gap: 15px;">'
+            f'<div style="text-align: center;">'
+            f'<div style="color: #007bff; font-weight: bold;">Modelo</div>'
+            f'<div style="color: #6c757d; font-size: 14px;">{obj.modelo_ia_usado}</div>'
+            f"</div>"
+            f'<div style="text-align: center;">'
+            f'<div style="color: #007bff; font-weight: bold;">Calidad</div>'
+            f'<div style="color: #6c757d; font-size: 14px;">{obj.calidad_logo}</div>'
+            f"</div>"
+            f'<div style="text-align: center;">'
+            f'<div style="color: #007bff; font-weight: bold;">Tiempo</div>'
+            f'<div style="color: #6c757d; font-size: 14px;">{self.format_tiempo_segundos(obj.tiempo_generacion_segundos)}</div>'
+            f"</div>"
+            f"</div>"
+            f"</div>"
         )
 
     preview_logo_grande.short_description = "🖼️ Vista Previa"
@@ -450,33 +419,29 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
         )
         tiempo_promedio = stats["tiempo_promedio"] or 0
 
-        return format_html(
-            '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 15px 0;">'
-            '<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); '
-            'color: white; padding: 15px; border-radius: 8px; text-align: center;">'
-            '<div style="font-size: 24px; font-weight: bold;">{}</div>'
-            '<div style="font-size: 12px; opacity: 0.9;">Total Generados</div>'
-            "</div>"
-            '<div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); '
-            'color: white; padding: 15px; border-radius: 8px; text-align: center;">'
-            '<div style="font-size: 24px; font-weight: bold;">{}%</div>'
-            '<div style="font-size: 12px; opacity: 0.9;">Tasa de Éxito</div>'
-            "</div>"
-            '<div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); '
-            'color: white; padding: 15px; border-radius: 8px; text-align: center;">'
-            '<div style="font-size: 24px; font-weight: bold;">{}s</div>'
-            '<div style="font-size: 12px; opacity: 0.9;">Tiempo Promedio</div>'
-            "</div>"
-            '<div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); '
-            'color: white; padding: 15px; border-radius: 8px; text-align: center;">'
-            '<div style="font-size: 24px; font-weight: bold;">{}%</div>'
-            '<div style="font-size: 12px; opacity: 0.9;">Alta Calidad</div>'
-            "</div>"
-            "</div>",
-            stats["total"],
-            f"{tasa_exito:.1f}",
-            f"{tiempo_promedio:.1f}",
-            f"{tasa_calidad:.1f}",
+        return mark_safe(
+            f'<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 15px 0;">'
+            f'<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); '
+            f'color: white; padding: 15px; border-radius: 8px; text-align: center;">'
+            f'<div style="font-size: 24px; font-weight: bold;">{stats["total"]}</div>'
+            f'<div style="font-size: 12px; opacity: 0.9;">Total Generados</div>'
+            f"</div>"
+            f'<div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); '
+            f'color: white; padding: 15px; border-radius: 8px; text-align: center;">'
+            f'<div style="font-size: 24px; font-weight: bold;">{f"{tasa_exito:.1f}"}%</div>'
+            f'<div style="font-size: 12px; opacity: 0.9;">Tasa de Éxito</div>'
+            f"</div>"
+            f'<div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); '
+            f'color: white; padding: 15px; border-radius: 8px; text-align: center;">'
+            f'<div style="font-size: 24px; font-weight: bold;">{f"{tiempo_promedio:.1f}"}s</div>'
+            f'<div style="font-size: 12px; opacity: 0.9;">Tiempo Promedio</div>'
+            f"</div>"
+            f'<div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); '
+            f'color: white; padding: 15px; border-radius: 8px; text-align: center;">'
+            f'<div style="font-size: 24px; font-weight: bold;">{f"{tasa_calidad:.1f}"}%</div>'
+            f'<div style="font-size: 12px; opacity: 0.9;">Alta Calidad</div>'
+            f"</div>"
+            f"</div>"
         )
 
     estadisticas_modelo.short_description = "📊 Estadísticas del Modelo"
@@ -495,31 +460,28 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
             p for p in palabras_clave if p.lower() in obj.prompt_usado.lower()
         ]
 
-        return format_html(
-            '<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #007bff;">'
-            '<div style="margin-bottom: 10px;">'
-            "<strong>Prompt utilizado:</strong>"
-            "</div>"
-            '<div style="background: white; padding: 10px; border-radius: 4px; '
-            'font-family: monospace; font-size: 13px; line-height: 1.4; max-height: 100px; overflow-y: auto;">'
-            "{}"
-            "</div>"
-            '<div style="margin-top: 10px; display: flex; gap: 15px; font-size: 12px; color: #6c757d;">'
-            "<span>📝 {} palabras</span>"
-            "<span>🔤 {} caracteres</span>"
-            "<span>🎯 {} palabras clave</span>"
-            "</div>"
-            "{}"
-            "</div>",
-            obj.prompt_usado,
-            palabras,
-            caracteres,
-            len(palabras_encontradas),
-            (
-                f'<div style="margin-top: 8px;"><strong style="font-size: 12px;">Palabras clave:</strong> {", ".join(palabras_encontradas)}</div>'
-                if palabras_encontradas
-                else ""
-            ),
+        palabras_clave_html = (
+            f'<div style="margin-top: 8px;"><strong style="font-size: 12px;">Palabras clave:</strong> {", ".join(palabras_encontradas)}</div>'
+            if palabras_encontradas
+            else ""
+        )
+
+        return mark_safe(
+            f'<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #007bff;">'
+            f'<div style="margin-bottom: 10px;">'
+            f"<strong>Prompt utilizado:</strong>"
+            f"</div>"
+            f'<div style="background: white; padding: 10px; border-radius: 4px; '
+            f'font-family: monospace; font-size: 13px; line-height: 1.4; max-height: 100px; overflow-y: auto;">'
+            f"{obj.prompt_usado}"
+            f"</div>"
+            f'<div style="margin-top: 10px; display: flex; gap: 15px; font-size: 12px; color: #6c757d;">'
+            f"<span>📝 {palabras} palabras</span>"
+            f"<span>🔤 {caracteres} caracteres</span>"
+            f"<span>🎯 {len(palabras_encontradas)} palabras clave</span>"
+            f"</div>"
+            f"{palabras_clave_html}"
+            f"</div>"
         )
 
     analisis_prompt.short_description = "🔍 Análisis de Prompt"
@@ -551,22 +513,17 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
             icon = "📉"
             texto = f"{porcentaje_diferencia:.1f}% más lento que el promedio"
 
-        return format_html(
-            '<div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">'
-            '<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">'
-            '<span style="font-size: 20px;">{}</span>'
-            '<span style="color: {}; font-weight: bold;">{}</span>'
-            "</div>"
-            '<div style="font-size: 12px; color: #6c757d;">'
-            "Promedio general: {}s<br>"
-            "Este logo: {}s"
-            "</div>"
-            "</div>",
-            icon,
-            color,
-            texto,
-            f"{promedio_general:.1f}",
-            f"{obj.tiempo_generacion_segundos:.1f}",
+        return mark_safe(
+            f'<div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">'
+            f'<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">'
+            f'<span style="font-size: 20px;">{icon}</span>'
+            f'<span style="color: {color}; font-weight: bold;">{texto}</span>'
+            f"</div>"
+            f'<div style="font-size: 12px; color: #6c757d;">'
+            f'Promedio general: {f"{promedio_general:.1f}"}s<br>'
+            f'Este logo: {f"{obj.tiempo_generacion_segundos:.1f}"}s'
+            f"</div>"
+            f"</div>"
         )
 
     metricas_rendimiento.short_description = "📊 Rendimiento"

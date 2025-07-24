@@ -199,13 +199,10 @@ class BaseAnalyticsAdmin(admin.ModelAdmin):
 
     def create_action_button(self, url, text, color="#007bff"):
         """Crea un botón de acción personalizado"""
-        return format_html(
-            '<a href="{}" style="background: {}; color: white; padding: 4px 8px; '
-            "border-radius: 4px; text-decoration: none; font-size: 11px; "
-            'display: inline-block; margin: 1px;">{}</a>',
-            url,
-            color,
-            text,
+        return mark_safe(
+            f'<a href="{url}" style="background: {color}; color: white; padding: 4px 8px; '
+            f"border-radius: 4px; text-decoration: none; font-size: 11px; "
+            f'display: inline-block; margin: 1px;">{text}</a>'
         )
 
     def show_json_preview(self, json_data, max_items=5):

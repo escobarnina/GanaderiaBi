@@ -212,25 +212,19 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
         )
         logo_indicator = "🎨" if tiene_logos else "⚪"
 
-        return format_html(
-            '<div style="line-height: 1.5;">'
-            '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">'
-            '<strong style="color: #2c3e50; font-size: 16px;">{}</strong>'
-            '<span style="background: {}; color: white; padding: 2px 6px; '
-            'border-radius: 10px; font-size: 10px; font-weight: bold;">{} días</span>'
-            "</div>"
-            '<div style="display: flex; gap: 10px; font-size: 12px; color: #6c757d;">'
-            "<span>📅 {}</span>"
-            "<span>{} Logos</span>"
-            "<span>🔄 {} cambios</span>"
-            "</div>"
-            "</div>",
-            obj.numero_marca,
-            urgencia_color,
-            dias_registro,
-            obj.fecha_registro.strftime("%d/%m/%Y"),
-            logo_indicator,
-            obj.historial.count() if hasattr(obj, "historial") else 0,
+        return mark_safe(
+            f'<div style="line-height: 1.5;">'
+            f'<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">'
+            f'<strong style="color: #2c3e50; font-size: 16px;">{obj.numero_marca}</strong>'
+            f'<span style="background: {urgencia_color}; color: white; padding: 2px 6px; '
+            f'border-radius: 10px; font-size: 10px; font-weight: bold;">{dias_registro} días</span>'
+            f"</div>"
+            f'<div style="display: flex; gap: 10px; font-size: 12px; color: #6c757d;">'
+            f'<span>📅 {obj.fecha_registro.strftime("%d/%m/%Y")}</span>'
+            f"<span>{logo_indicator} Logos</span>"
+            f'<span>🔄 {obj.historial.count() if hasattr(obj, "historial") else 0} cambios</span>'
+            f"</div>"
+            f"</div>"
         )
 
     marca_info_detallada.short_description = "🏷️ Marca"
@@ -257,28 +251,20 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
         )
         completitud_porcentaje = (completitud / 3) * 100
 
-        return format_html(
-            '<div style="line-height: 1.4;">'
-            '<div style="font-weight: bold; color: #2c3e50; margin-bottom: 5px;">{}</div>'
-            '<div style="font-size: 12px; color: #6c757d; margin-bottom: 5px;">'
-            "<div>🆔 {}</div>"
-            "<div>📞 {}</div>"
-            "</div>"
-            '<div style="display: flex; align-items: center; gap: 5px;">'
-            '<div style="width: 40px; height: 4px; background: #e0e0e0; border-radius: 2px; overflow: hidden;">'
-            '<div style="width: {}%; height: 100%; background: {}; transition: width 0.3s;"></div>'
-            "</div>"
-            '<span style="font-size: 10px; color: {};">{}%</span>'
-            "</div>"
-            "</div>",
-            obj.nombre_productor[:25]
-            + ("..." if len(obj.nombre_productor) > 25 else ""),
-            ci_display,
-            telefono_display,
-            completitud_porcentaje,
-            completitud_color,
-            completitud_color,
-            f"{completitud_porcentaje:.0f}",
+        return mark_safe(
+            f'<div style="line-height: 1.4;">'
+            f'<div style="font-weight: bold; color: #2c3e50; margin-bottom: 5px;">{obj.nombre_productor[:25] + ("..." if len(obj.nombre_productor) > 25 else "")}</div>'
+            f'<div style="font-size: 12px; color: #6c757d; margin-bottom: 5px;">'
+            f"<div>🆔 {ci_display}</div>"
+            f"<div>📞 {telefono_display}</div>"
+            f"</div>"
+            f'<div style="display: flex; align-items: center; gap: 5px;">'
+            f'<div style="width: 40px; height: 4px; background: #e0e0e0; border-radius: 2px; overflow: hidden;">'
+            f'<div style="width: {completitud_porcentaje}%; height: 100%; background: {completitud_color}; transition: width 0.3s;"></div>'
+            f"</div>"
+            f'<span style="font-size: 10px; color: {completitud_color};">{f"{completitud_porcentaje:.0f}"}%</span>'
+            f"</div>"
+            f"</div>"
         )
 
     productor_con_contacto.short_description = "👤 Productor"
@@ -323,31 +309,20 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
             obj, "get_proposito_ganado_display", lambda: obj.proposito_ganado
         )()
 
-        return format_html(
-            '<div style="text-align: center; line-height: 1.3;">'
-            '<div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 5px;">'
-            '<span style="color: {}; font-weight: bold; font-size: 14px;">{}</span>'
-            '<span style="font-size: 16px;">{}</span>'
-            "</div>"
-            '<div style="font-size: 12px; color: #6c757d; margin-bottom: 5px;">{}</div>'
-            '<div style="display: flex; align-items: center; justify-content: center; gap: 5px;">'
-            '<span style="color: {}; font-size: 14px;">{}</span>'
-            '<span style="color: {}; font-weight: bold; font-size: 12px;">{}</span>'
-            '<span style="font-size: 12px; color: #6c757d;">cabezas</span>'
-            "</div>"
-            '<div style="font-size: 10px; color: {}; margin-top: 2px;">{} {}</div>'
-            "</div>",
-            raza_color,
-            raza_display,
-            proposito_icon,
-            proposito_display,
-            tamaño_icon,
-            tamaño_color,
-            self.format_numero_con_separadores(obj.cantidad_cabezas),
-            tamaño_color,
-            tamaño_icon,
-            tamaño_clase,
-            tamaño_clase,
+        return mark_safe(
+            f'<div style="text-align: center; line-height: 1.3;">'
+            f'<div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 5px;">'
+            f'<span style="color: {raza_color}; font-weight: bold; font-size: 14px;">{raza_display}</span>'
+            f'<span style="font-size: 16px;">{proposito_icon}</span>'
+            f"</div>"
+            f'<div style="font-size: 12px; color: #6c757d; margin-bottom: 5px;">{proposito_display}</div>'
+            f'<div style="display: flex; align-items: center; justify-content: center; gap: 5px;">'
+            f'<span style="color: {tamaño_color}; font-size: 14px;">{tamaño_icon}</span>'
+            f'<span style="color: {tamaño_color}; font-weight: bold; font-size: 12px;">{self.format_numero_con_separadores(obj.cantidad_cabezas)}</span>'
+            f'<span style="font-size: 12px; color: #6c757d;">cabezas</span>'
+            f"</div>"
+            f'<div style="font-size: 10px; color: {tamaño_color}; margin-top: 2px;">{tamaño_icon} {tamaño_clase}</div>'
+            f"</div>"
         )
 
     ganado_info_visual.short_description = "🐄 Ganado"
@@ -355,15 +330,12 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
 
     def ubicacion_completa(self, obj):
         """Ubicación completa con jerarquía visual"""
-        return format_html(
-            '<div style="text-align: center; line-height: 1.3;">'
-            '<div style="font-weight: bold; color: #2c3e50; margin-bottom: 3px;">{}</div>'
-            '<div style="font-size: 12px; color: #6c757d; margin-bottom: 2px;">📍 {}</div>'
-            '<div style="font-size: 11px; color: #999;">{}</div>'
-            "</div>",
-            obj.get_departamento_display(),
-            obj.municipio,
-            obj.comunidad or "Comunidad no especificada",
+        return mark_safe(
+            f'<div style="text-align: center; line-height: 1.3;">'
+            f'<div style="font-weight: bold; color: #2c3e50; margin-bottom: 3px;">{obj.get_departamento_display()}</div>'
+            f'<div style="font-size: 12px; color: #6c757d; margin-bottom: 2px;">📍 {obj.municipio}</div>'
+            f'<div style="font-size: 11px; color: #999;">{obj.comunidad or "Comunidad no especificada"}</div>'
+            f"</div>"
         )
 
     ubicacion_completa.short_description = "📍 Ubicación"
@@ -402,29 +374,24 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
             obj.estado, {"progreso": 0, "color": "#757575", "icon": "❓"}
         )
 
-        return format_html(
-            '<div style="text-align: center;">'
-            '<div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 5px;">'
-            '<span style="font-size: 16px;">{}</span>'
-            '<span style="color: {}; font-weight: bold; font-size: 12px;">{}</span>'
-            "</div>"
-            '<div style="width: 60px; height: 6px; background: #e0e0e0; border-radius: 3px; overflow: hidden; margin: 0 auto 5px;">'
-            '<div style="width: {}%; height: 100%; background: {}; transition: width 0.5s ease;"></div>'
-            "</div>"
-            '<div style="font-size: 10px; color: #6c757d;">{}%</div>'
-            "{}"
-            "</div>",
-            config["icon"],
-            config["color"],
-            obj.estado,
-            config["progreso"],
-            config["color"],
-            config["progreso"],
-            (
-                f'<div style="font-size: 9px; color: #999; margin-top: 2px;">→ {config["siguiente"]}</div>'
-                if config.get("siguiente")
-                else ""
-            ),
+        siguiente_html = (
+            f'<div style="font-size: 9px; color: #999; margin-top: 2px;">→ {config["siguiente"]}</div>'
+            if config.get("siguiente")
+            else ""
+        )
+
+        return mark_safe(
+            f'<div style="text-align: center;">'
+            f'<div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 5px;">'
+            f'<span style="font-size: 16px;">{config["icon"]}</span>'
+            f'<span style="color: {config["color"]}; font-weight: bold; font-size: 12px;">{obj.estado}</span>'
+            f"</div>"
+            f'<div style="width: 60px; height: 6px; background: #e0e0e0; border-radius: 3px; overflow: hidden; margin: 0 auto 5px;">'
+            f'<div style="width: {config["progreso"]}%; height: 100%; background: {config["color"]}; transition: width 0.5s ease;"></div>'
+            f"</div>"
+            f'<div style="font-size: 10px; color: #6c757d;">{config["progreso"]}%</div>'
+            f"{siguiente_html}"
+            f"</div>"
         )
 
     estado_con_workflow.short_description = "📊 Estado"
@@ -457,20 +424,15 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
             monto / obj.cantidad_cabezas if obj.cantidad_cabezas > 0 else 0
         )
 
-        return format_html(
-            '<div style="text-align: center; line-height: 1.3;">'
-            '<div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 5px;">'
-            '<span style="font-size: 16px;">{}</span>'
-            '<span style="color: {}; font-weight: bold; font-size: 12px;">{}</span>'
-            "</div>"
-            '<div style="font-weight: bold; color: #2c3e50; margin-bottom: 3px;">${}</div>'
-            '<div style="font-size: 10px; color: #6c757d;">${} por cabeza</div>'
-            "</div>",
-            categoria_icon,
-            categoria_color,
-            categoria,
-            self.format_numero_con_separadores(monto),
-            f"{costo_por_cabeza:.2f}",
+        return mark_safe(
+            f'<div style="text-align: center; line-height: 1.3;">'
+            f'<div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 5px;">'
+            f'<span style="font-size: 16px;">{categoria_icon}</span>'
+            f'<span style="color: {categoria_color}; font-weight: bold; font-size: 12px;">{categoria}</span>'
+            f"</div>"
+            f'<div style="font-weight: bold; color: #2c3e50; margin-bottom: 3px;">${self.format_numero_con_separadores(monto)}</div>'
+            f'<div style="font-size: 10px; color: #6c757d;">${f"{costo_por_cabeza:.2f}"} por cabeza</div>'
+            f"</div>"
         )
 
     certificacion_info.short_description = "💰 Certificación"
@@ -500,21 +462,15 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
             eficiencia_color = "#757575"
             eficiencia_icon = "⏳"
 
-        return format_html(
-            '<div style="text-align: center; line-height: 1.3;">'
-            '<div style="color: {}; font-weight: bold; margin-bottom: 5px;">{} días</div>'
-            '<div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 3px;">'
-            '<span style="font-size: 14px;">{}</span>'
-            '<span style="color: {}; font-size: 11px; font-weight: bold;">{}</span>'
-            "</div>"
-            '<div style="font-size: 10px; color: #6c757d;">{}h procesamiento</div>'
-            "</div>",
-            self.get_estado_color("PENDIENTE") if dias > 30 else "#4caf50",
-            dias,
-            eficiencia_icon,
-            eficiencia_color,
-            eficiencia,
-            horas_procesamiento,
+        return mark_safe(
+            f'<div style="text-align: center; line-height: 1.3;">'
+            f'<div style="color: {self.get_estado_color("PENDIENTE") if dias > 30 else "#4caf50"}; font-weight: bold; margin-bottom: 5px;">{dias} días</div>'
+            f'<div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 3px;">'
+            f'<span style="font-size: 14px;">{eficiencia_icon}</span>'
+            f'<span style="color: {eficiencia_color}; font-size: 11px; font-weight: bold;">{eficiencia}</span>'
+            f"</div>"
+            f'<div style="font-size: 10px; color: #6c757d;">{horas_procesamiento}h procesamiento</div>'
+            f"</div>"
         )
 
     tiempo_procesamiento_avanzado.short_description = "⏱️ Tiempo"
@@ -558,9 +514,10 @@ class MarcaGanadoBovinoAdmin(BaseAnalyticsAdmin):
             self.create_action_button(f"#predecir-{obj.pk}", "🔮 Predecir", "#9c27b0")
         )
 
-        return format_html(
-            '<div style="display: flex; flex-direction: column; gap: 2px;">{}</div>',
-            "".join(acciones),
+        return mark_safe(
+            '<div style="display: flex; flex-direction: column; gap: 2px;">{}</div>'.format(
+                "".join(acciones)
+            )
         )
 
     acciones_inteligentes.short_description = "⚡ Acciones"
