@@ -6,6 +6,8 @@ Responsabilidad única: Gestionar datos de marcas bovinas en la base de datos
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.admin.models import LogEntry, CHANGE, ADDITION, DELETION
+from django.contrib.contenttypes.models import ContentType
 from datetime import datetime
 from apps.analytics.domain.enums import (
     EstadoMarca,
@@ -151,3 +153,106 @@ class MarcaGanadoBovinoModel(models.Model):
         if self.fecha_registro:
             return (datetime.now().date() - self.fecha_registro.date()).days
         return 0
+
+    def save(self, *args, **kwargs):
+        """Sobrescribir save para registrar cambios en el historial"""
+        is_new = self.pk is None
+        if not is_new:
+            # Obtener el objeto original de la base de datos
+            try:
+                original = MarcaGanadoBovinoModel.objects.get(pk=self.pk)
+                # Comparar campos importantes
+                changed_fields = []
+                if original.estado != self.estado:
+                    changed_fields.append(f"Estado: {original.estado} → {self.estado}")
+                if original.nombre_productor != self.nombre_productor:
+                    changed_fields.append(
+                        f"Productor: {original.nombre_productor} → {self.nombre_productor}"
+                    )
+                if original.ci_productor != self.ci_productor:
+                    changed_fields.append(
+                        f"CI: {original.ci_productor} → {self.ci_productor}"
+                    )
+                if original.telefono_productor != self.telefono_productor:
+                    changed_fields.append(
+                        f"Teléfono: {original.telefono_productor} → {self.telefono_productor}"
+                    )
+                if original.departamento != self.departamento:
+                    changed_fields.append(
+                        f"Departamento: {original.departamento} → {self.departamento}"
+                    )
+                if original.municipio != self.municipio:
+                    changed_fields.append(
+                        f"Municipio: {original.municipio} → {self.municipio}"
+                    )
+                if original.cantidad_cabezas != self.cantidad_cabezas:
+                    changed_fields.append(
+                        f"Cabezas: {original.cantidad_cabezas} → {self.cantidad_cabezas}"
+                    )
+                if original.raza_bovino != self.raza_bovino:
+                    changed_fields.append(
+                        f"Raza: {original.raza_bovino} → {self.raza_bovino}"
+                    )
+                if original.proposito_ganado != self.proposito_ganado:
+                    changed_fields.append(
+                        f"Propósito: {original.proposito_ganado} → {self.proposito_ganado}"
+                    )
+                if original.monto_certificacion != self.monto_certificacion:
+                    changed_fields.append(
+                        f"Monto: {original.monto_certificacion} → {self.monto_certificacion}"
+                    )
+                if original.observaciones != self.observaciones:
+                    changed_fields.append("Observaciones actualizadas")
+                if original.fecha_procesamiento != self.fecha_procesamiento:
+                    changed_fields.append("Fecha de procesamiento actualizada")
+
+                # Registrar cambios en el historial
+                if changed_fields:
+                    self._log_change(changed_fields)
+            except MarcaGanadoBovinoModel.DoesNotExist:
+                pass
+
+        super().save(*args, **kwargs)
+
+        # Registrar creación
+        if is_new:
+            self._log_creation()
+
+    def delete(self, *args, **kwargs):
+        """Sobrescribir delete para registrar eliminación en el historial"""
+        self._log_deletion()
+        super().delete(*args, **kwargs)
+
+    def _log_creation(self):
+        """Registrar creación en el historial"""
+        LogEntry.objects.log_action(
+            user_id=3,  # Usuario existente (melina)
+            content_type_id=ContentType.objects.get_for_model(self).pk,
+            object_id=self.pk,
+            object_repr=str(self),
+            action_flag=ADDITION,
+            change_message="Marca registrada",
+        )
+
+    def _log_change(self, changed_fields):
+        """Registrar cambios en el historial"""
+        change_message = "; ".join(changed_fields)
+        LogEntry.objects.log_action(
+            user_id=3,  # Usuario existente (melina)
+            content_type_id=ContentType.objects.get_for_model(self).pk,
+            object_id=self.pk,
+            object_repr=str(self),
+            action_flag=CHANGE,
+            change_message=change_message,
+        )
+
+    def _log_deletion(self):
+        """Registrar eliminación en el historial"""
+        LogEntry.objects.log_action(
+            user_id=3,  # Usuario existente (melina)
+            content_type_id=ContentType.objects.get_for_model(self).pk,
+            object_id=self.pk,
+            object_repr=str(self),
+            action_flag=DELETION,
+            change_message="Marca eliminada",
+        )

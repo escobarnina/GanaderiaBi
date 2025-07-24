@@ -10,7 +10,7 @@ from django.db import models
 class KPIGanadoBovinoModel(models.Model):
     """Modelo Django para KPIs de ganado bovino - Nueva Arquitectura"""
 
-    fecha = models.DateField(auto_now_add=True)
+    fecha = models.DateField()
 
     # KPIs principales
     marcas_registradas_mes = models.IntegerField(

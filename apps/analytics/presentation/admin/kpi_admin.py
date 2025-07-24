@@ -626,50 +626,85 @@ class KPIGanadoBovinoAdmin(BaseAnalyticsAdmin):
         )
 
     def _calcular_tendencia_ingresos(self, obj):
-        """Calcula la tendencia de ingresos"""
+        """Calcula la tendencia de ingresos con validaciones robustas"""
         try:
+            # Validar que el objeto existe y tiene ingresos
+            if not obj or not hasattr(obj, "ingresos_mes"):
+                return '<span class="trend-neutral">➡️ N/A</span>'
+
+            ingresos_actual = float(obj.ingresos_mes or 0)
+
+            # Obtener mes anterior
             mes_anterior = (
                 KPIGanadoBovinoModel.objects.filter(fecha__lt=obj.fecha)
                 .order_by("-fecha")
                 .first()
             )
 
-            if mes_anterior:
-                diferencia = obj.ingresos_mes - mes_anterior.ingresos_mes
-                porcentaje = (diferencia / mes_anterior.ingresos_mes) * 100
+            if not mes_anterior:
+                return '<span class="trend-neutral">➡️ N/A</span>'
 
-                if porcentaje > 5:
-                    return f'<span class="trend-up">↗️ +{porcentaje:.1f}%</span>'
-                elif porcentaje < -5:
-                    return f'<span class="trend-down">↘️ {porcentaje:.1f}%</span>'
-                else:
-                    return f'<span class="trend-stable">➡️ {porcentaje:.1f}%</span>'
-            return '<span class="trend-neutral">➡️ N/A</span>'
-        except:
+            ingresos_anterior = float(mes_anterior.ingresos_mes or 0)
+
+            # Calcular diferencia y porcentaje
+            diferencia = ingresos_actual - ingresos_anterior
+
+            if ingresos_anterior > 0:
+                porcentaje = (diferencia / ingresos_anterior) * 100
+            else:
+                porcentaje = 0
+
+            # Determinar tendencia
+            if porcentaje > 5:
+                return f'<span class="trend-up">↗️ +{porcentaje:.1f}%</span>'
+            elif porcentaje < -5:
+                return f'<span class="trend-down">↘️ {porcentaje:.1f}%</span>'
+            else:
+                return f'<span class="trend-stable">➡️ {porcentaje:.1f}%</span>'
+
+        except (TypeError, ValueError, AttributeError, ZeroDivisionError) as e:
+            print(f"Error calculando tendencia de ingresos: {e}")
             return '<span class="trend-error">❓ Error</span>'
 
     def _generar_indicador_tendencia(self, obj):
-        """Genera indicador de tendencia general"""
+        """Genera indicador de tendencia general con validaciones robustas"""
         try:
+            # Validar que el objeto existe
+            if not obj:
+                return format_html('<span class="trend-error">❓ Sin datos</span>')
+
             # Calcular tendencias de múltiples métricas
             tendencias = []
 
             # Tendencia de aprobación
-            aprobacion_trend = self._calcular_tendencia_metrica(
-                obj, "porcentaje_aprobacion"
-            )
-            tendencias.append(("Aprobación", aprobacion_trend))
+            try:
+                aprobacion_trend = self._calcular_tendencia_metrica(
+                    obj, "porcentaje_aprobacion"
+                )
+                tendencias.append(("Aprobación", aprobacion_trend))
+            except Exception as e:
+                print(f"Error calculando tendencia de aprobación: {e}")
+                tendencias.append(("Aprobación", "N/A"))
 
             # Tendencia de ingresos
-            ingresos_trend = self._calcular_tendencia_metrica(obj, "ingresos_mes")
-            tendencias.append(("Ingresos", ingresos_trend))
+            try:
+                ingresos_trend = self._calcular_tendencia_metrica(obj, "ingresos_mes")
+                tendencias.append(("Ingresos", ingresos_trend))
+            except Exception as e:
+                print(f"Error calculando tendencia de ingresos: {e}")
+                tendencias.append(("Ingresos", "N/A"))
 
             # Tendencia de eficiencia de logos
-            logos_trend = self._calcular_tendencia_metrica(obj, "tasa_exito_logos")
-            tendencias.append(("Logos", logos_trend))
+            try:
+                logos_trend = self._calcular_tendencia_metrica(obj, "tasa_exito_logos")
+                tendencias.append(("Logos", logos_trend))
+            except Exception as e:
+                print(f"Error calculando tendencia de logos: {e}")
+                tendencias.append(("Logos", "N/A"))
 
             return self._formatear_tendencias(tendencias)
-        except:
+        except Exception as e:
+            print(f"Error general en generación de tendencias: {e}")
             return format_html('<span class="trend-error">❓ Error en cálculo</span>')
 
     def _generar_alertas_activas(self, obj):
@@ -699,26 +734,40 @@ class KPIGanadoBovinoAdmin(BaseAnalyticsAdmin):
         )
 
     def _calcular_eficiencia_global(self, obj):
-        """Calcula la eficiencia global del sistema"""
+        """Calcula la eficiencia global del sistema con validaciones robustas"""
         try:
+            # Validar que el objeto existe y tiene datos válidos
+            if not obj or not hasattr(obj, "porcentaje_aprobacion"):
+                return 0
+
             # Ponderación de métricas
             peso_aprobacion = 0.3
             peso_tiempo = 0.25
             peso_logos = 0.25
             peso_ingresos = 0.2
 
-            # Normalizar métricas (0-100)
-            score_aprobacion = obj.porcentaje_aprobacion
+            # Normalizar métricas con validaciones
+            score_aprobacion = max(0, min(100, float(obj.porcentaje_aprobacion or 0)))
+
+            # Score de tiempo (menor tiempo = mejor score)
+            tiempo_procesamiento = float(obj.tiempo_promedio_procesamiento or 0)
             score_tiempo = max(
-                0, 100 - (obj.tiempo_promedio_procesamiento / 168 * 100)
-            )  # 168h = 1 semana
-            score_logos = obj.tasa_exito_logos
+                0, 100 - (tiempo_procesamiento / 168 * 100)
+            )  # 168h = 1 semana máxima
 
-            # Score de ingresos basado en objetivo mensual (ejemplo: 50000 Bs)
-            objetivo_ingresos = 50000
-            score_ingresos = min(100, (obj.ingresos_mes / objetivo_ingresos) * 100)
+            # Score de logos
+            score_logos = max(0, min(100, float(obj.tasa_exito_logos or 0)))
 
-            # Calcular eficiencia global
+            # Score de ingresos basado en objetivo mensual
+            ingresos = float(obj.ingresos_mes or 0)
+            objetivo_ingresos = 50000  # Bs. objetivo mensual
+            score_ingresos = (
+                min(100, (ingresos / objetivo_ingresos) * 100)
+                if objetivo_ingresos > 0
+                else 0
+            )
+
+            # Calcular eficiencia global con validación
             eficiencia = (
                 score_aprobacion * peso_aprobacion
                 + score_tiempo * peso_tiempo
@@ -726,8 +775,14 @@ class KPIGanadoBovinoAdmin(BaseAnalyticsAdmin):
                 + score_ingresos * peso_ingresos
             )
 
-            return round(eficiencia)
-        except:
+            # Asegurar que el resultado esté en el rango válido
+            eficiencia_final = max(0, min(100, round(eficiencia)))
+
+            return eficiencia_final
+
+        except (TypeError, ValueError, AttributeError, ZeroDivisionError) as e:
+            # Log del error para debugging
+            print(f"Error en cálculo de eficiencia global: {e}")
             return 0
 
     # Métodos para análisis predictivo
@@ -919,6 +974,82 @@ class KPIGanadoBovinoAdmin(BaseAnalyticsAdmin):
             return "".join(comparaciones)
         except:
             return '<div class="comparison-error">Error en comparación anual</div>'
+
+    def _calcular_tendencia_metrica(self, obj, campo):
+        """Calcula la tendencia de una métrica específica"""
+        try:
+            # Obtener valor actual
+            valor_actual = getattr(obj, campo, 0)
+            if valor_actual is None:
+                valor_actual = 0
+
+            # Obtener valor anterior (mes anterior)
+            mes_anterior = (
+                KPIGanadoBovinoModel.objects.filter(fecha__lt=obj.fecha)
+                .order_by("-fecha")
+                .first()
+            )
+
+            if not mes_anterior:
+                return "N/A"
+
+            valor_anterior = getattr(mes_anterior, campo, 0)
+            if valor_anterior is None:
+                valor_anterior = 0
+
+            # Calcular diferencia
+            diferencia = valor_actual - valor_anterior
+
+            # Calcular porcentaje de cambio
+            if valor_anterior != 0:
+                porcentaje = (diferencia / valor_anterior) * 100
+            else:
+                porcentaje = 0
+
+            # Determinar tendencia
+            if porcentaje > 5:
+                return f"↗️ +{porcentaje:.1f}%"
+            elif porcentaje < -5:
+                return f"↘️ {porcentaje:.1f}%"
+            else:
+                return f"➡️ {porcentaje:.1f}%"
+
+        except Exception as e:
+            print(f"Error calculando tendencia para {campo}: {e}")
+            return "N/A"
+
+    def _formatear_tendencias(self, tendencias):
+        """Formatea las tendencias en HTML"""
+        try:
+            if not tendencias:
+                return format_html('<span class="trend-neutral">➡️ Sin datos</span>')
+
+            tendencias_html = []
+            for nombre, tendencia in tendencias:
+                if tendencia == "N/A":
+                    color = "#666"
+                    icon = "➡️"
+                elif "↗️" in tendencia:
+                    color = "#4caf50"
+                    icon = "↗️"
+                elif "↘️" in tendencia:
+                    color = "#f44336"
+                    icon = "↘️"
+                else:
+                    color = "#666"
+                    icon = "➡️"
+
+                tendencias_html.append(
+                    f'<span class="trend-item" style="color: {color};">{icon} {nombre}</span>'
+                )
+
+            return format_html(
+                '<div class="trends-container">{}</div>', " ".join(tendencias_html)
+            )
+
+        except Exception as e:
+            print(f"Error formateando tendencias: {e}")
+            return format_html('<span class="trend-error">❓ Error en formato</span>')
 
     def _formatear_comparacion(self, metrica, diferencia, unidad):
         """Formatea una comparación individual"""

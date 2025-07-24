@@ -135,6 +135,11 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
                 name="logo_regenerar_individual",
             ),
             path(
+                "<int:logo_id>/analizar/",
+                self.admin_site.admin_view(self.analizar_logo_individual),
+                name="logo_analizar_individual",
+            ),
+            path(
                 "comparar-modelos/",
                 self.admin_site.admin_view(self.comparar_modelos_view),
                 name="logo_comparar_modelos",
@@ -352,8 +357,9 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
             acciones.append(self.create_action_button(obj.url_logo, "👁️ Ver", "#28a745"))
 
         # Botón de análisis
+        analizar_url = reverse("admin:logo_analizar_individual", args=[obj.pk])
         acciones.append(
-            self.create_action_button(f"#analizar-{obj.pk}", "📊 Analizar", "#6c757d")
+            self.create_action_button(analizar_url, "📊 Analizar", "#6c757d")
         )
 
         return mark_safe(
@@ -703,6 +709,52 @@ class LogoMarcaBovinaAdmin(BaseAnalyticsAdmin):
         return HttpResponseRedirect(
             reverse("admin:analytics_logomarcabovinamodel_changelist")
         )
+
+    def analizar_logo_individual(self, request, logo_id):
+        """Vista de análisis individual de un logo"""
+        logo = get_object_or_404(LogoMarcaBovinaModel, pk=logo_id)
+
+        # Obtener estadísticas de comparación de modelos
+        from django.db.models import Count, Avg, Q
+
+        modelos_comparacion = []
+        todos_modelos = LogoMarcaBovinaModel.objects.values(
+            "modelo_ia_usado"
+        ).distinct()
+
+        for modelo in todos_modelos:
+            modelo_nombre = modelo["modelo_ia_usado"]
+            stats = LogoMarcaBovinaModel.objects.filter(
+                modelo_ia_usado=modelo_nombre
+            ).aggregate(
+                total=Count("id"),
+                exitosos=Count("id", filter=Q(exito=True)),
+                tiempo_promedio=Avg("tiempo_generacion_segundos"),
+                alta_calidad=Count("id", filter=Q(calidad_logo="ALTA")),
+            )
+
+            tasa_exito = (
+                (stats["exitosos"] / stats["total"] * 100) if stats["total"] > 0 else 0
+            )
+
+            modelos_comparacion.append(
+                {
+                    "modelo_ia_usado": modelo_nombre,
+                    "total": stats["total"],
+                    "tasa_exito": tasa_exito,
+                    "tiempo_promedio": stats["tiempo_promedio"] or 0,
+                    "alta_calidad": stats["alta_calidad"],
+                }
+            )
+
+        context = {
+            "title": f"Análisis Individual de Logo {logo.pk}",
+            "logo": logo,
+            "modelos_comparacion": modelos_comparacion,
+            "opts": self.model._meta,
+        }
+
+        return render(request, "admin/logo_analizar_individual.html", context)
 
     def comparar_modelos_view(self, request):
         """Vista de comparación de modelos"""
