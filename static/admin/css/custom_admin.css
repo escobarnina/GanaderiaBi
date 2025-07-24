@@ -1,23 +1,20 @@
 /* ============================================================================
    ESTILOS PERSONALIZADOS PARA EL ADMIN DE DJANGO
-   Sistema de Inteligencia de Negocios Ganadero
+   Sistema de Inteligencia de Negocios Ganadero - Tema Verde
    ============================================================================ */
 
 /* Importar estilos base unificados */
 @import url('base_admin.css');
 
-/* Estilos generales */
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
-}
+/* ============================================================================
+   ESTILOS ESPECÍFICOS DEL ADMIN DE DJANGO
+   ============================================================================ */
 
 /* Header personalizado */
 #header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: var(--gradient-ganadero);
     color: white;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow-md);
     border-bottom: none;
 }
 
@@ -37,40 +34,40 @@ body {
 
 /* Sidebar personalizado */
 .module h2, .module caption, .inline-group h2 {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: var(--gradient-ganadero);
     color: white;
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-md);
     padding: 0.75rem 1rem;
     font-weight: 600;
 }
 
 /* Botones personalizados */
 .button, input[type=submit], input[type=button], .submit-row input, a.button {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: var(--gradient-ganadero);
     border: none;
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-sm);
     color: white;
     padding: 0.5rem 1rem;
     font-weight: 500;
-    transition: var(--transition);
-    box-shadow: var(--box-shadow);
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-sm);
 }
 
 .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-md);
 }
 
 /* Tablas personalizadas */
 #content-main table {
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-md);
     overflow: hidden;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow-sm);
     background: white;
 }
 
 #content-main th {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: var(--gradient-ganadero);
     color: white;
     font-weight: 600;
     border: none;
@@ -82,7 +79,7 @@ body {
 }
 
 #content-main tr:hover {
-    background-color: rgba(102, 126, 234, 0.05);
+    background-color: rgba(45, 90, 39, 0.05);
 }
 
 /* Formularios personalizados */
@@ -90,8 +87,8 @@ body {
     background: white;
     padding: 1rem;
     margin-bottom: 1rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
 }
 
 .form-row label {
@@ -101,14 +98,14 @@ body {
 
 .form-row input, .form-row textarea, .form-row select {
     border: 2px solid #e9ecef;
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-sm);
     padding: 0.5rem;
-    transition: var(--transition);
+    transition: var(--transition-normal);
 }
 
 .form-row input:focus, .form-row textarea:focus, .form-row select:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
     outline: none;
 }
 
@@ -118,24 +115,24 @@ body {
 }
 
 .messagelist li {
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-sm);
     padding: 1rem;
     margin-bottom: 0.5rem;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow-sm);
 }
 
 .messagelist .success {
-    background: linear-gradient(135deg, var(--success-color) 0%, #20c997 100%);
+    background: var(--gradient-success);
     color: white;
 }
 
 .messagelist .warning {
-    background: linear-gradient(135deg, var(--warning-color) 0%, #fd7e14 100%);
+    background: var(--gradient-warning);
     color: white;
 }
 
 .messagelist .error {
-    background: linear-gradient(135deg, var(--danger-color) 0%, #e74c3c 100%);
+    background: var(--gradient-danger);
     color: white;
 }
 
@@ -143,8 +140,8 @@ body {
 .breadcrumbs {
     background: white;
     padding: 0.75rem 1rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
     margin-bottom: 1rem;
 }
 
@@ -156,45 +153,6 @@ body {
 
 .breadcrumbs a:hover {
     color: var(--secondary-color);
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    #header {
-        padding: 0.5rem 1rem;
-    }
-    
-    #branding h1 {
-        font-size: 1.2rem;
-    }
-    
-    .dashboard-stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .stat-card {
-        padding: 1rem;
-    }
-    
-    .stat-number {
-        font-size: 1.5rem;
-    }
-}
-
-/* Animaciones */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.module {
-    animation: fadeIn 0.5s ease-out;
 }
 
 /* Estados especiales */
@@ -239,159 +197,50 @@ body {
     background: var(--dark-color);
     color: white;
     padding: 0.5rem;
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-sm);
     font-size: 0.8rem;
     white-space: nowrap;
     z-index: 1000;
 }
 
 /* ============================================================================
-   ESTILOS ESPECÍFICOS PARA ANALYTICS
+   RESPONSIVE DESIGN PARA ADMIN
    ============================================================================ */
 
-/* Estilos personalizados para el admin de analytics */
-.analytics-admin {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Estilos para estados con colores */
-.estado-pendiente {
-  color: #ffc107;
-  font-weight: bold;
-}
-
-.estado-proceso {
-  color: #17a2b8;
-  font-weight: bold;
-}
-
-.estado-aprobado {
-  color: #28a745;
-  font-weight: bold;
-}
-
-.estado-rechazado {
-  color: #dc3545;
-  font-weight: bold;
-}
-
-/* Estilos para métricas */
-.metrica-alta {
-  color: #28a745;
-  font-weight: bold;
-}
-
-.metrica-media {
-  color: #ffc107;
-  font-weight: bold;
-}
-
-.metrica-baja {
-  color: #dc3545;
-  font-weight: bold;
-}
-
-/* Estilos para el dashboard */
-.dashboard-card {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  padding: 15px;
-  margin: 10px 0;
-}
-
-.dashboard-metric {
-  display: inline-block;
-  margin: 5px 10px;
-  padding: 8px 12px;
-  background: white;
-  border-radius: 4px;
-  border-left: 4px solid #007bff;
-}
-
-/* Estilos para alertas */
-.alert-success {
-  background-color: #d4edda;
-  border-color: #c3e6cb;
-  color: #155724;
-}
-
-.alert-warning {
-  background-color: #fff3cd;
-  border-color: #ffeaa7;
-  color: #856404;
-}
-
-.alert-danger {
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  color: #721c24;
-}
-
-/* Responsive design para analytics */
 @media (max-width: 768px) {
-  .dashboard-metric {
-    display: block;
-    margin: 5px 0;
-  }
+    #header {
+        padding: 0.5rem 1rem;
+    }
+    
+    #branding h1 {
+        font-size: 1.2rem;
+    }
+    
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-card {
+        padding: 1rem;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
 }
 
-/* Estilos para tablas de analytics */
-.analytics-table {
-  width: 100%;
-  border-collapse: collapse;
+/* Animaciones para admin */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.analytics-table th,
-.analytics-table td {
-  padding: 8px 12px;
-  text-align: left;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.analytics-table th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-}
-
-/* Estilos para botones de acción de analytics */
-.btn-analytics {
-  display: inline-block;
-  padding: 6px 12px;
-  margin: 2px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 12px;
-}
-
-.btn-analytics:hover {
-  background-color: #0056b3;
-  color: white;
-}
-
-.btn-success {
-  background-color: #28a745;
-}
-
-.btn-success:hover {
-  background-color: #218838;
-}
-
-.btn-warning {
-  background-color: #ffc107;
-  color: #212529;
-}
-
-.btn-warning:hover {
-  background-color: #e0a800;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-}
-
-.btn-danger:hover {
-  background-color: #c82333;
+.module {
+    animation: fadeIn 0.5s ease-out;
 } 

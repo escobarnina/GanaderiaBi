@@ -1,26 +1,36 @@
 /* ============================================================================
    SISTEMA CSS UNIFICADO PARA ADMIN DJANGO
-   Sistema de Inteligencia de Negocios Ganadero
+   Sistema de Inteligencia de Negocios Ganadero - Tema Ganadero Verde
    ============================================================================ */
 
-/* Variables CSS Globales */
+/* Variables CSS Globales - Paleta Ganadera Verde */
 :root {
-  /* Colores principales */
-  --primary-color: #667eea;
-  --secondary-color: #764ba2;
-  --success-color: #28a745;
-  --warning-color: #ffc107;
-  --danger-color: #dc3545;
-  --info-color: #17a2b8;
-  --light-color: #f8f9fa;
-  --dark-color: #343a40;
+  /* Colores principales - Tema Ganadero */
+  --primary-color: #2d5a27;      /* Verde bosque oscuro */
+  --secondary-color: #4a7c59;    /* Verde musgo */
+  --accent-color: #7fb069;       /* Verde claro */
+  --success-color: #28a745;      /* Verde éxito */
+  --warning-color: #ffc107;      /* Amarillo */
+  --danger-color: #dc3545;       /* Rojo */
+  --info-color: #17a2b8;         /* Azul info */
+  --light-color: #f8f9fa;        /* Gris claro */
+  --dark-color: #1a3d1f;         /* Verde muy oscuro */
+  --text-color: #2c3e50;         /* Azul gris oscuro */
   
-  /* Gradientes */
+  /* Gradientes Ganaderos */
   --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   --gradient-success: linear-gradient(135deg, var(--success-color) 0%, #20c997 100%);
   --gradient-warning: linear-gradient(135deg, var(--warning-color) 0%, #fd7e14 100%);
   --gradient-danger: linear-gradient(135deg, var(--danger-color) 0%, #e74c3c 100%);
   --gradient-info: linear-gradient(135deg, var(--info-color) 0%, #6f42c1 100%);
+  --gradient-ganadero: linear-gradient(135deg, #2d5a27 0%, #4a7c59 50%, #7fb069 100%);
+  
+  /* Colores de estados específicos para ganadería */
+  --estado-pendiente: #ffc107;    /* Amarillo */
+  --estado-proceso: #17a2b8;     /* Azul */
+  --estado-aprobado: #28a745;    /* Verde */
+  --estado-rechazado: #dc3545;   /* Rojo */
+  --estado-observado: #fd7e14;   /* Naranja */
   
   /* Espaciado */
   --spacing-xs: 4px;
@@ -36,9 +46,9 @@
   --border-radius-xl: 16px;
   
   /* Sombras */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 2px 4px rgba(45, 90, 39, 0.1);
+  --shadow-md: 0 4px 8px rgba(45, 90, 39, 0.15);
+  --shadow-lg: 0 8px 16px rgba(45, 90, 39, 0.2);
   
   /* Transiciones */
   --transition-fast: all 0.2s ease;
@@ -53,12 +63,6 @@
   --font-size-lg: 18px;
   --font-size-xl: 24px;
   --font-size-2xl: 32px;
-  
-  /* Estados */
-  --state-pending: #ffc107;
-  --state-process: #17a2b8;
-  --state-approved: #28a745;
-  --state-rejected: #dc3545;
 }
 
 /* ============================================================================
@@ -72,10 +76,11 @@
 
 body {
   font-family: var(--font-family);
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f0f8f0 0%, #e8f5e8 100%);
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  color: var(--text-color);
 }
 
 /* ============================================================================
@@ -99,7 +104,7 @@ body {
 }
 
 .admin-card-header {
-  background: var(--gradient-primary);
+  background: var(--gradient-ganadero);
   color: white;
   padding: var(--spacing-md) var(--spacing-lg);
   margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-lg);
@@ -135,7 +140,7 @@ body {
 }
 
 .btn-primary {
-  background: var(--gradient-primary);
+  background: var(--gradient-ganadero);
   color: white;
 }
 
@@ -175,7 +180,7 @@ body {
   color: white;
 }
 
-/* Estados */
+/* Estados específicos para ganadería */
 .status-badge {
   display: inline-block;
   padding: var(--spacing-xs) var(--spacing-sm);
@@ -203,6 +208,32 @@ body {
 .status-rejected {
   background: #f8d7da;
   color: #721c24;
+}
+
+/* Estados con colores ganaderos */
+.estado-pendiente {
+  color: var(--estado-pendiente);
+  font-weight: bold;
+}
+
+.estado-proceso {
+  color: var(--estado-proceso);
+  font-weight: bold;
+}
+
+.estado-aprobado {
+  color: var(--estado-aprobado);
+  font-weight: bold;
+}
+
+.estado-rechazado {
+  color: var(--estado-rechazado);
+  font-weight: bold;
+}
+
+.estado-observado {
+  color: var(--estado-observado);
+  font-weight: bold;
 }
 
 /* Métricas */
@@ -346,13 +377,13 @@ body {
 }
 
 .admin-table th {
-  background: var(--gradient-primary);
+  background: var(--gradient-ganadero);
   color: white;
   font-weight: 600;
 }
 
 .admin-table tr:hover {
-  background-color: rgba(102, 126, 234, 0.05);
+  background-color: rgba(45, 90, 39, 0.05);
 }
 
 /* Formularios */
@@ -378,7 +409,7 @@ body {
 
 .form-control:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
   outline: none;
 }
 
@@ -403,7 +434,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(127, 176, 105, 0.4), transparent);
   animation: loading 1.5s infinite;
 }
 
@@ -480,7 +511,7 @@ body {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --light-color: #343a40;
+    --light-color: #1a3d1f;
     --dark-color: #f8f9fa;
   }
   

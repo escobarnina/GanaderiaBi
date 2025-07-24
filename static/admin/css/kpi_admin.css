@@ -1,15 +1,19 @@
 /* ============================================================================
    ESTILOS ESPECÍFICOS PARA KPI ADMIN
-   Sistema de Inteligencia de Negocios Ganadero
+   Sistema de Inteligencia de Negocios Ganadero - Tema Verde
    ============================================================================ */
 
 /* Importar estilos base unificados */
 @import url('base_admin.css');
 
+/* ============================================================================
+   COMPONENTES ESPECÍFICOS PARA KPI
+   ============================================================================ */
+
 /* Dashboard Interactivo */
 .interactive-dashboard {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
+  background: var(--gradient-ganadero);
+  border-radius: var(--border-radius-lg);
   padding: 20px;
   color: white;
   margin: 10px 0;
@@ -30,7 +34,7 @@
 
 .kpi-card {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   padding: 15px;
   text-align: center;
   backdrop-filter: blur(10px);
@@ -53,10 +57,10 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   margin: 0 5px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition-normal);
 }
 
 .btn-refresh:hover,
@@ -71,7 +75,7 @@
   align-items: center;
   gap: 8px;
   padding: 8px;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   background: #f8f9fa;
 }
 
@@ -106,13 +110,13 @@
 /* Análisis de Eficiencia */
 .efficiency-analysis {
   background: #f8f9fa;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   padding: 20px;
 }
 
 .efficiency-header h3 {
   margin: 0 0 20px 0;
-  color: #495057;
+  color: var(--text-color);
 }
 
 .efficiency-grid {
@@ -124,9 +128,9 @@
 
 .efficiency-metric {
   background: white;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   padding: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .metric-header {
@@ -142,13 +146,13 @@
 
 .metric-title {
   font-weight: 500;
-  color: #495057;
+  color: var(--text-color);
 }
 
 .metric-value {
   font-size: 1.5em;
   font-weight: bold;
-  color: #212529;
+  color: var(--dark-color);
   margin-bottom: 8px;
 }
 
@@ -181,7 +185,7 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: conic-gradient(#4caf50 0deg, #4caf50 var(--score-angle, 0deg), #e9ecef var(--score-angle, 0deg));
+  background: conic-gradient(var(--success-color) 0deg, var(--success-color) var(--score-angle, 0deg), #e9ecef var(--score-angle, 0deg));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -201,7 +205,7 @@
 .score-value {
   font-size: 1.8em;
   font-weight: bold;
-  color: #212529;
+  color: var(--dark-color);
   z-index: 1;
 }
 
@@ -213,8 +217,8 @@
 
 /* Análisis Predictivo */
 .prediction-container {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
+  background: var(--gradient-ganadero);
+  border-radius: var(--border-radius-lg);
   padding: 20px;
   color: white;
   margin: 10px 0;
@@ -234,7 +238,7 @@
 
 .prediction-card {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   padding: 15px;
   backdrop-filter: blur(10px);
 }
@@ -263,7 +267,7 @@
 
 .prediction-insights {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   padding: 15px;
   backdrop-filter: blur(10px);
 }
@@ -290,14 +294,14 @@
 /* Comparación Histórica */
 .comparison-container {
   background: #f8f9fa;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   padding: 20px;
   margin: 10px 0;
 }
 
 .comparison-header h3 {
   margin: 0 0 20px 0;
-  color: #495057;
+  color: var(--text-color);
 }
 
 .comparison-timeline {
@@ -313,15 +317,15 @@
 
 .metric-comparison h4 {
   margin: 0 0 15px 0;
-  color: #495057;
+  color: var(--text-color);
   font-size: 1.1em;
 }
 
 .comparison-grid {
   background: white;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   padding: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .metric-comparison-item {
@@ -338,7 +342,7 @@
 
 .metric-name {
   font-weight: 500;
-  color: #495057;
+  color: var(--text-color);
 }
 
 .metric-change {
@@ -346,11 +350,11 @@
 }
 
 .metric-comparison-item.positive .metric-change {
-  color: #28a745;
+  color: var(--success-color);
 }
 
 .metric-comparison-item.negative .metric-change {
-  color: #dc3545;
+  color: var(--danger-color);
 }
 
 .metric-comparison-item.neutral .metric-change {
@@ -361,7 +365,7 @@
 .alerts-container {
   background: #fff3cd;
   border: 1px solid #ffeaa7;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   padding: 20px;
   margin: 10px 0;
 }
@@ -379,7 +383,7 @@
 }
 
 .alerts-count {
-  background: #ffc107;
+  background: var(--warning-color);
   color: #212529;
   padding: 4px 8px;
   border-radius: 12px;
@@ -396,7 +400,7 @@
   align-items: flex-start;
   gap: 12px;
   padding: 12px;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   margin-bottom: 10px;
 }
 
@@ -448,10 +452,10 @@
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.2);
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   font-size: 0.8em;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition-normal);
 }
 
 .btn-action:hover {
@@ -464,29 +468,29 @@
 
 .btn-configure,
 .btn-acknowledge {
-  background: #007bff;
+  background: var(--primary-color);
   color: white;
   border: none;
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   margin: 0 5px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition-normal);
 }
 
 .btn-configure:hover,
 .btn-acknowledge:hover {
-  background: #0056b3;
+  background: var(--secondary-color);
   transform: translateY(-2px);
 }
 
 /* Tendencias */
 .trend-up {
-  color: #28a745;
+  color: var(--success-color);
 }
 
 .trend-down {
-  color: #dc3545;
+  color: var(--danger-color);
 }
 
 .trend-stable {
@@ -498,7 +502,7 @@
 }
 
 .trend-error {
-  color: #dc3545;
+  color: var(--danger-color);
 }
 
 /* Alertas Activas */
@@ -509,7 +513,7 @@
 }
 
 .alert-badge {
-  background: #dc3545;
+  background: var(--danger-color);
   color: white;
   padding: 2px 6px;
   border-radius: 10px;
@@ -518,11 +522,14 @@
 }
 
 .no-alerts {
-  color: #28a745;
+  color: var(--success-color);
   font-weight: 500;
 }
 
-/* Responsive */
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
 @media (max-width: 768px) {
   .dashboard-grid,
   .efficiency-grid,
@@ -543,7 +550,10 @@
   }
 }
 
-/* Animaciones */
+/* ============================================================================
+   ANIMACIONES
+   ============================================================================ */
+
 @keyframes pulse {
   0% {
     transform: scale(1);
@@ -562,6 +572,6 @@
 
 .efficiency-metric:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
-} 
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-normal);
+}

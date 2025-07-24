@@ -1,58 +1,25 @@
 /* ============================================================================
    ESTILOS ESPECÍFICOS PARA ANALYTICS ADMIN
-   Sistema de Inteligencia de Negocios Ganadero
+   Sistema de Inteligencia de Negocios Ganadero - Tema Verde
    ============================================================================ */
 
 /* Importar estilos base unificados */
 @import url('base_admin.css');
+
+/* ============================================================================
+   COMPONENTES ESPECÍFICOS PARA ANALYTICS
+   ============================================================================ */
 
 /* Contenedor principal de analytics */
 .analytics-admin {
   font-family: var(--font-family);
 }
 
-/* Estilos para estados con colores */
-.estado-pendiente {
-  color: #ffc107;
-  font-weight: bold;
-}
-
-.estado-proceso {
-  color: #17a2b8;
-  font-weight: bold;
-}
-
-.estado-aprobado {
-  color: #28a745;
-  font-weight: bold;
-}
-
-.estado-rechazado {
-  color: #dc3545;
-  font-weight: bold;
-}
-
-/* Estilos para métricas */
-.metrica-alta {
-  color: #28a745;
-  font-weight: bold;
-}
-
-.metrica-media {
-  color: #ffc107;
-  font-weight: bold;
-}
-
-.metrica-baja {
-  color: #dc3545;
-  font-weight: bold;
-}
-
-/* Estilos para el dashboard */
+/* Dashboard específico para analytics */
 .dashboard-card {
   background: #f8f9fa;
   border: 1px solid #dee2e6;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   padding: 15px;
   margin: 10px 0;
 }
@@ -62,107 +29,18 @@
   margin: 5px 10px;
   padding: 8px 12px;
   background: white;
-  border-radius: 4px;
-  border-left: 4px solid #007bff;
+  border-radius: var(--border-radius-sm);
+  border-left: 4px solid var(--primary-color);
 }
-
-/* Estilos para alertas */
-.alert-success {
-  background-color: #d4edda;
-  border-color: #c3e6cb;
-  color: #155724;
-}
-
-.alert-warning {
-  background-color: #fff3cd;
-  border-color: #ffeaa7;
-  color: #856404;
-}
-
-.alert-danger {
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  color: #721c24;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .dashboard-metric {
-    display: block;
-    margin: 5px 0;
-  }
-}
-
-/* Estilos para tablas */
-.analytics-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.analytics-table th,
-.analytics-table td {
-  padding: 8px 12px;
-  text-align: left;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.analytics-table th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-}
-
-/* Estilos para botones de acción */
-.btn-analytics {
-  display: inline-block;
-  padding: 6px 12px;
-  margin: 2px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 12px;
-}
-
-.btn-analytics:hover {
-  background-color: #0056b3;
-  color: white;
-}
-
-.btn-success {
-  background-color: #28a745;
-}
-
-.btn-success:hover {
-  background-color: #218838;
-}
-
-.btn-warning {
-  background-color: #ffc107;
-  color: #212529;
-}
-
-.btn-warning:hover {
-  background-color: #e0a800;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-}
-
-.btn-danger:hover {
-  background-color: #c82333;
-}
-
-/* Estilos adicionales para analytics */
 
 /* Filtros avanzados */
 .filtros-avanzados {
   background: white;
   border: 1px solid #dee2e6;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   padding: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .filtros-header {
@@ -174,7 +52,7 @@
 
 .filtros-header h3 {
   margin: 0;
-  color: #343a40;
+  color: var(--dark-color);
   font-size: 18px;
 }
 
@@ -183,7 +61,7 @@
   color: white;
   border: none;
   padding: 6px 12px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
   font-size: 12px;
 }
@@ -202,30 +80,30 @@
 .filtro-item label {
   font-weight: 600;
   margin-bottom: 5px;
-  color: #495057;
+  color: var(--text-color);
 }
 
 .filtro-item input,
 .filtro-item select {
   padding: 8px;
   border: 1px solid #ced4da;
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   font-size: 14px;
 }
 
 .filtro-item input:focus,
 .filtro-item select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(45, 90, 39, 0.25);
   outline: none;
 }
 
 /* Contadores en tiempo real */
 .contador-tiempo-real {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-ganadero);
   color: white;
   padding: 15px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   text-align: center;
   margin: 10px 0;
 }
@@ -245,15 +123,15 @@
 .chart-container {
   background: white;
   border: 1px solid #dee2e6;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   padding: 20px;
   margin: 15px 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .chart-container h3 {
   margin: 0 0 15px 0;
-  color: #343a40;
+  color: var(--dark-color);
   font-size: 16px;
   border-bottom: 2px solid #e9ecef;
   padding-bottom: 10px;
@@ -266,28 +144,28 @@
   right: 20px;
   z-index: 10000;
   padding: 15px 20px;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   color: white;
   font-weight: 600;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
   animation: slideIn 0.3s ease-out;
 }
 
 .notificacion.success {
-  background-color: #28a745;
+  background-color: var(--success-color);
 }
 
 .notificacion.error {
-  background-color: #dc3545;
+  background-color: var(--danger-color);
 }
 
 .notificacion.warning {
-  background-color: #ffc107;
+  background-color: var(--warning-color);
   color: #212529;
 }
 
 .notificacion.info {
-  background-color: #17a2b8;
+  background-color: var(--info-color);
 }
 
 @keyframes slideIn {
@@ -311,14 +189,14 @@
   width: 100%;
   padding: 10px 15px;
   border: 2px solid #e9ecef;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   font-size: 14px;
-  transition: border-color 0.3s ease;
+  transition: var(--transition-normal);
 }
 
 .busqueda-tiempo-real input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
   outline: none;
 }
 
@@ -357,19 +235,19 @@
 
 .tabla-ordenable th.ordenado-asc::after {
   content: "↑";
-  color: #007bff;
+  color: var(--primary-color);
 }
 
 .tabla-ordenable th.ordenado-desc::after {
   content: "↓";
-  color: #007bff;
+  color: var(--primary-color);
 }
 
 /* Acciones masivas */
 .acciones-masivas {
   background: #f8f9fa;
   border: 1px solid #dee2e6;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   padding: 15px;
   margin-bottom: 20px;
 }
@@ -383,7 +261,7 @@
 
 .elementos-seleccionados {
   font-weight: 600;
-  color: #495057;
+  color: var(--text-color);
 }
 
 .acciones-botones {
@@ -394,30 +272,30 @@
 .btn-accion-masiva {
   padding: 6px 12px;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   font-size: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition-normal);
 }
 
 .btn-accion-masiva.primary {
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: white;
 }
 
 .btn-accion-masiva.success {
-  background-color: #28a745;
+  background-color: var(--success-color);
   color: white;
 }
 
 .btn-accion-masiva.danger {
-  background-color: #dc3545;
+  background-color: var(--danger-color);
   color: white;
 }
 
 .btn-accion-masiva:hover {
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Exportación */
@@ -431,66 +309,40 @@
   padding: 8px 16px;
   border: 1px solid #dee2e6;
   background: white;
-  color: #495057;
-  border-radius: 4px;
+  color: var(--text-color);
+  border-radius: var(--border-radius-sm);
   text-decoration: none;
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: var(--transition-normal);
 }
 
 .btn-exportar:hover {
   background-color: #f8f9fa;
-  border-color: #007bff;
-  color: #007bff;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
 }
 
 /* Validación de formularios */
 .campo-invalido {
-  border-color: #dc3545 !important;
+  border-color: var(--danger-color) !important;
   box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25) !important;
 }
 
 .campo-valido {
-  border-color: #28a745 !important;
+  border-color: var(--success-color) !important;
   box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25) !important;
 }
 
 .mensaje-error {
-  color: #dc3545;
+  color: var(--danger-color);
   font-size: 12px;
   margin-top: 5px;
 }
 
 .mensaje-exito {
-  color: #28a745;
+  color: var(--success-color);
   font-size: 12px;
   margin-top: 5px;
-}
-
-/* Estados de carga */
-.cargando {
-  position: relative;
-  overflow: hidden;
-}
-
-.cargando::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 100%;
-  }
 }
 
 /* Tooltips personalizados */
@@ -505,17 +357,20 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: #343a40;
+  background: var(--dark-color);
   color: white;
   padding: 8px 12px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   font-size: 12px;
   white-space: nowrap;
   z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-md);
 }
 
-/* Responsive design mejorado */
+/* ============================================================================
+   RESPONSIVE DESIGN PARA ANALYTICS
+   ============================================================================ */
+
 @media (max-width: 768px) {
   .filtros-grid {
     grid-template-columns: 1fr;
@@ -535,6 +390,11 @@
   
   .chart-container {
     padding: 15px;
+  }
+  
+  .dashboard-metric {
+    display: block;
+    margin: 5px 0;
   }
 }
 
@@ -556,7 +416,10 @@
   }
 }
 
-/* Modo oscuro para analytics */
+/* ============================================================================
+   MODO OSCURO PARA ANALYTICS
+   ============================================================================ */
+
 @media (prefers-color-scheme: dark) {
   .analytics-admin {
     background-color: #2d3748;
@@ -569,15 +432,6 @@
     background-color: #4a5568;
     border-color: #718096;
     color: #f8f9fa;
-  }
-  
-  .analytics-table th {
-    background-color: #4a5568;
-    color: #f8f9fa;
-  }
-  
-  .analytics-table td {
-    border-bottom-color: #718096;
   }
   
   .filtro-item input,

@@ -1,22 +1,26 @@
 /* ============================================================================
    ESTILOS ESPECÍFICOS PARA DASHBOARD ADMIN
-   Sistema de Inteligencia de Negocios Ganadero
+   Sistema de Inteligencia de Negocios Ganadero - Tema Verde
    ============================================================================ */
 
 /* Importar estilos base unificados */
 @import url('base_admin.css');
 
+/* ============================================================================
+   COMPONENTES ESPECÍFICOS PARA DASHBOARD
+   ============================================================================ */
+
 /* Contenedores principales */
 .executive-dashboard-container {
   background: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
   margin: 20px 0;
   overflow: hidden;
 }
 
 .dashboard-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-ganadero);
   color: white;
   padding: 20px;
   display: flex;
@@ -40,9 +44,9 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
-  transition: var(--transition);
+  transition: var(--transition-normal);
   font-size: 14px;
 }
 
@@ -61,11 +65,11 @@
 
 .kpi-card {
   background: white;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-md);
   padding: 20px;
-  box-shadow: var(--box-shadow);
+  box-shadow: var(--shadow-sm);
   border-left: 4px solid var(--primary-color);
-  transition: var(--transition);
+  transition: var(--transition-normal);
   display: flex;
   align-items: center;
   gap: 15px;
@@ -73,7 +77,7 @@
 
 .kpi-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
 }
 
 .kpi-card.primary {
@@ -141,9 +145,9 @@
 
 .chart-container {
   background: white;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-md);
   padding: 20px;
-  box-shadow: var(--box-shadow);
+  box-shadow: var(--shadow-sm);
 }
 
 .chart-container h3 {
@@ -161,13 +165,13 @@
 /* Métricas en tiempo real */
 .realtime-container {
   background: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
   margin: 20px 0;
 }
 
 .realtime-header {
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  background: var(--gradient-success);
   color: white;
   padding: 15px 20px;
   display: flex;
@@ -214,10 +218,10 @@
 .metric-card {
   background: white;
   border: 1px solid #e9ecef;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-md);
   padding: 15px;
   text-align: center;
-  transition: var(--transition);
+  transition: var(--transition-normal);
 }
 
 .metric-card:hover {
@@ -258,13 +262,13 @@
 /* Análisis predictivo */
 .predictive-container {
   background: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
   margin: 20px 0;
 }
 
 .predictive-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-ganadero);
   color: white;
   padding: 15px 20px;
   display: flex;
@@ -289,7 +293,7 @@
 
 .prediction-card {
   border: 1px solid #e9ecef;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-md);
   padding: 15px;
   background: #f8f9fa;
 }
@@ -342,7 +346,7 @@
   align-items: center;
   gap: 10px;
   padding: 10px;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   background: white;
   border: 1px solid #e9ecef;
 }
@@ -441,10 +445,10 @@
 .btn-schedule {
   padding: 6px 12px;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   font-size: 12px;
   cursor: pointer;
-  transition: var(--transition);
+  transition: var(--transition-normal);
 }
 
 .btn-apply {
@@ -466,13 +470,13 @@
 /* Sistema de alertas */
 .alerts-container {
   background: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
   margin: 20px 0;
 }
 
 .alerts-header {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+  background: var(--gradient-danger);
   color: white;
   padding: 15px 20px;
   display: flex;
@@ -499,7 +503,7 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
   padding: 6px 12px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
   font-size: 12px;
 }
@@ -516,7 +520,7 @@
   align-items: flex-start;
   gap: 15px;
   padding: 15px;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-md);
   border-left: 4px solid;
 }
 
@@ -563,10 +567,10 @@
   padding: 4px 8px;
   border: 1px solid #dee2e6;
   background: white;
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   font-size: 11px;
   cursor: pointer;
-  transition: var(--transition);
+  transition: var(--transition-normal);
 }
 
 .btn-action:hover {
@@ -596,7 +600,7 @@
   align-items: center;
   gap: 15px;
   padding: 10px;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   background: #f8f9fa;
 }
 
@@ -624,13 +628,13 @@
 /* Comparativa histórica */
 .comparison-container {
   background: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
   margin: 20px 0;
 }
 
 .comparison-header {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: var(--gradient-info);
   color: white;
   padding: 15px 20px;
   display: flex;
@@ -643,7 +647,7 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
   padding: 6px 12px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   font-size: 14px;
 }
 
@@ -656,7 +660,7 @@
 
 .comparison-card {
   border: 1px solid #e9ecef;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-md);
   padding: 20px;
   background: #f8f9fa;
 }
@@ -712,9 +716,9 @@
 /* Distribución geográfica */
 .geographic-distribution {
   background: white;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-md);
   padding: 20px;
-  box-shadow: var(--box-shadow);
+  box-shadow: var(--shadow-sm);
 }
 
 .distribution-header h4 {
@@ -750,7 +754,7 @@
 
 .region-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary-color), var(--info-color));
+  background: var(--gradient-ganadero);
   transition: width 0.5s ease;
 }
 
@@ -764,9 +768,9 @@
 /* Rendimiento IA */
 .ai-performance-analysis {
   background: white;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-md);
   padding: 20px;
-  box-shadow: var(--box-shadow);
+  box-shadow: var(--shadow-sm);
 }
 
 .performance-header h4 {
@@ -787,7 +791,7 @@
   align-items: center;
   padding: 10px;
   background: #f8f9fa;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
 }
 
 .metric-label {
@@ -819,7 +823,7 @@
   align-items: center;
   padding: 10px;
   border: 1px solid #e9ecef;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   margin-bottom: 10px;
 }
 
@@ -841,8 +845,8 @@
 /* Sistema de recomendaciones */
 .recommendations-system {
   background: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
   padding: 20px;
 }
 
@@ -877,10 +881,10 @@
 .btn-schedule {
   padding: 8px 16px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
   font-size: 14px;
-  transition: var(--transition);
+  transition: var(--transition-normal);
 }
 
 .btn-apply-all {
@@ -899,7 +903,10 @@
   opacity: 0.9;
 }
 
-/* Responsive design */
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
 @media (max-width: 768px) {
   .kpis-grid {
     grid-template-columns: 1fr;
@@ -952,7 +959,10 @@
   }
 }
 
-/* Animaciones */
+/* ============================================================================
+   ANIMACIONES
+   ============================================================================ */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -983,39 +993,11 @@
   animation: slideIn 0.3s ease-out;
 }
 
-/* Estados de carga */
-.loading {
-  position: relative;
-  overflow: hidden;
-}
+/* ============================================================================
+   MODO OSCURO
+   ============================================================================ */
 
-.loading::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 100%;
-  }
-}
-
-/* Modo oscuro */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --light-color: #343a40;
-    --dark-color: #f8f9fa;
-  }
-
   .executive-dashboard-container,
   .realtime-container,
   .predictive-container,

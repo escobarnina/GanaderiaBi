@@ -1,9 +1,9 @@
 /* ============================================================================
    ESTILOS ESPECÍFICOS PARA LOGO ADMIN
-   Sistema de Inteligencia de Negocios Ganadero
+   Sistema de Inteligencia de Negocios Ganadero - Tema Verde
    ============================================================================ */
 
-/* Importar estilos base */
+/* Importar estilos base unificados */
 @import url('base_admin.css');
 
 /* ============================================================================
@@ -25,7 +25,7 @@
 }
 
 .logo-dashboard-header {
-  background: var(--gradient-primary);
+  background: var(--gradient-ganadero);
   color: white;
   padding: var(--spacing-lg);
   display: flex;
@@ -231,7 +231,7 @@
 
 .form-control:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
   outline: none;
 }
 
@@ -262,7 +262,7 @@
 
 .progress-fill {
   height: 100%;
-  background: var(--gradient-primary);
+  background: var(--gradient-ganadero);
   transition: width 0.3s ease;
   border-radius: 4px;
 }
@@ -384,7 +384,7 @@
 
 .filter-control:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
   outline: none;
 }
 
@@ -425,7 +425,7 @@
 }
 
 .timeline-header {
-  background: var(--gradient-primary);
+  background: var(--gradient-ganadero);
   color: white;
   padding: var(--spacing-lg);
 }
@@ -496,7 +496,10 @@
   color: #adb5bd;
 }
 
-/* Responsive design */
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
 @media (max-width: 768px) {
   .logo-grid {
     grid-template-columns: 1fr;
@@ -538,7 +541,10 @@
   }
 }
 
-/* Animaciones específicas para logo */
+/* ============================================================================
+   ANIMACIONES ESPECÍFICAS PARA LOGO
+   ============================================================================ */
+
 @keyframes logoPulse {
   0% {
     transform: scale(1);
@@ -555,46 +561,10 @@
   animation: logoPulse 0.3s ease-in-out;
 }
 
-/* Estados de carga específicos para logo */
-.logo-loading-state {
-  position: relative;
-  overflow: hidden;
-}
+/* ============================================================================
+   MODO OSCURO ESPECÍFICO PARA LOGO
+   ============================================================================ */
 
-.logo-loading-state::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  animation: loading 1.5s infinite;
-}
-
-/* Tooltips específicos para logo */
-.logo-tooltip {
-  position: relative;
-  cursor: help;
-}
-
-.logo-tooltip:hover::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--dark-color);
-  color: white;
-  padding: var(--spacing-sm);
-  border-radius: var(--border-radius-sm);
-  font-size: var(--font-size-xs);
-  white-space: nowrap;
-  z-index: 1000;
-  box-shadow: var(--shadow-md);
-}
-
-/* Modo oscuro específico para logo */
 @media (prefers-color-scheme: dark) {
   .logo-card,
   .logo-generation,
